@@ -105,8 +105,10 @@ for s = 1:n_time_steps-1
     %..Calculate the nodal acceleration
     a_n = zeros(n_n,1);
     for n = 1:n_n
-        if ~any(non_active_nodes == n) 
+        if ~any(non_active_nodes == n) %M(n,n) > 0.1*sum(diag(M))
             a_n(n) = F(n)/M(n,n) ;
+%         else
+%             a_n(n) = 0.5;
         end
     end
     clear n
@@ -130,9 +132,12 @@ for s = 1:n_time_steps-1
     for el = 1:n_e
         if num_particles_in_e(el) > 0 %select only active elements
             for p = element_particle(elements_particles(el,:))
+                
                 Mv_e(:,el) = Mv_e(:,el) + mass_p(p)*(N_vec(p,:))'*v_p(p,s+1);
+                
             end
             clear p
+            
         end
     end
     clear el
@@ -144,23 +149,36 @@ for s = 1:n_time_steps-1
     for n = 1:n_n
         if ~any(non_active_nodes == n)
             v_n(n) = Mv(n)/M(n,n);
+%         else
+%             v_n(n) = a_n(n)*t_step;
         end
     end
     clear n
     v_n(1) = 0;
     v_n(n_n) = 0;
-
+    %     %..Boundary condition
+    %     v_n(1) = 0;
+    %
+    
     %..Calculate the nodal incremental displacement
     du_n = v_n*t_step;
     
     %..Boundary condition
     du_n(1) = 0;
     du_n(n_n) = 0;
-
+    %     for n = non_active_nodes
+    %         du_n(n) = 0;
+    %     end
+    %     clear n
+    
     %..Update the nodal displacement
     u_n = u_n + du_n;
     
-   
+    %     for n = non_active_nodes
+    %         u_n(n) = 0;
+    %     end
+    %     clear n
+    
 %     %%..New: Update vector B according to new nodal positions
 %     mesh_updated = mesh_updated + du_n; %update the mesh
 %     % Compute the new distance between the nodes
@@ -211,6 +229,8 @@ for s = 1:n_time_steps-1
         el = particle_element(elements_particles(:,p));
         if pos_p_glob(p) < elements_nodes(el,1)
             fprintf('Particle crossed lower border!')
+            %             s
+            %             p
             old_elem = el;
             if old_elem > 1
                 new_elem = old_elem - 1;
@@ -222,6 +242,8 @@ for s = 1:n_time_steps-1
             clear old_elem new_elem
         elseif pos_p_glob(p) > elements_nodes(el,2)
             fprintf('Particle crossed upper border!')
+            %             s
+            %             p
             old_elem = el;
             if old_elem < n_e
                 new_elem = old_elem + 1;
