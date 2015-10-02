@@ -47,13 +47,6 @@ both_ends_fixed = 1;
 % Change global positions? Yes: 1; No: 0.
 change_glob_pos = 1;
 
-
-%% Flags
-% Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 1; 
-% Plot velocity versus time for thr selected node? Yes: 1; No: 0 
-velocity_time = 1;
-
 %% Compute the solution using MPM
 [displacement_mpm, velocity_mpm] = MPM_1D(density,...
     Youngs_modulus, gravitational_acceleration, load, height,...
@@ -79,6 +72,14 @@ for n=1:number_time_steps-1
     end
 end
 clear n particle
+
+%% Flags
+% Plot displacement versus time for the selected node? Yes: 1; No: 0 
+displ_time = 1; 
+% Plot velocity versus time for thr selected node? Yes: 1; No: 0 
+velocity_time = 1;
+
+
 
 %% Plot displacement/velocity versus time for one node
 % Select the node

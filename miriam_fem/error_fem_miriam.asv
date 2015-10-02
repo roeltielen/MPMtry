@@ -1,0 +1,19 @@
+function [] = error_fem_miriam()
+
+[num_sol, exact_sol, M] = fem_miriam();
+ num_el = size(num_sol,1);
+ num_sol = num_sol(:,);
+ x = 0:1/(num_el-1):1;
+ size(x)
+ plot(x,num_sol)
+ hold on
+ plot(x,exact_sol, '--r')
+
+% err    = num_sol - exact_sol;
+% errnrm = 0;
+% for i = 1:length(num_sol)
+%     errnrm = errnrm + M_lump(i,i)*err(i)^2;
+% end
+% errnrm = sqrt(errnrm);
+
+end
