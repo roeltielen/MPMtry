@@ -9,7 +9,7 @@ beep off
 clc 
 
 % Use files from a parent directory
-addpath('/mnt/dutita1/nw/wobbes/Desktop/MPMtry/mpm1D/Roel');
+
 
 
 %% Input
@@ -21,7 +21,7 @@ load = 0;
 height = 25; %height/length
 
 % Mesh properties
-number_elements = 5; % number of elements
+number_elements = 25; % number of elements
 number_particles_per_element = 5; % number of particles per element 
 element_size = height/number_elements; % size of an element
 
