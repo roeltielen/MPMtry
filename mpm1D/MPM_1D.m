@@ -1,4 +1,4 @@
-function[u_p, v_p] = MPM_1D(density, E, g, load, H, n_e, h, n_ep,...
+function[u_p, v_p, mass_p] = MPM_1D(density, E, g, load, H, n_e, h, n_ep,...
     pos_p_glob,  pos_p_loc, t_step, n_time_steps, total_time, u_p, v_p, stress_p, u_n,...
     v_n, both_ends_fixed, change_glob_pos) 
  % MPM 1D (uses element_particle.m, particle_element.m, assemble_matrix,
@@ -32,6 +32,17 @@ clear el
 n_p = n_e*n_ep; %total number of particles
 
 %%..Initial particle locations
+
+
+%elements_particles(:,:,1) = zeros(n_e,n_p);
+
+% for i=1:n_e
+%    for j = (i-1)*n_ep+1:i*n_ep
+%      elements_particles(i,j) = 1;  
+%    end
+% end
+
+
 elements_particles(:,:,1) = eye(n_e,n_p); %matrix containing the
 %information on the location of the particles within elements;
 

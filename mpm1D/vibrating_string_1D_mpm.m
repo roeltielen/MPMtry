@@ -17,18 +17,33 @@ load = 0;
 height = 25; %height/length
 
 % Mesh properties
-number_elements = 4; % number of elements
+number_elements = 10; % number of elements
 number_particles_per_element = 1; % number of particles per element 
 element_size = height/number_elements; % size of an element
-pos_p_loc = ones(number_elements*number_particles_per_element,1)*0.5; % initial local positions of particles
-mesh = 0:element_size:height;
-pos_p_glob = (mesh(1:end-1))' + element_size*pos_p_loc; % initial global position
+
+% Number of particles per element is equally distributed over element. 
+pos_p_loc = ones(number_elements*number_particles_per_element,1)/(number_particles_per_element+1); % initial local positions of particles
+
+for i = 1:number_particles_per_element
+   pos_p_loc(i:number_particles_per_element:number_elements*number_particles_per_element,1) = i/(number_particles_per_element+1);
+end
+
+mesh = 0:element_size/(number_particles_per_element+1):height;
+
+x = zeros(number_elements*number_particles_per_element,1);
+for i = 1:number_elements-1 
+    x(i*number_particles_per_element+1:(i+1)*number_particles_per_element,1) = x(i*number_particles_per_element+1:(i+1)*number_particles_per_element,1) + i*element_size;
+end
+
+pos_p_glob = x + element_size*pos_p_loc; % initial global position
+
 
 % Time step 
 CFL_number = 0.1;
-total_time = 50; 
+total_time = 5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
 t_step = CFL_number*t_cr;
+%t_step = 1E-3
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -55,7 +70,7 @@ displ_time = 1;
 velocity_time = 1;
 
 %% Compute the solution using MPM
-[displacement_mpm, velocity_mpm] = MPM_1D(density,...
+[displacement_mpm, velocity_mpm, Mass] = MPM_1D(density,...
     Youngs_modulus, gravitational_acceleration, load, height,...
     number_elements, element_size, number_particles_per_element,...
     pos_p_glob, pos_p_loc, t_step, number_time_steps, total_time, ...
@@ -96,5 +111,21 @@ if velocity_time == 1
         velocity_mpm(particle_number,:),...
         velocity_exact(particle_number,:),t)
 end
+
+
+%% Accuracy of MPM solution compared to exact solution
+
+% Define time to check solution
+t_check = length(t)/10;
+
+% Calculate error with exact solution in 2 norm
+Error = norm(Mass'*(displacement_exact(:,floor(t_check))-displacement_mpm(:,floor(t_check))))
+
+
+
+
+
+
+
 
 
