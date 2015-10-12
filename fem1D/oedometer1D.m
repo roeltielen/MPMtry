@@ -13,11 +13,11 @@ clc
 density = 1E3;
 Youngs_modulus = 1E5;
 gravitational_acceleration = -9.8; 
-load = 0;%-5E3;
+load = -5E3;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 8; % number of elements
+number_elements = 4; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
@@ -26,7 +26,7 @@ mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 CFL_number = 0.1;
 total_time = 1.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = 1E-4; %CFL_number*t_cr;
+t_step = CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -58,11 +58,11 @@ clear n
 position_exact = zeros(number_elements, number_time_steps);
 
 for node = 1:number_elements + 1
-    position_exact(node,:) = exact_solution(density,...
+    [position_exact(node,:),dummy,dummy] = exact_solution(density,...
         Youngs_modulus, load, -gravitational_acceleration, height,...
         mesh(node), t);
+    clear dummy
 end
-
 clear node
 
 %% Flags

@@ -1,4 +1,4 @@
-% Vibrating string with one free end
+% Oedometer with load, without self-weight
 
 % This file provides input for FEM to computes numerical solution, computes
 % an exact solution, illustrates results and provides the global error
@@ -13,11 +13,11 @@ clc
 density = 1E3; %1;
 Youngs_modulus = 1E5; %100;
 gravitational_acceleration = 0; 
-load = 0;
+load = -5E3;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 4; % number of elements
+number_elements = 32; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
@@ -26,13 +26,13 @@ mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 CFL_number = 0.1;
 total_time = 2.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = CFL_number*t_cr;
+t_step = 1E-4; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
 % Initial conditions 
 displacement_initial = zeros(number_elements + 1,1);
-velocity_initial = 0.1*sin((pi/(2*height))*mesh);
+velocity_initial = zeros(number_elements + 1,1);
 
 % Boundary conditions
 both_ends_fixed = 0;
@@ -43,6 +43,14 @@ both_ends_fixed = 0;
     number_elements, element_size, t_step, number_time_steps,...
     displacement_initial, velocity_initial, both_ends_fixed);
 
+% Compute the position of nodes by adding the initial position to the
+% displacement
+position_fem = zeros(size(displacement_fem));
+for n = 1:number_time_steps
+    position_fem(:,n) = displacement_fem(:,n) + mesh';
+end
+clear n
+
 %% Compute an exact solution
 w1 = pi*sqrt(Youngs_modulus/density)/(2*height);
 b1 = pi/(2*height);
@@ -52,18 +60,25 @@ velocity_exact(:,1) = velocity_initial;
 
 for n=1:number_time_steps-1
     for node = 1:number_elements + 1
-        velocity_exact(node,n+1) = 0.1*cos(w1*t_step*n)*sin(b1*mesh(node));
-        displacement_exact(node,n+1) = 0.1/w1*sin(w1*t_step*n)*...
-            sin(b1*mesh(node));
+        [position_exact(node,n+1),displacement_exact(node,n+1),...
+            velocity_exact(node,n+1)] = exact_solution...
+            (density,Youngs_modulus, load,-gravitational_acceleration,...
+            height,mesh(node), t_step*n);
+%         velocity_exact(node,n+1) = -4*load/(sqrt(Youngs_modulus*...
+%             density)*pi*height)*sin(w1*t_step*n)*sin(b1*mesh(node));
+%         displacement_exact(node,n+1) = -load*mesh(node)/Youngs_modulus+...
+%             8*load/(pi^2*Youngs_modulus)*cos(w1*t_step*n)*...
+%             sin(b1*mesh(node));
     end
 end
 clear n node
+
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
 displ_time = 1; 
 % Plot velocity versus time for thr selected node? Yes: 1; No: 0 
-velocity_time = 1;
+velocity_time = 0;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 

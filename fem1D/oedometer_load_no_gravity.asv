@@ -13,7 +13,7 @@ clc
 density = 1E3; %1;
 Youngs_modulus = 1E5; %100;
 gravitational_acceleration = 0; 
-load = 0;
+load = -5E3;
 height = 1; %height/length
 
 % Mesh properties
@@ -32,7 +32,7 @@ t = 0:t_step:(number_time_steps-1)*t_step;
 
 % Initial conditions 
 displacement_initial = zeros(number_elements + 1,1);
-velocity_initial = 0.1*sin((pi/(2*height))*mesh);
+velocity_initial = zeros(number_elements + 1,1);
 
 % Boundary conditions
 both_ends_fixed = 0;
@@ -43,6 +43,14 @@ both_ends_fixed = 0;
     number_elements, element_size, t_step, number_time_steps,...
     displacement_initial, velocity_initial, both_ends_fixed);
 
+% Compute the position of nodes by adding the initial position to the
+% displacement
+position_fem = zeros(size(displacement_fem));
+for n = 1:number_time_steps
+    position_fem(:,n) = displacement_fem(:,n) + mesh';
+end
+clear n
+
 %% Compute an exact solution
 w1 = pi*sqrt(Youngs_modulus/density)/(2*height);
 b1 = pi/(2*height);
@@ -52,12 +60,12 @@ velocity_exact(:,1) = velocity_initial;
 
 for n=1:number_time_steps-1
     for node = 1:number_elements + 1
-        velocity_exact(node,n+1) = 0.1*cos(w1*t_step*n)*sin(b1*mesh(node));
-        displacement_exact(node,n+1) = 0.1/w1*sin(w1*t_step*n)*...
-            sin(b1*mesh(node));
+        velocity_exact(node,n+1) = -4*load/(sqrt(Youngs_modulus*...
+            density)*pi*height);
     end
 end
 clear n node
+
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
