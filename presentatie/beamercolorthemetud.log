@@ -1,0 +1,14 @@
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdftex 2014.7.30)  25 AUG 2014 18:31
+entering extended mode
+**C:/Users/Lisa/Documents/Afstuderen/beamercolorthemetud.sty
+(C:/Users/Lisa/Documents/Afstuderen/beamercolorthemetud.sty
+! Undefined control sequence.
+l.5 \mode
+         <presentation>
+? 
+! Emergency stop.
+l.5 \mode
+         <presentation>
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!
