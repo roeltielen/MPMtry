@@ -24,9 +24,9 @@ mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 
 % Time step 
 CFL_number = 0.9;
-total_time = 1.5; 
+total_time = 1,5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = 0.05;%E-3; %CFL_number*t_cr;
+t_step = 1E-4; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -56,17 +56,14 @@ for n=1:number_time_steps-1
         displacement_exact(node,n+1) = 0.1/w1*sin(w1*t_step*n)*...
             sin(b1*mesh(node));       
     end
-    sin(w1*t_step*n)
-    n
-    w1*t_step*n
 end
 clear n node
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 0; 
+displ_time = 1; 
 % Plot velocity versus time for thr selected node? Yes: 1; No: 0 
-velocity_time = 0;
+velocity_time = 1;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
@@ -105,19 +102,25 @@ end
 % T_step = floor(number_time_steps/2);
 % T = t_step*T_step;
 
-T = 0.5;
+T = 0.05;
 T_step = floor(T/t_step);
+
+for node = 1:number_elements + 1
+    velocity_exactT(node,:) = 0.1*cos(w1*T)*sin(b1*mesh(node));
+    displacement_exactT(node,:) = 0.1/w1*sin(w1*T)*...
+        sin(b1*mesh(node));
+end
 
 if displ_x == 1
     figure(3)
     plot_displacement_vs_x(T, displacement_fem(:,T_step),...
-        displacement_exact(:,T_step), mesh)
+        displacement_exactT, mesh)
 end
 
 if velocity_x == 1
     figure(4)
     plot_velocity_vs_x(T, velocity_fem(:,T_step),...
-        velocity_exact(:,T_step), mesh)
+        velocity_exactT, mesh)
 end
 
 
@@ -165,13 +168,11 @@ if compute_error == 1
     % Compute the norm of the discretization error in 2-norm
 
     errnrm = compute_error_norm(displacement_fem(:,T_step),...
-        displacement_exact(:,T_step), M_lump);
+        displacement_exactT, M_lump);
     fprintf('For time t = %e\n', T)
     fprintf('The error norm = %e\n', errnrm)
 end
-displacement_exact(:,T_step-1)
-displacement_exact(:,T_step+1)
-displacement_exact(:,T_step)
-T
-T_step
 
+% T = 0.5;
+% T_step = floor(T/t_step);
+%  displacement_exactT
