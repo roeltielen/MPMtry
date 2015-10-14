@@ -10,23 +10,23 @@ clc
 
 %% Input
 % Constants
-density = 1; %1;
-Youngs_modulus = 100; %100;
+density = 1E3; %1;
+Youngs_modulus = 1E5; %100;
 gravitational_acceleration = 0; 
 load = 0;
-height = 25; %height/length
+height = 1; %height/length
 
 % Mesh properties
-number_elements = 16; % number of elements
+number_elements = 4; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
 
 % Time step 
-CFL_number = 0.1;
-total_time = 50; 
+CFL_number = 0.9;
+total_time = 1.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = CFL_number*t_cr;
+t_step = 0.05;%E-3; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -54,8 +54,11 @@ for n=1:number_time_steps-1
     for node = 1:number_elements + 1
         velocity_exact(node,n+1) = 0.1*cos(w1*t_step*n)*sin(b1*mesh(node));
         displacement_exact(node,n+1) = 0.1/w1*sin(w1*t_step*n)*...
-            sin(b1*mesh(node));
+            sin(b1*mesh(node));       
     end
+    sin(w1*t_step*n)
+    n
+    w1*t_step*n
 end
 clear n node
 
@@ -67,9 +70,9 @@ velocity_time = 0;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
-displ_x = 1; 
+displ_x = 0; 
 % Plot velocity versus x-coordinate for thr selected node? Yes: 1; No: 0 
-velocity_x = 1;
+velocity_x = 0;
 
 % Make animation of displacement? Yes: 1; No: 0
 anim_displ = 0;
@@ -102,7 +105,7 @@ end
 % T_step = floor(number_time_steps/2);
 % T = t_step*T_step;
 
-T = 5.5;
+T = 0.5;
 T_step = floor(T/t_step);
 
 if displ_x == 1
@@ -166,7 +169,9 @@ if compute_error == 1
     fprintf('For time t = %e\n', T)
     fprintf('The error norm = %e\n', errnrm)
 end
-
-
-
+displacement_exact(:,T_step-1)
+displacement_exact(:,T_step+1)
+displacement_exact(:,T_step)
+T
+T_step
 

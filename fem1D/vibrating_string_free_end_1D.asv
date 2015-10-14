@@ -26,7 +26,7 @@ mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 CFL_number = 0.9;
 total_time = 1.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = CFL_number*t_cr;
+t_step = 1E-4; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -67,15 +67,15 @@ velocity_time = 0;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
-displ_x = 1; 
+displ_x = 0; 
 % Plot velocity versus x-coordinate for thr selected node? Yes: 1; No: 0 
-velocity_x = 1;
+velocity_x = 0;
 
 % Make animation of displacement? Yes: 1; No: 0
-anim_displ = 1;
+anim_displ = 0;
 
 % Make animation of velocity? Yes: 1; No: 0
-anim_vel = 1;
+anim_vel = 0;
 
 % Compute the global error at time T_step? Yes: 1, No: 0
 compute_error = 1;
