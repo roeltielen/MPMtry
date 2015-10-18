@@ -17,7 +17,7 @@ load = 0;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 4; % number of elements
+number_elements = 32; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
@@ -59,11 +59,21 @@ for n=1:number_time_steps-1
 end
 clear n node
 
+% Solution at certain time (required for accuracy)
+T = 0.05;
+T_step = floor(T/t_step);
+for node = 1:number_elements + 1
+    velocity_exactT(node,:) = 0.1*cos(w1*T)*sin(b1*mesh(node));
+    displacement_exactT(node,:) = 0.1/w1*sin(w1*T)*...
+        sin(b1*mesh(node));
+end
+clear node
+
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 1; 
+displ_time = 0; 
 % Plot velocity versus time for thr selected node? Yes: 1; No: 0 
-velocity_time = 1;
+velocity_time = 0;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
@@ -101,15 +111,6 @@ end
 % Select the time moment
 % T_step = floor(number_time_steps/2);
 % T = t_step*T_step;
-
-T = 0.05;
-T_step = floor(T/t_step);
-
-for node = 1:number_elements + 1
-    velocity_exactT(node,:) = 0.1*cos(w1*T)*sin(b1*mesh(node));
-    displacement_exactT(node,:) = 0.1/w1*sin(w1*T)*...
-        sin(b1*mesh(node));
-end
 
 if displ_x == 1
     figure(3)

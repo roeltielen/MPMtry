@@ -26,7 +26,7 @@ mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 CFL_number = 0.1;
 total_time = 1.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = CFL_number*t_cr;
+t_step = 1E-4; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -64,6 +64,17 @@ for node = 1:number_elements + 1
     clear dummy
 end
 clear node
+
+T = 0.1;
+T_step = floor(T/t_step);
+for node = 1:number_elements + 1
+    [position_exactT(node,:),displacement_exactT(node,:),...
+        velocity_exactT(node,:)] = exact_solution...
+        (density,Youngs_modulus, load,-gravitational_acceleration,...
+        height,mesh(node), T);
+end
+clear node
+displacement_exactT
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 

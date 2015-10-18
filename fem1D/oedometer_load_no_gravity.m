@@ -17,7 +17,7 @@ load = -5E3;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 32; % number of elements
+number_elements = 16; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
@@ -73,6 +73,17 @@ for n=1:number_time_steps-1
 end
 clear n node
 
+T = 0.1;
+T_step = floor(T/t_step);
+for node = 1:number_elements + 1
+    [position_exactT(node,:),displacement_exactT(node,:),...
+        velocity_exactT(node,:)] = exact_solution...
+        (density,Youngs_modulus, load,-gravitational_acceleration,...
+        height,mesh(node), T);
+end
+clear node
+displacement_exactT
+
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
@@ -123,13 +134,13 @@ T_step = floor(T/t_step);
 if displ_x == 1
     figure(3)
     plot_displacement_vs_x(T, displacement_fem(:,T_step),...
-        displacement_exact(:,T_step), mesh)
+        displacement_exactT, mesh)
 end
 
 if velocity_x == 1
     figure(4)
     plot_velocity_vs_x(T, velocity_fem(:,T_step),...
-        velocity_exact(:,T_step), mesh)
+        velocity_exactT, mesh)
 end
 
 
@@ -177,7 +188,7 @@ if compute_error == 1
     % Compute the norm of the discretization error in 2-norm
 
     errnrm = compute_error_norm(displacement_fem(:,T_step),...
-        displacement_exact(:,T_step), M_lump);
+        displacement_exactT, M_lump);
     fprintf('For time t = %e\n', T)
     fprintf('The error norm = %e\n', errnrm)
 end
