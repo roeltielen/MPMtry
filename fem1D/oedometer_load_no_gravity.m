@@ -17,7 +17,7 @@ load = -5E3;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 16; % number of elements
+number_elements = 4; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
@@ -73,8 +73,10 @@ for n=1:number_time_steps-1
 end
 clear n node
 
-T = 0.1;
-T_step = floor(T/t_step);
+T_step = 0;
+T = T_step*t_step;
+T_step = T_step+1; 
+
 for node = 1:number_elements + 1
     [position_exactT(node,:),displacement_exactT(node,:),...
         velocity_exactT(node,:)] = exact_solution...
@@ -87,15 +89,15 @@ displacement_exactT
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 1; 
+displ_time = 0; 
 % Plot velocity versus time for thr selected node? Yes: 1; No: 0 
 velocity_time = 0;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
-displ_x = 0; 
+displ_x = 1; 
 % Plot velocity versus x-coordinate for thr selected node? Yes: 1; No: 0 
-velocity_x = 0;
+velocity_x = 1;
 
 % Make animation of displacement? Yes: 1; No: 0
 anim_displ = 0;

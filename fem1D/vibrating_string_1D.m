@@ -17,16 +17,16 @@ load = 0;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 32; % number of elements
+number_elements = 8; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
 
 % Time step 
 CFL_number = 0.9;
-total_time = 1,5; 
+total_time = 1.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = 1E-4; %CFL_number*t_cr;
+t_step = CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -60,20 +60,24 @@ end
 clear n node
 
 % Solution at certain time (required for accuracy)
-T = 0.05;
-T_step = floor(T/t_step);
+% T = 0.0003;
+% T_step = floor(T/t_step)+1
+T_step = 510;
+T = T_step*t_step;
+T_step = T_step+1;
+
 for node = 1:number_elements + 1
     velocity_exactT(node,:) = 0.1*cos(w1*T)*sin(b1*mesh(node));
-    displacement_exactT(node,:) = 0.1/w1*sin(w1*T)*...
-        sin(b1*mesh(node));
+    displacement_exactT(node,:) = 0.1/w1*sin(w1*T)*sin(b1*mesh(node));
 end
 clear node
+%displacement_exactT
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 0; 
+displ_time = 1; 
 % Plot velocity versus time for thr selected node? Yes: 1; No: 0 
-velocity_time = 0;
+velocity_time = 1;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
@@ -108,10 +112,6 @@ if velocity_time == 1
 end
 
 %% Plot displacement/velocity versus x-coordinate for a certain moment
-% Select the time moment
-% T_step = floor(number_time_steps/2);
-% T = t_step*T_step;
-
 if displ_x == 1
     figure(3)
     plot_displacement_vs_x(T, displacement_fem(:,T_step),...
@@ -120,13 +120,12 @@ end
 
 if velocity_x == 1
     figure(4)
-    plot_velocity_vs_x(T, velocity_fem(:,T_step),...
-        velocity_exactT, mesh)
+    plot_velocity_vs_x(T, velocity_fem(:,T_step), velocity_exactT, mesh)
 end
 
 
 %% Animation displacement/velocity versus x-coordinate
-time_interval = 1:4:number_time_steps;
+time_interval = 1:150:15000;
 
 if anim_displ == 1
     for i = 1:length(time_interval)
@@ -140,8 +139,8 @@ if anim_displ == 1
 
         figure(5)
         animation_displacement_vs_x(n*t_step, displacement_fem(:,n),...
-            displacement_exact(:,n), mesh, max_displ, min_displ, height)
-        pause(0.1);
+            displacement_exact(:,n), mesh, 0.004, -0.004, height)
+        pause(0.3);
     end
 end
 
