@@ -17,16 +17,16 @@ load = 0;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 4; % number of elements
+number_elements = 8; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
 
 % Time step 
-CFL_number = 0.1;
+CFL_number = 0.9;
 total_time = 2.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = 1E-4; %CFL_number*t_cr;
+t_step = 1E-6; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -55,26 +55,23 @@ clear n
 w1 = pi*sqrt(Youngs_modulus/density)/(2*height);
 b1 = pi/(2*height);
 
-displacement_exact(:,1) = displacement_initial;
-velocity_exact(:,1) = velocity_initial;
+% displacement_exact(:,1) = displacement_initial;
+% velocity_exact(:,1) = velocity_initial;
+% 
+% for n=1:number_time_steps-1
+%     for node = 1:number_elements + 1
+%         [position_exact(node,n+1),displacement_exact(node,n+1),...
+%             velocity_exact(node,n+1)] = exact_solution...
+%             (density,Youngs_modulus, load,-gravitational_acceleration,...
+%             height,mesh(node), t_step*n);
+%     end
+% end
+% clear n node
 
-for n=1:number_time_steps-1
-    for node = 1:number_elements + 1
-        [position_exact(node,n+1),displacement_exact(node,n+1),...
-            velocity_exact(node,n+1)] = exact_solution...
-            (density,Youngs_modulus, load,-gravitational_acceleration,...
-            height,mesh(node), t_step*n);
-%         velocity_exact(node,n+1) = -4*load/(sqrt(Youngs_modulus*...
-%             density)*pi*height)*sin(w1*t_step*n)*sin(b1*mesh(node));
-%         displacement_exact(node,n+1) = -load*mesh(node)/Youngs_modulus+...
-%             8*load/(pi^2*Youngs_modulus)*cos(w1*t_step*n)*...
-%             sin(b1*mesh(node));
-    end
-end
-clear n node
+T_step = 51000;
+T = T_step*t_step
+T_step = T_step+1; 
 
-T = 0.1;
-T_step = floor(T/t_step);
 for node = 1:number_elements + 1
     [position_exactT(node,:),displacement_exactT(node,:),...
         velocity_exactT(node,:)] = exact_solution...
@@ -82,6 +79,7 @@ for node = 1:number_elements + 1
         height,mesh(node), T);
 end
 clear node
+displacement_exactT
 
 
 %% Flags

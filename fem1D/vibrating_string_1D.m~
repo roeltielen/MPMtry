@@ -62,7 +62,7 @@ clear n node
 % Solution at certain time (required for accuracy)
 % T = 0.0003;
 % T_step = floor(T/t_step)+1
-T_step = 510;
+T_step = 51000;
 T = T_step*t_step;
 T_step = T_step+1;
 

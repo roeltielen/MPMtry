@@ -17,7 +17,6 @@ clc
 nod = xlsread('OnePhase_Input1D.xlsx','Nodes');
 n_nod = length(nod);
 H = max(nod);
-
 elm = xlsread('OnePhase_Input1D.xlsx','Elements');
 n_elm = length(elm);
 
@@ -151,6 +150,7 @@ for ps = 1:n_nod
 end
 exact_sol = exact_sol(:,time_step);
 num_sol = saveu(:, time_step);
+num_sol
 
 % figure1 = figure;
 % set(figure1,'units','normalized','outerposition',[0 0 1 1])
