@@ -17,7 +17,7 @@ load = 0;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 32; % number of elements
+number_elements = 16; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
@@ -26,7 +26,7 @@ mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 CFL_number = 0.9;
 total_time = 2.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = 1E-6; %CFL_number*t_cr;
+t_step = 1E-4; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -55,20 +55,20 @@ clear n
 w1 = pi*sqrt(Youngs_modulus/density)/(2*height);
 b1 = pi/(2*height);
 
-% displacement_exact(:,1) = displacement_initial;
-% velocity_exact(:,1) = velocity_initial;
-% 
-% for n=1:number_time_steps-1
-%     for node = 1:number_elements + 1
-%         [position_exact(node,n+1),displacement_exact(node,n+1),...
-%             velocity_exact(node,n+1)] = exact_solution...
-%             (density,Youngs_modulus, load,-gravitational_acceleration,...
-%             height,mesh(node), t_step*n);
-%     end
-% end
-% clear n node
+displacement_exact(:,1) = displacement_initial;
+velocity_exact(:,1) = velocity_initial;
 
-T_step = 51000;
+for n=1:number_time_steps-1
+    for node = 1:number_elements + 1
+        [position_exact(node,n+1),displacement_exact(node,n+1),...
+            velocity_exact(node,n+1)] = exact_solution...
+            (density,Youngs_modulus, load,-gravitational_acceleration,...
+            height,mesh(node), t_step*n);
+    end
+end
+clear n node
+
+T_step = 510;
 T = T_step*t_step
 T_step = T_step+1; 
 
@@ -90,9 +90,9 @@ velocity_time = 0;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
-displ_x = 0; 
+displ_x = 1; 
 % Plot velocity versus x-coordinate for thr selected node? Yes: 1; No: 0 
-velocity_x = 0;
+velocity_x = 1;
 
 % Make animation of displacement? Yes: 1; No: 0
 anim_displ = 0;

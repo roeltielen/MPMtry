@@ -15,6 +15,6 @@ legend('FEM', 'Exact', 'Location','SouthEast')
 hold on
 set(0,'DefaultFigureColor',[1 1 1])
 
-set(gcf, 'PaperPosition', [0 0 6 5]);
-set(gcf, 'PaperSize', [6 5]);
-%saveas(gcf,'vel_x_oedom_p0.pdf')
+set(gcf, 'PaperPosition', [0 0 6 6]);
+set(gcf, 'PaperSize', [6 6]);
+saveas(gcf,'vel_x_oedom_g.pdf')
