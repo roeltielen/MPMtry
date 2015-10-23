@@ -1,52 +1,40 @@
-function [num_sol, exact_sol, M, time_step, dt] = fem_miriam()
-%% Miriam Mieremet, 01-July-2014
-% 1-phase
-% 
-% rs * v_t = sigma_z + rs * g
-% sigma_t = E * v_z
-% u_t = v
-% 
-% 1D TL-FEM Euler-Cromer
+function [num_sol, exact_sol, M, time_step, dt] = try_mir()
 
 clear all
 clc
 
 %% Get input
-% Read all input from excelsheet
+h = 0.01;
+H = 1;
+n_e = 100;
 
-nod = xlsread('OnePhase_Input1D.xlsx','Nodes');
-n_nod = length(nod);
-H = max(nod);
 
-elm = xlsread('OnePhase_Input1D.xlsx','Elements');
-n_elm = length(elm);
+nod  = 0:h:H; %global mesh
+elements = zeros(n_e,2);
+elm = zeros(n_e,2);
+for i = 1:n_e
+   elements(i,:) = [nod(i) nod(i+1)]; 
+   elm(i,:) = [i i+1]; %contains the indices of the
+    %nodes comprising the elements
+end
 
-mat = xlsread('OnePhase_Input1D.xlsx','Material');
-rho = mat(1);    % Density Solid
-E = mat(2);      % Young's Modulus
-nu = mat(3);     % Poisson Ratio
+rho = 1;    % Density Solid
+E = 100;      % Young's Modulus
+nu = 0;     % Poisson Ratio
 
-ic = xlsread('OnePhase_Input1D.xlsx','InitialCond');
-u = ic(:,1);
-v = ic(:,2);
-s = ic(1:n_elm,5);
+u = zeros(n_e+1,1);
+v = zeros(n_e+1,1);
+s = zeros(n_e,1);
 
-fix = xlsread('OnePhase_Input1D.xlsx','Fixities');
-n_fix = length(fix(:,1));
+n_fix = 1;
 
-load = xlsread('OnePhase_Input1D.xlsx','Load');
-n_load = length(load(:,1));
-p = load(1,2);
+n_load = 1;
+p = -20;
 
-time = xlsread('OnePhase_Input1D.xlsx','TimeInt');
-%dt = time(1);   % Size of time step
-dt = 1E-6;
-m = time(2);    % Number of time steps
+dt = 0.0009;   % Size of time step
+m = 600;    % Number of time steps
 m = 100*m;
-a = time(3);    % Damping factor
-
-% Close all Excel processes in task manager
-% system('taskkill /F /IM EXCEL.EXE');  
+a = 0;    % Damping factor
 
 %% Define other variables
 
