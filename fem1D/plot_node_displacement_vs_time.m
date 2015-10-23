@@ -16,9 +16,9 @@ legend('FEM', 'Exact')
 hold on
 set(0,'DefaultFigureColor',[1 1 1])
 
-set(gcf, 'PaperPosition', [0 0 4 4]);
-set(gcf, 'PaperSize', [4 4]);
-saveas(gcf,'displ_time_oedom_g.pdf')
+set(gcf, 'PaperPosition', [0 0 6 6]);
+set(gcf, 'PaperSize', [6 6]);
+saveas(gcf,'displ_time_oedom.pdf')
 
 
 

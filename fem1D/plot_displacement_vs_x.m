@@ -17,4 +17,4 @@ set(0,'DefaultFigureColor',[1 1 1])
 
 set(gcf, 'PaperPosition', [0 0 6 6]);
 set(gcf, 'PaperSize', [6 6]);
-saveas(gcf,'displ_x_oedom_g.pdf')
+%saveas(gcf,'displ_x_oedom.pdf')
