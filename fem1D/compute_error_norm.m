@@ -5,5 +5,7 @@ err    = num_sol - exact_sol;
 errnrm = 0;
 for i = 1:length(num_sol)
     errnrm = errnrm + M_lump(i,i)*err(i)^2;
+%     nn = length(num_sol);
+%     errnrm = errnrm + (err(i)^2)/nn;
 end
 errnrm = sqrt(errnrm);

@@ -17,17 +17,17 @@ load = -5E3;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 8; % number of elements
+number_elements = 32; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
 
 % Time step 
 format long
-CFL_number = 1;
+CFL_number = 0.9;
 total_time = 1.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = CFL_number*t_cr;
+t_step = 1E-4; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
