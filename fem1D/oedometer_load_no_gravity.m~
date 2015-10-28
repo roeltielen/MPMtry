@@ -17,14 +17,13 @@ load = -5E3;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 8; % number of elements
+number_elements = 4; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
 
 % Time step 
-format long
-CFL_number = 1;
+CFL_number = 0.9;
 total_time = 1.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
 t_step = CFL_number*t_cr;
@@ -36,8 +35,8 @@ t = 0:t_step:(number_time_steps-1)*t_step;
 
 %% Compute an exact solution
 
-for n=1:number_time_steps
-    for node = 1:number_elements+1
+for n=1:number_time_steps-1
+    for node = 1:number_elements 
         [position_exact(node,n),displacement_exact(node,n),...
             velocity_exact(node,n)] = exact_solution...
             (density,Youngs_modulus, load,-gravitational_acceleration,...
@@ -46,21 +45,18 @@ for n=1:number_time_steps
 end
 clear n node
 
-% T_step = 51;
+% T_step = 510;
 % T = T_step*t_step
 % T_step = T_step+1; 
-
-T = 1;
-T_step = floor(T/t_step);
-
-for node = 1:number_elements + 1
-    [position_exactT(node,:),displacement_exactT(node,:),...
-        velocity_exactT(node,:)] = exact_solution...
-        (density,Youngs_modulus, load,-gravitational_acceleration,...
-        height,mesh(node), T);
-end
-clear node
-displacement_exactT
+% 
+% for node = 1:number_elements + 1
+%     [position_exactT(node,:),displacement_exactT(node,:),...
+%         velocity_exactT(node,:)] = exact_solution...
+%         (density,Youngs_modulus, load,-gravitational_acceleration,...
+%         height,mesh(node), T);
+% end
+% clear node
+% displacement_exactT
 
 %% % Initial conditions 
 displacement_initial = displacement_exact(:,1);
@@ -85,9 +81,9 @@ clear n
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 0; 
+displ_time = 1; 
 % Plot velocity versus time for thr selected node? Yes: 1; No: 0 
-velocity_time = 0;
+velocity_time = 1;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
@@ -102,7 +98,7 @@ anim_displ = 0;
 anim_vel = 0;
 
 % Compute the global error at time T_step? Yes: 1, No: 0
-compute_error = 1;
+compute_error = 0;
 
 
 %% Plot displacement/velocity versus time for one node
