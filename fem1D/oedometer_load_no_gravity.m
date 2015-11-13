@@ -17,7 +17,7 @@ load = -5E3;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 32; % number of elements
+number_elements = 8; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
@@ -41,23 +41,23 @@ for n=1:number_time_steps
         [position_exact(node,n),displacement_exact(node,n),...
             velocity_exact(node,n)] = exact_solution...
             (density,Youngs_modulus, load,-gravitational_acceleration,...
-            height,mesh(node), t_step*(n-1));
+            height,mesh(node), t_step*(n-1), 20);
     end
 end
 clear n node
 
-% T_step = 51;
-% T = T_step*t_step
-% T_step = T_step+1; 
+T_step = 510;
+T = T_step*t_step
+T_step = T_step+1; 
 
-T = 1;
-T_step = floor(T/t_step);
+% T = 1;
+% T_step = floor(T/t_step);
 
 for node = 1:number_elements + 1
     [position_exactT(node,:),displacement_exactT(node,:),...
         velocity_exactT(node,:)] = exact_solution...
         (density,Youngs_modulus, load,-gravitational_acceleration,...
-        height,mesh(node), T);
+        height,mesh(node), T, 200);
 end
 clear node
 displacement_exactT
@@ -70,7 +70,7 @@ velocity_initial = velocity_exact(:,1);
 both_ends_fixed = 0;
 
 %% Compute the solution using FEM
-[displacement_fem,velocity_fem, M_lump] = FEM_1D(density,...
+[displacement_fem,velocity_fem, M_lump] = FEM_gt(density,...
     Youngs_modulus, gravitational_acceleration, load, height,...
     number_elements, element_size, t_step, number_time_steps,...
     displacement_initial, velocity_initial, both_ends_fixed);
@@ -85,15 +85,15 @@ clear n
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 0; 
+displ_time = 1; 
 % Plot velocity versus time for thr selected node? Yes: 1; No: 0 
-velocity_time = 0;
+velocity_time = 1;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
-displ_x = 0; 
+displ_x = 1; 
 % Plot velocity versus x-coordinate for thr selected node? Yes: 1; No: 0 
-velocity_x = 0;
+velocity_x = 1;
 
 % Make animation of displacement? Yes: 1; No: 0
 anim_displ = 0;

@@ -79,7 +79,7 @@ for n=1:n_time_steps-1
     else
         u(1, n+1) = 0;
     end
-   clear F_internal F
+    clear F_internal F
 end
 
 
