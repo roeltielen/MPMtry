@@ -17,7 +17,7 @@ load = -5E3;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 8; % number of elements
+number_elements = 4; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
@@ -85,15 +85,15 @@ clear n
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 1; 
+displ_time = 0; 
 % Plot velocity versus time for thr selected node? Yes: 1; No: 0 
-velocity_time = 1;
+velocity_time = 0;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
-displ_x = 1; 
+displ_x = 0; 
 % Plot velocity versus x-coordinate for thr selected node? Yes: 1; No: 0 
-velocity_x = 1;
+velocity_x = 0;
 
 % Make animation of displacement? Yes: 1; No: 0
 anim_displ = 0;
@@ -180,6 +180,10 @@ end
 
 if compute_error == 1
     % Compute the norm of the discretization error in 2-norm
+%     mesh(number_elements+1)
+     mesh(number_elements/2+1)
+     Nh = displacement_fem(number_elements/2+1, T_step)
+%     Nh = displacement_fem(number_elements+1, T_step)
 
     errnrm = compute_error_norm(displacement_fem(:,T_step),...
         displacement_exactT, M_lump);

@@ -79,7 +79,7 @@ for node = 1:number_elements + 1
         height,mesh(node), T, 200);
 end
 clear node
-displacement_exactT
+%displacement_exactT
 
 
 %% Flags
@@ -90,9 +90,9 @@ velocity_time = 0;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
-displ_x = 1; 
+displ_x = 0; 
 % Plot velocity versus x-coordinate for thr selected node? Yes: 1; No: 0 
-velocity_x = 1;
+velocity_x = 0;
 
 % Make animation of displacement? Yes: 1; No: 0
 anim_displ = 0;
@@ -180,7 +180,11 @@ end
 
 if compute_error == 1
     % Compute the norm of the discretization error in 2-norm
-
+    
+    mesh(number_elements/2+1)
+    Nh1 = displacement_fem(number_elements/2+1, T_step)
+    mesh(number_elements+1)
+    Nh2 = displacement_fem(number_elements+1, T_step)
     errnrm = compute_error_norm(displacement_fem(:,T_step),...
     displacement_exactT, M_lump);
     fprintf('For time t = %e\n', T)
