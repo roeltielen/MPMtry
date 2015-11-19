@@ -118,7 +118,7 @@ pp(:,1) = pore_pressure_initial;
 efs(:,1) = eff_stress_initial;
 
 %..Time integration
-for nt=1:2%number_time_steps-1
+for nt=1:1%number_time_steps-1
 
     %..Initial internal forces
     F_w_int = zeros(n_n,1);
@@ -176,15 +176,7 @@ for nt=1:2%number_time_steps-1
     
     %..Effective stress increment
     defs = zeros(n_e,1);
-    for ne = 1:n_e
-        defs(ne) = t_step*Youngs_modulus*B_loc*...
-            [v_s(elements_index(ne,1),nt+1);...
-            v_s(elements_index(ne,2),nt+1)];
-    end
-    clear ne
-    
-    %..Update effective stress
-    efs(:,nt+1) = efs(:,nt) + defs
+    for ne 
 end
 
 
