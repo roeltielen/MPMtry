@@ -4,14 +4,18 @@
 \usepackage[absolute,overlay]{textpos}
 \mode<presentation>{\usetheme{tud}}
 %\usepackage{subcaption}
-
+\usepackage{tcolorbox}
 \usepackage{tikz}
+\usetikzlibrary{positioning,arrows}
+\usepackage[utf8x]{inputenc}
+\usepackage{scalefnt}
 \usetikzlibrary{decorations.markings}
 \usetikzlibrary{shapes,snakes}
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{fit}					
 \usetikzlibrary{backgrounds}
 \usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
 \usepackage{pgffor}
 \usepackage{amsmath,amssymb}
 \usepackage{color}
@@ -57,7 +61,21 @@
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Vibrating bar}
+\begin{frame}{Numerical accuracy}
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Numerical Approximation]
+$u_{ex} = u_{num} + \mathcal{O}(\Delta x^n) + \mathcal{O}(\Delta t)$ %with $n \leq 2$
+\end{tcolorbox}
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=RMS Error]
+$Error_{RMS} = \sqrt{\frac{1}{n_p} \left(\sum_{p=1}^{n_p}u_{num}(x_p,T) - u_{ex}(x_p,T)\right)^2}$
+\end{tcolorbox}
+\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Accuracy in displacement]
+For $\Delta t \to 0$, the order of accuracy is equal to $n$, i.e. the reduction of $\Delta x$ by a factor of 2 decreases the RMS error by $2^n$.
+\end{tcolorbox}
+\end{frame}
+
+%------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Vibrating linear-elastic bar}
+\definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
 \tikzset{
 mystyle1/.style={
   rectangle,
@@ -75,22 +93,54 @@ mystyle2/.style={
   fill=red!80
   }
 }
+\tikzstyle{myarrows}=[line width=0.4mm,draw=darkred,postaction={draw, line width=0.4mm, shorten >=3mm, -}]
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}
  %structure
- \draw[fill=black!25] (0.5,2) rectangle (6,2.55);
+ \draw[fill=black!25] (0.5,2) rectangle (6.5,2.55);
  \draw[fill=black!75] (-0.3,3.5) rectangle (0.5,1);
-
-
-
+%initial velocity
+\foreach \i in {1,...,7}
+{
+        \pgfmathsetmacro{\z}{0.5 + (6/7)*\i};
+        \pgfmathsetmacro{\y}{2.275};
+        \pgfmathsetmacro{\l}{1.5*sin((175*\z)/12)};
+        \draw[myarrows] (\z,\y) -- (\z,\y+\l);
+	\draw[->, ultra thick,darkred] (\z,\y+1.01*\l) -- (\z,\y+1.05*\l);
+}
+ \draw (6.9,3.2) node {$v_0$};
+%coordinate
+\draw[->, thick] (0.5,-0.5)--(2.5,-0.5);
+\draw (2.5, -0.9) node {$x$};
+ %coordinates
+ \draw (0.9,0.5) node {$x$ = 0};
+ \draw (6.5,0.5) node {$x$ = 1};
 \end{tikzpicture}
 \end{figure}
 \end{frame}
-
-
 %------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Oedometer problem}
+\begin{frame}{Vibrating linear-elastic bar: model}
+\begin{equation}\nonumber
+\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2}.
+\end{equation}
+
+\noindent
+Boundary conditions: 
+\begin{align}\nonumber
+& u(0,t) = 0,\\ \nonumber
+& \frac{\partial u}{\partial x}(L,t) = 0.
+\end{align}
+
+\noindent
+Initial conditions:
+\begin{align}\nonumber
+& u(x,0) = 0,\\ \nonumber
+& \frac{\partial u}{\partial t}(x,0) = v_0\sin \left( \frac{\pi x}{2L} \right).
+\end{align}
+\end{frame}
+%------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Oedometer}
 \definecolor{soil}{cmyk}{0,0.2,0.6,0.2}
 \definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
 \tikzset{
@@ -110,6 +160,7 @@ mystyle2/.style={
   fill=red!80
   }
 }
+\tikzstyle{myarrows}=[line width=0.4mm,draw=darkred,-triangle 45,postaction={draw, line width=0.4mm, shorten >=3mm, -}]
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}
@@ -122,9 +173,9 @@ mystyle2/.style={
  \draw (3.2,2) node {$y$ = 1};
  \draw (3.2,-1) node {$y$ = 0};
  %load
- \draw[->, ultra thick,darkred] (0.7,3) -- (0.7,2.35);
- \draw[->, ultra thick,darkred] (1.5,3) -- (1.5,2.35);
- \draw[->, ultra thick,darkred] (2.3,3) -- (2.3,2.35);
+ \draw[myarrows] (0.7,3) -- (0.7,2.35);
+ \draw[myarrows] (1.5,3) -- (1.5,2.35);
+ \draw[myarrows] (2.3,3) -- (2.3,2.35);
  \draw (1.55,3.3) node {$p_0$};
 %coordinate
 \draw[->, thick] (-1,-1)--(-1,0);
@@ -138,19 +189,18 @@ mystyle2/.style={
 
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Oedometer: model}
-\begin{align}\nonumber
- &\rho \frac{\partial \hat{v}}{\partial t} = \frac{\partial \hat{\sigma}}{\partial y} - \rho g, \\ \nonumber
- &\frac{\partial \hat{\sigma}}{\partial t} = E \frac{\partial \varepsilon}{\partial t}.
-\end{align}
+\begin{equation}\nonumber
+\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho} \frac{\partial^2 u}{\partial y^2} -  g.
+\end{equation}
 Boundary conditions: 
 \begin{align} \nonumber
- &\hat{v}(0,t)  = 0,\\ \nonumber
- &\hat{\sigma}(H,t)  = -p_0.
+ &u(0,t)  = 0,\\ \nonumber
+ &\frac{\partial u}{\partial y}(H,t)  = -p_0/E.
 \end{align}
 Initial conditions:
 \begin{align} \nonumber
- \hat{v}(y,0)&=0,\\ \nonumber
- \hat{\sigma}(y,0)&=0.
+& u(y,0)=0,\\ \nonumber
+& \frac{\partial u}{\partial t}(y,0)=0.
 \end{align}
 \end{frame}
 
