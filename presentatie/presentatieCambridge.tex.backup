@@ -133,9 +133,9 @@ mystyle2/.style={
 \end{figure}
 \end{column}
 \begin{column}{0.48\textwidth}
-\begin{equation}\nonumber
+\begin{equation*}\nonumber
 \frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2}. \hfill
-\end{equation}
+\end{equation*}
 
 \noindent
 
@@ -147,10 +147,10 @@ Boundary conditions: \hfill
 
 \noindent
 Initial conditions: \hfill
-\begin{align*}\nonumber
+\begin{flalign*}\nonumber
 & u(x,0) = 0,\\ \nonumber
 & \frac{\partial u}{\partial t}(x,0) = v_0\sin \left( \frac{\pi x}{2L} \right).
-\end{align*} 
+\end{flalign*} 
 \end{column}
 \end{columns}
 
