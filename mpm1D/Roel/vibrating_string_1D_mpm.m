@@ -9,20 +9,21 @@ beep off
 clc 
 
 % Use files from a parent directory
-addpath('/mnt/dutita1/nw/wobbes/Desktop/MPMtry/mpm1D/Roel');
+%addpath('/mnt/dutita1/nw/wobbes/Desktop/MPMtry/mpm1D/Roel');
+addpath('C:/Users/Lisa/Desktop/MPMtry/mpm1D');
 
 
 %% Input
 % Constants
-density = 1;
+density = 4;
 Youngs_modulus = 100;
 gravitational_acceleration = 0; 
 load = 0;
 height = 25; %height/length
 
 % Mesh properties
-number_elements = 5; % number of elements
-number_particles_per_element = 5; % number of particles per element 
+number_elements = 60; % number of elements
+number_particles_per_element = 4; % number of particles per element 
 element_size = height/number_elements; % size of an element
 
 % Number of particles per element is equally distributed over element. 
@@ -44,9 +45,9 @@ pos_p_glob = x + element_size*pos_p_loc; % initial global position
 
 % Time step 
 CFL_number = 0.1;
-total_time = 5; 
+total_time = 15; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = CFL_number*t_cr;
+t_step = 0.01; %CFL_number*t_cr;
 %t_step = 1E-3
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
@@ -54,7 +55,7 @@ t = 0:t_step:(number_time_steps-1)*t_step;
 % Initial conditions 
 % particles
 displacement_p_initial = zeros(number_elements*number_particles_per_element,1);
-velocity_p_initial = 0.1*sin(pi/height*pos_p_glob);
+velocity_p_initial = 0.07*sin(pi/height*pos_p_glob);
 stress_p_initial = zeros(number_elements*number_particles_per_element,1);
 % nodes
 displacement_n_initial = zeros(number_elements+1,1); %initial nodal velocity
@@ -91,9 +92,9 @@ velocity_exact(:,1) = velocity_p_initial;
 
 for n=1:number_time_steps-1
     for particle = 1:(number_elements*number_particles_per_element)
-        velocity_exact(particle,n+1) = 0.1*cos(w1*t_step*n)*...
+        velocity_exact(particle,n+1) = 0.07*cos(w1*t_step*n)*...
             sin(b1*pos_p_glob(particle));
-        displacement_exact(particle,n+1) = 0.1/w1*sin(w1*t_step*n)*...
+        displacement_exact(particle,n+1) = 0.07/w1*sin(w1*t_step*n)*...
             sin(b1*pos_p_glob(particle));
     end
 end

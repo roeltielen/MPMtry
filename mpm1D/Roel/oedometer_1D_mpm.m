@@ -8,14 +8,15 @@ close all
 beep off
 clc 
 
-addpath(genpath('D:\wobbes\Documents\MATLAB\NEW\MPMtry\mpm1D'));
+%addpath(genpath('D:\wobbes\Documents\MATLAB\NEW\MPMtry\mpm1D'));
+addpath('C:/Users/Lisa/Desktop/MPMtry/mpm1D');
 %% Input
 % Constants
-density = 1 %1E3; 
-Youngs_modulus = 5E4 %1E5;
+density = 1E3; 
+Youngs_modulus = 1E5;
 gravitational_acceleration =  -9.81; 
 load = 0 ;
-height = 25 %1;
+height = 1;
 alpha = 0;
 
 %% FLAGS
@@ -52,7 +53,7 @@ shape = 1;
 %% Mesh and particle properties
 % Mesh properties
 number_elements = 30; 
-number_particles_per_element = 4;  
+number_particles_per_element = 10;  
 element_size = height/number_elements; 
 mesh_one = 0:element_size:height;
 
@@ -76,7 +77,7 @@ pos_p_glob = pos_p_minloc + element_size*pos_p_loc;
 
 % Time step 
 CFL_number = 0.9;
-total_time = 2.5; 
+total_time = 0.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
 t_step = 1E-3; %CFL_number*t_cr
 number_time_steps = floor(total_time/t_step); 

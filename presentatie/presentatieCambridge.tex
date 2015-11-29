@@ -83,9 +83,10 @@ For $\Delta t \to 0$, the order of accuracy is equal to $n$, i.e. the reduction 
 
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Vibrating linear-elastic bar}
-\begin{columns}
-    \begin{column}{0.48\textwidth}
-\definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
+  \begin{minipage}{\linewidth}
+      \centering
+      \begin{minipage}{0.45\linewidth}
+              \definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
 \definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
 \tikzset{
 mystyle1/.style={
@@ -105,7 +106,7 @@ mystyle2/.style={
   }
 }
 \tikzstyle{myarrows}=[line width=0.4mm,draw=darkred,postaction={draw, line width=0.4mm, shorten >=3mm, -}]
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[scale=0.48]
  %structure
@@ -131,52 +132,27 @@ mystyle2/.style={
  \draw (6.5,-0.4) node {$L$};
 \end{tikzpicture}
 \end{figure}
-\end{column}
-\begin{column}{0.48\textwidth}
-\begin{equation}\nonumber
-\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2}. \hfill
-\end{equation}
-
-\noindent
-
-Boundary conditions: \hfill
-\begin{align*}\nonumber
-& u(0,t) = 0,\\ \nonumber
-& \frac{\partial u}{\partial x}(L,t) = 0.
-\end{align*}
-
-\noindent
-Initial conditions: \hfill
-\begin{align*}\nonumber
-& u(x,0) = 0,\\ \nonumber
-& \frac{\partial u}{\partial t}(x,0) = v_0\sin \left( \frac{\pi x}{2L} \right).
-\end{align*} 
-\end{column}
-\end{columns}
-
+      \end{minipage}
+      \hspace{0.01\linewidth}
+      \begin{minipage}{0.45\linewidth}
+         \begin{align}\nonumber
+&\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2} \\ \nonumber
+&\mbox{Boundary conditions: } \\  \nonumber
+& u(0,t) = 0\\ \nonumber
+& \frac{\partial u}{\partial x}(L,t) = 0\\  \nonumber
+&\mbox{Initial conditions:}\\  \nonumber
+& u(x,0) = 0\\ \nonumber
+& \frac{\partial u}{\partial t}(x,0) = v_0\sin \left( \frac{\pi x}{2L} \right)
+\end{align} 
+      \end{minipage}
+  \end{minipage}
 \end{frame}
-% %------------------------------------------------------------------------------------------------------------------
-% \begin{frame}{Vibrating linear-elastic bar: model}
-% \begin{equation}\nonumber
-% \frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2}.
-% \end{equation}
-% 
-% \noindent
-% Boundary conditions: 
-% \begin{align}\nonumber
-% & u(0,t) = 0,\\ \nonumber
-% & \frac{\partial u}{\partial x}(L,t) = 0.
-% \end{align}
-% 
-% \noindent
-% Initial conditions:
-% \begin{align}\nonumber
-% & u(x,0) = 0,\\ \nonumber
-% & \frac{\partial u}{\partial t}(x,0) = v_0\sin \left( \frac{\pi x}{2L} \right).
-% \end{align}
-% \end{frame}
+
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Vibrating hyper-elastic bar}
+  \begin{minipage}{\linewidth}
+      \centering
+      \begin{minipage}{0.45\linewidth}
 \definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
 \definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
 \tikzset{
@@ -199,48 +175,48 @@ mystyle2/.style={
 \tikzstyle{myarrows}=[line width=0.4mm,draw=darkred,postaction={draw, line width=0.4mm, shorten >=3mm, -}]
 \begin{figure}[h]
 \centering
-\begin{tikzpicture}
- %structure
+\begin{tikzpicture}[scale = 0.48]
+%structure
  \draw[fill=black!25] (0.5,2) rectangle (6.5,2.55);
  \draw[fill=darkblue] (-0.3,3.5) rectangle (0.5,1);
 %traction force	
-\draw[->, ultra thick,darkred] (6.5,2.8) -- (7.5,2.8);
-
- \draw (6.9,3.3) node {$F_{trac}$};
+\draw[->, ultra thick,darkred] (6.5,3.2) -- (8.2,3.2);
+ \draw (7.15,3.9) node {$F_{trac}$};
 %coordinate
-\draw[->, thick] (-0.3,0.5)--(7.8,0.5);
-\draw (7.5, 0.2) node {$x$};
+\draw[->, thick] (-0.3,0.4)--(8.2,0.4);
+\draw (7.9, -0.7) node {$x$};
  %coordinates
- \draw[thick] (0.5, 0.4)--(0.5,0.6);
- \draw (0.5,0.2) node {0};
- \draw[thick] (6.5, 0.4)--(6.5,0.6);
- \draw (6.5,0.2) node {L};
+ \draw[thick] (0.5, 0.05)--(0.5,0.35);
+ \draw (0.5,-0.4) node {0};
+ \draw[thick] (6.5, 0.05)--(6.5,0.35);
+ \draw (6.5,-0.4) node {$L$};
 \end{tikzpicture}
 \end{figure}
-\end{frame}
-%------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Vibrating hyper-elastic bar: model}
- \begin{equation}\nonumber
-\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2}.
-\end{equation}
-
-\noindent
-Boundary conditions: 
-\begin{align}\nonumber
-& u(0,t) = 0,\\ \nonumber
-& \frac{\partial u}{\partial x}(L,t) = \frac{\tau}{\rho} \sin \left(\frac{\pi t}{L}\right).
-\end{align}
-
-\noindent
-Initial conditions:
-\begin{align}\nonumber
-& u(x,0) = 0,\\ \nonumber
-& \frac{\partial u}{\partial t}(x,0) = 0.
-\end{align}
+      \end{minipage}
+      \hspace{0.01\linewidth}
+      \begin{minipage}{0.45\linewidth}
+         \begin{align}\nonumber
+&\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2} \\ \nonumber
+&\mbox{Boundary conditions: } \\  \nonumber
+& u(0,t) = 0\\ \nonumber
+& \frac{\partial u}{\partial x}(L,t) = \frac{\tau}{\rho} \sin \left(\frac{\pi t}{L}\right)\\ \nonumber
+&\mbox{Initial conditions:}\\  \nonumber
+& u(x,0) = 0\\ \nonumber
+& \frac{\partial u}{\partial t}(x,0) = 0
+\end{align} 
+      \end{minipage}
+  \end{minipage}
 \end{frame}
 
+
+
+
 %------------------------------------------------------------------------------------------------------------------
+
 \begin{frame}{Oedometer}
+  \begin{minipage}{\linewidth}
+      \centering
+      \begin{minipage}{0.45\linewidth}
 \definecolor{soil}{cmyk}{0,0.2,0.6,0.2}
 \definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
 \tikzset{
@@ -288,25 +264,24 @@ mystyle2/.style={
 \draw (-1.3,-1) node {0};
 \end{tikzpicture}
 \end{figure}
+      \end{minipage}
+      \hspace{0.01\linewidth}
+      \begin{minipage}{0.45\linewidth}
+         \begin{align}\nonumber
+&\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho} \frac{\partial^2 u}{\partial y^2} -  g \\ \nonumber
+&\mbox{Boundary conditions: } \\  \nonumber
+& u(0,t) = 0\\ \nonumber
+& \frac{\partial u}{\partial x}(L,t) = \frac{\tau}{\rho} \sin \left(\frac{\pi t}{L}\right)\\ \nonumber
+&\mbox{Initial conditions:}\\  \nonumber
+& u(y,0)=0,\\ \nonumber
+& \frac{\partial u}{\partial t}(y,0)=0
+\end{align} 
+      \end{minipage}
+  \end{minipage}
 \end{frame}
+
 
 %------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Oedometer: model}
-\begin{equation}\nonumber
-\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho} \frac{\partial^2 u}{\partial y^2} -  g.
-\end{equation}
-Boundary conditions: 
-\begin{align} \nonumber
- &u(0,t)  = 0,\\ \nonumber
- &\frac{\partial u}{\partial y}(H,t)  = -p_0/E.
-\end{align}
-Initial conditions:
-\begin{align} \nonumber
-& u(y,0)=0,\\ \nonumber
-& \frac{\partial u}{\partial t}(y,0)=0. 
-\end{align}
-\end{frame}
-
 
 %-------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Grid-crossing}
@@ -427,8 +402,11 @@ Initial conditions:
 %-------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Grid crossing: internal force}
  \begin{align}\nonumber
-  & F_{int}^i \approx \sum_{p=1}^{n_i} \sigma_p \Omega_p - \sum_{p=1}^{n_{i+1}} \sigma_p \Omega_p\\ \nonumber
-  & F_{int}^i \approx \sigma \Omega (n_i - n_{i+1})
+  & F^{int}_i \approx \sum_{p=1}^{n_i} \nabla N_i(\epsilon_p)\sigma_p \Omega_p + \sum_{p=1}^{n_{i+1}}\nabla N_i(\epsilon_p) \sigma_p \Omega_p\\ \nonumber
+  & F^{int}_i \approx \sigma \Omega (n_i - n_{i+1})\\ \nonumber
+  & \: \\ \nonumber
+  & \begin{cases}F^{int}_i = 0, &\mbox{if } n_{i} = n_{i+1} \\
+F^{int}_i \neq 0, & \mbox{otherwise} \end{cases}  
  \end{align}
 \end{frame}
 
