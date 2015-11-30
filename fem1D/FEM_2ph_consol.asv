@@ -12,15 +12,15 @@ clc
 % Constants
 porosity = 0.4;
 density_w = 1E3;
-density_s = 2.6E3;
+density_s = (1/0.6)*1.6E3;
 density_sat = (1-porosity)*density_s + porosity*density_w;
-Youngs_modulus = 2.5E9; %check
-bulk_modulus = 2E9; %check
+Youngs_modulus = 3E9; %check
+bulk_modulus = 3E9; %check
 permeability = 1E-3; %check
 grav_accel = 10; %10; 
 total_stress = -10E3; %check
 pore_pressure = -10E3; %check
-height = 2; %height/length
+height = 1; %height/length
 eff_stress = total_stress - pore_pressure;
 
 % Mesh properties
