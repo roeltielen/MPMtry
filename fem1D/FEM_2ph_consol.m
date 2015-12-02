@@ -24,7 +24,7 @@ height = 1; %height/length
 eff_stress = total_stress - pore_pressure;
 
 % Mesh properties
-n_e = 800; % number of elements
+n_e = 300; % number of elements
 element_size = height/n_e; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
@@ -49,8 +49,8 @@ velocity_s_initial = zeros(n_e + 1,1);
 velocity_w_initial = zeros(n_e + 1,1);
 total_stress_initial = zeros(n_e,1);
 total_stress_initial(end) = total_stress;
-pore_pressure_initial = zeros(n_e,1);
-%pore_pressure_initial(end) = pore_pressure;
+pore_pressure_initial = zeros(n_e,1); %pore_pressure*ones(n_e,1);
+pore_pressure_initial(end) = pore_pressure;
 eff_stress_initial = zeros(n_e,1);
 %eff_stress_initial(end) = eff_stress;
 
@@ -196,37 +196,17 @@ end
 clear nt
 
 % analytical solution for stress
-[t1, AS, AP] = as_wave_propagation(permeability);
+%[t1, AS, AP] = as_wave_propagation(permeability);
 
 figure(2);
 plot(t,efs(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
-elements(floor(3*n_e/4),:)
-hold on
-plot(t1,AS,'--k','LineWidth',2)
-xlabel('time [s]', 'FontSize', 12)
-set(gca,'FontSize',11)
-ylabel('normalized effective stress [-]','FontSize', 12)
-%title(sprintf('Displacement at time %g [s]',T)) 
-legend('FEM', 'Exact', 'Location','southeast')
-hold on
-set(0,'DefaultFigureColor',[1 1 1])
-set(gcf, 'PaperPosition', [0 0 6 6]);
-set(gcf, 'PaperSize', [6 6]);
+
+
 
 
 figure(3);
 plot(t,pp(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
-hold on
-plot(t1,AP,'--k','LineWidth',2)
-xlabel('time [s]', 'FontSize', 12)
-set(gca,'FontSize',11)
-ylabel('normalized pore presssure [-]','FontSize', 12)
-title(sprintf('Displacement at time %g [s]',T)) 
-legend('FEM', 'Exact', 'Location','southeast')
-hold on
-set(0,'DefaultFigureColor',[1 1 1])
-set(gcf, 'PaperPosition', [0 0 6 6]);
-set(gcf, 'PaperSize', [6 6]);
+
 
 % figure(4);
 % x = element_size/2:element_size:n_e*element_size;

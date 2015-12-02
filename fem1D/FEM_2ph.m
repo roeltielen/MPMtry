@@ -203,30 +203,30 @@ plot(t,efs(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
 elements(floor(3*n_e/4),:)
 hold on
 plot(t1,AS,'--k','LineWidth',2)
-xlabel('time [s]', 'FontSize', 12)
-set(gca,'FontSize',11)
-ylabel('normalized effective stress [-]','FontSize', 12)
+% xlabel('time [s]', 'FontSize', 12)
+% set(gca,'FontSize',11)
+% ylabel('normalized effective stress [-]','FontSize', 12)
 %title(sprintf('Displacement at time %g [s]',T)) 
-legend('FEM', 'Exact', 'Location','southeast')
-hold on
-set(0,'DefaultFigureColor',[1 1 1])
-set(gcf, 'PaperPosition', [0 0 6 6]);
-set(gcf, 'PaperSize', [6 6]);
+% legend('FEM', 'Exact', 'Location','southeast')
+% hold on
+% set(0,'DefaultFigureColor',[1 1 1])
+% set(gcf, 'PaperPosition', [0 0 6 6]);
+% set(gcf, 'PaperSize', [6 6]);
 
 
 figure(3);
 plot(t,pp(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
 hold on
 plot(t1,AP,'--k','LineWidth',2)
-xlabel('time [s]', 'FontSize', 12)
-set(gca,'FontSize',11)
-ylabel('normalized pore presssure [-]','FontSize', 12)
-title(sprintf('Displacement at time %g [s]',T)) 
-legend('FEM', 'Exact', 'Location','southeast')
-hold on
-set(0,'DefaultFigureColor',[1 1 1])
-set(gcf, 'PaperPosition', [0 0 6 6]);
-set(gcf, 'PaperSize', [6 6]);
+% xlabel('time [s]', 'FontSize', 12)
+% set(gca,'FontSize',11)
+% ylabel('normalized pore presssure [-]','FontSize', 12)
+% title(sprintf('Displacement at time %g [s]',T)) 
+% legend('FEM', 'Exact', 'Location','southeast')
+% hold on
+% set(0,'DefaultFigureColor',[1 1 1])
+% set(gcf, 'PaperPosition', [0 0 6 6]);
+% set(gcf, 'PaperSize', [6 6]);
 
 % figure(4);
 % x = element_size/2:element_size:n_e*element_size;
