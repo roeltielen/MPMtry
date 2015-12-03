@@ -1,4 +1,4 @@
-function [M] = assemble_mpm (n_n, n_e, elements_index, A)
+function [M] = assemble_vector(n_n, n_e, elements_index, A)
 
 %% Boolean matrices required for the assemblage procedure
 T = zeros(2, n_n, n_e);

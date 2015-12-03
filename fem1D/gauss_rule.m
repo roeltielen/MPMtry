@@ -19,5 +19,6 @@ F_grav_loc = weight*N_loc'*density*g*h;
 
 %..Compute internal force
 F_int_loc = weight*B_loc'*E*B_loc*h;
+F_int_loc;
 
 end

@@ -10,23 +10,23 @@ clc
 
 %% Input
 % Constants
-density = 1E3;
-Youngs_modulus = 1E5;
-gravitational_acceleration = -9.8; 
-load = 0;%-5E3;
-height = 1; %height/length
+density = 1E3 %1;
+Youngs_modulus = 1E5 %5E4;
+gravitational_acceleration = -9.81; 
+load = 0;
+height = 1 %25; %height/length
 
 % Mesh properties
-number_elements = 8; % number of elements
+number_elements = 16; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
 
 % Time step 
 CFL_number = 0.1;
-total_time = 1.5; 
+total_time = 2.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = 1E-4; %CFL_number*t_cr;
+t_step = 1E-3 %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -37,11 +37,27 @@ velocity_initial = zeros(number_elements + 1,1);
 % Boundary conditions
 both_ends_fixed = 0;
 
+% Use FEM or Updated Lagrangian FEM? FEM: 1; ULFEM: 0
+FEM = 0;
+
+% Energy
+E_kin = zeros(1,number_time_steps);
+E_pot = zeros(1,number_time_steps);
+E_trac = zeros(1,number_time_steps);
+E_grav = zeros(1,number_time_steps);
+
 %% Compute the solution using FEM
-[displacement_fem,velocity_fem, M_lump] = FEM_1D(density,...
+if FEM == 1
+    [displacement_fem,velocity_fem, M_lump, F_int_plot] = FEM_1D(density,...
     Youngs_modulus, gravitational_acceleration, load, height,...
     number_elements, element_size, t_step, number_time_steps,...
     displacement_initial, velocity_initial, both_ends_fixed);
+else 
+    [displacement_fem,velocity_fem, M_lump, F_int_plot,strain,E_kin, E_pot, E_trac,E_grav] = ULFEM_1D(density,...
+    Youngs_modulus, gravitational_acceleration, load, height,...
+    number_elements, element_size, t_step, number_time_steps,...
+    displacement_initial, velocity_initial, both_ends_fixed,mesh,E_kin, E_pot, E_trac,E_grav);   
+end
 
 % Compute the position of nodes by adding the initial position to the
 % displacement
@@ -56,9 +72,11 @@ clear n
 
 %% Obtain the exact solution
 position_exact = zeros(number_elements, number_time_steps);
+sol_exact = zeros(number_elements, number_time_steps);
+vel_exact = zeros(number_elements, number_time_steps);
 
 for node = 1:number_elements + 1
-    position_exact(node,:) = exact_solution(density,...
+    [position_exact(node,:) sol_exact(node,:) vel_exact(node,:)]  = exact_solution(density,...
         Youngs_modulus, load, -gravitational_acceleration, height,...
         mesh(node), t);
 end
@@ -67,7 +85,7 @@ clear node
 
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 1; 
+displ_time = 0; 
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
@@ -82,12 +100,46 @@ compute_error = 1;
 
 %% Plot displacement versus time for one node
 % Select the node
-node_number = floor((number_elements+1)/2);
-
+%node_number = floor((number_elements+1)/2);
+ node_number = number_elements + 1;
+node_number2 = floor((number_elements)/2)+1; 
+node_number3 = 1;
+node_number4 = floor(number_elements/4)+1;
+node_number5 = floor(3*number_elements/4)+1;
+ 
 if displ_time == 1
     figure(1)
-    plot_node_displacement_vs_time(node_number, position_fem...
-        (node_number,:), position_exact(node_number,:),t)
+   % plot_node_displacement_vs_time(node_number, position_fem...
+   %     (node_number,:), position_exact(node_number,:),t)
+   % hold on
+    plot_node_displacement_vs_time(node_number2, position_fem...
+        (node_number2,:), position_exact(node_number2,:),t)
+   % plot_node_displacement_vs_time(node_number3, position_fem...
+   %     (node_number3,:), position_exact(node_number3,:),t)
+   % plot_node_displacement_vs_time(node_number4, position_fem...
+   %     (node_number4,:), position_exact(node_number4,:),t)
+   % plot_node_displacement_vs_time(node_number5, position_fem...
+   %     (node_number5,:), position_exact(node_number5,:),t)
+    figure(2)
+   %    plot(t,velocity_fem(node_number,:),'LineWidth',2)
+   %    hold on
+   %    plot(t,vel_exact(node_number,:),'--k','LineWidth',2)
+    
+       plot(t,velocity_fem(node_number2,:),'b','LineWidth',2)
+       hold on
+       plot(t,vel_exact(node_number2,:),'--r','LineWidth',2)
+     %  plot(t,velocity_fem(node_number3,:),'k','LineWidth',2)
+     %  plot(t,vel_exact(node_number3,:),'r','LineWidth',2)
+     %  plot(t,velocity_fem(node_number4,:),'m','LineWidth',2)
+     %  plot(t,vel_exact(node_number4,:),'--k','LineWidth',2)
+     %  plot(t,velocity_fem(node_number5,:),'m','LineWidth',2)
+     %  plot(t,vel_exact(node_number5,:),'m','LineWidth',2)
+        
+         
+       xlabel('time [s]','Fontsize',12)
+       ylabel('velocity [m/s]', 'Fontsize',12)
+       title(sprintf('Velocity of node %d',node_number2),'FontSize', 12)
+       legend('FEM','Exact')
 end
 
 
@@ -138,6 +190,27 @@ if compute_error == 1
     fprintf('The error norm = %e\n', errnrm)
 end
 
+%% Energy calculation
+E_total = - E_kin + E_pot + E_trac + E_grav;
+    figure(4)
+    plot(t,-E_kin,'-b','LineWidth',2) 
+    hold on
+    plot(t,E_pot,'-r','LineWidth',2) 
+    plot(t,E_grav,'-g','LineWidth',2) 
+    plot(t,E_trac,'-k','LineWidth',2) 
+    plot(t,E_total,'-m','LineWidth',2)
+    xlabel('Time [s]','Fontsize',12)
+    ylabel('Energy','Fontsize',12)
+    legend('E_{kin}','E_{pot}' ,'E_{grav}', 'E_{trac}', 'E_{total}')
 
 
+figure(5)
+plot(t,F_int_plot,'b','LineWidth',1.5)
+xlabel('Time [s]','Fontsize',12)
+ylabel('Force [N]','Fontsize',12)
+legend('F_{int}')
+title(sprintf('Internal force of node %d',node_number2),'FontSize', 12)
+
+figure(6)
+plot(t,strain(9,:))
 

@@ -27,6 +27,7 @@ CFL_number = 0.1;
 total_time = 50; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
 t_step = CFL_number*t_cr;
+t_step = 0.01;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 

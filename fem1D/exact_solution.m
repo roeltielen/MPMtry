@@ -1,4 +1,4 @@
-function [x] = exact_solution(rho, E, p0, g, H, x0,t )
+function [x sol vel] = exact_solution(rho, E, p0, g, H, x0,t )
 % x0 = 1; % original node position
 % t=0:0.01:0.5;
 % 
@@ -22,9 +22,13 @@ for l=1:length(t)
     for k=1:20
         part(k)=u(k)*cos(sqrt(E/rho)*(2*k-1)*pi*t(l)/(2*H))*sin((2*k-1)*...
             pi*x0/(2*H));
+        vel_part(k) = -u(k)*sqrt(E/rho)*(2*k-1)*pi/(2*H)*... 
+            sin(sqrt(E/rho)*(2*k-1)*pi*t(l)/(2*H))*sin((2*k-1)*pi*x0/(2*H));  
+
     end
     sol(l) = C_x0 + sum(part);
-    clear part;
+    vel(l) = sum(vel_part); 
+    clear part vel_part;
 end
 
 %Find the position
