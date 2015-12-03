@@ -47,10 +47,10 @@ t = 0:t_step:(number_time_steps-1)*t_step;
 % Initial conditions 
 velocity_s_initial = zeros(n_e + 1,1);
 velocity_w_initial = zeros(n_e + 1,1);
-total_stress_initial = zeros(n_e,1);
-total_stress_initial(end) = total_stress;
-pore_pressure_initial = zeros(n_e,1); %pore_pressure*ones(n_e,1);
-pore_pressure_initial(end) = pore_pressure;
+total_stress_initial = total_stress*ones(n_e,1);
+%total_stress_initial(end) = total_stress;
+pore_pressure_initial = pore_pressure*ones(n_e,1); %zeros(n_e,1); %pore_pressure*ones(n_e,1);
+%pore_pressure_initial(end) = pore_pressure;
 eff_stress_initial = zeros(n_e,1);
 %eff_stress_initial(end) = eff_stress;
 
