@@ -1,7 +1,7 @@
 function[t,AS] = as_wave_propagation()
 % Aangepaste code van Miriam
 % plot analytical solution for x = 1.5
-Ec = 3E9; %5E9;
+Ec = 1E7; %5E9;
 rw = 1E3;
 rs = (1/0.6)*1.6E3;
 n = 0.4;

@@ -58,8 +58,8 @@
 \item Numerical accuracy
 \item Benchmarks
 	\begin{itemize}
-	\item Vibrating linear-elastic bar 
-	\item Vibrating hyper-elastic bar
+	\item Vibrating bar 
+	%\item Vibrating hyper-elastic bar
 	\item Oedometer
 	\end{itemize}
 \item
@@ -82,10 +82,11 @@ For $\Delta t \to 0$, the order of accuracy is equal to $n$, i.e. the reduction 
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Vibrating linear-elastic bar}
-\begin{columns}
-    \begin{column}{0.48\textwidth}
-\definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
+\begin{frame}{Vibrating bar}
+  \begin{minipage}{\linewidth}
+      \centering
+      \begin{minipage}{0.45\linewidth}
+              \definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
 \definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
 \tikzset{
 mystyle1/.style={
@@ -105,7 +106,7 @@ mystyle2/.style={
   }
 }
 \tikzstyle{myarrows}=[line width=0.4mm,draw=darkred,postaction={draw, line width=0.4mm, shorten >=3mm, -}]
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[scale=0.48]
  %structure
@@ -131,116 +132,91 @@ mystyle2/.style={
  \draw (6.5,-0.4) node {$L$};
 \end{tikzpicture}
 \end{figure}
-\end{column}
-\begin{column}{0.48\textwidth}
-\begin{equation*}\nonumber
-\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2}. \hfill
-\end{equation*}
-
-\noindent
-
-Boundary conditions: \hfill
-\begin{align*}\nonumber
-& u(0,t) = 0,\\ \nonumber
-& \frac{\partial u}{\partial x}(L,t) = 0.
-\end{align*}
-
-\noindent
-Initial conditions: \hfill
-\begin{flalign*}\nonumber
-& u(x,0) = 0,\\ \nonumber
-& \frac{\partial u}{\partial t}(x,0) = v_0\sin \left( \frac{\pi x}{2L} \right).
-\end{flalign*} 
-\end{column}
-\end{columns}
-
-\end{frame}
-% %------------------------------------------------------------------------------------------------------------------
-% \begin{frame}{Vibrating linear-elastic bar: model}
-% \begin{equation}\nonumber
-% \frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2}.
-% \end{equation}
-% 
-% \noindent
-% Boundary conditions: 
-% \begin{align}\nonumber
-% & u(0,t) = 0,\\ \nonumber
-% & \frac{\partial u}{\partial x}(L,t) = 0.
-% \end{align}
-% 
-% \noindent
-% Initial conditions:
-% \begin{align}\nonumber
-% & u(x,0) = 0,\\ \nonumber
-% & \frac{\partial u}{\partial t}(x,0) = v_0\sin \left( \frac{\pi x}{2L} \right).
-% \end{align}
-% \end{frame}
-%------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Vibrating hyper-elastic bar}
-\definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
-\definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
-\tikzset{
-mystyle1/.style={
-  rectangle,
-  inner sep=0.05pt,
-  text width=1mm,
-  fill=black
-  }
-}
-
-\tikzset{
-mystyle2/.style={
-  circle,
-  inner sep=0.1pt,
-  text width=2mm,
-  fill=red!80
-  }
-}
-\tikzstyle{myarrows}=[line width=0.4mm,draw=darkred,postaction={draw, line width=0.4mm, shorten >=3mm, -}]
-\begin{figure}[h]
-\centering
-\begin{tikzpicture}
- %structure
- \draw[fill=black!25] (0.5,2) rectangle (6.5,2.55);
- \draw[fill=darkblue] (-0.3,3.5) rectangle (0.5,1);
-%traction force	
-\draw[->, ultra thick,darkred] (6.5,2.8) -- (7.5,2.8);
-
- \draw (6.9,3.3) node {$F_{trac}$};
-%coordinate
-\draw[->, thick] (-0.3,0.5)--(7.8,0.5);
-\draw (7.5, 0.2) node {$x$};
- %coordinates
- \draw[thick] (0.5, 0.4)--(0.5,0.6);
- \draw (0.5,0.2) node {0};
- \draw[thick] (6.5, 0.4)--(6.5,0.6);
- \draw (6.5,0.2) node {L};
-\end{tikzpicture}
-\end{figure}
-\end{frame}
-%------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Vibrating hyper-elastic bar: model}
- \begin{equation}\nonumber
-\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2}.
-\end{equation}
-
-\noindent
-Boundary conditions: 
-\begin{align}\nonumber
-& u(0,t) = 0,\\ \nonumber
-& \frac{\partial u}{\partial x}(L,t) = \frac{\tau}{\rho} \sin \left(\frac{\pi t}{L}\right).
-\end{align}
-
-\noindent
-Initial conditions:
-\begin{align}\nonumber
-& u(x,0) = 0,\\ \nonumber
-& \frac{\partial u}{\partial t}(x,0) = 0.
-\end{align}
+      \end{minipage}
+      \hspace{0.01\linewidth}
+      \begin{minipage}{0.45\linewidth}
+         \begin{align}\nonumber
+&\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2} \\ \nonumber
+&\mbox{Boundary conditions: } \\  \nonumber
+& u(0,t) = 0\\ \nonumber
+& \frac{\partial u}{\partial x}(L,t) = 0\\  \nonumber
+&\mbox{Initial conditions:}\\  \nonumber
+& u(x,0) = 0\\ \nonumber
+& \frac{\partial u}{\partial t}(x,0) = v_0\sin \left( \frac{\pi x}{2L} \right)
+\end{align} 
+      \end{minipage}
+  \end{minipage}
 \end{frame}
 
+%%------------------------------------------------------------------------------------------------------------------
+%\begin{frame}{Vibrating hyper-elastic bar}
+%  \begin{minipage}{\linewidth}
+%      \centering
+%      \begin{minipage}{0.45\linewidth}
+%\definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
+%\definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
+%\tikzset{
+%mystyle1/.style={
+%  rectangle,
+%  inner sep=0.05pt,
+%  text width=1mm,
+%  fill=black
+%  }
+%}
+%
+%\tikzset{
+%mystyle2/.style={
+%  circle,
+%  inner sep=0.1pt,
+%  text width=2mm,
+%  fill=red!80
+%  }
+%}
+%\tikzstyle{myarrows}=[line width=0.4mm,draw=darkred,postaction={draw, line width=0.4mm, shorten >=3mm, -}]
+%\begin{figure}[h]
+%\centering
+%\begin{tikzpicture}[scale = 0.48]
+%%structure
+% \draw[fill=black!25] (0.5,2) rectangle (6.5,2.55);
+% \draw[fill=darkblue] (-0.3,3.5) rectangle (0.5,1);
+%%traction force	
+%\draw[->, ultra thick,darkred] (6.5,3.2) -- (8.2,3.2);
+% \draw (7.15,3.9) node {$F_{trac}$};
+%%coordinate
+%\draw[->, thick] (-0.3,0.4)--(8.2,0.4);
+%\draw (7.9, -0.7) node {$x$};
+% %coordinates
+% \draw[thick] (0.5, 0.05)--(0.5,0.35);
+% \draw (0.5,-0.4) node {0};
+% \draw[thick] (6.5, 0.05)--(6.5,0.35);
+% \draw (6.5,-0.4) node {$L$};
+%\end{tikzpicture}
+%\end{figure}
+%      \end{minipage}
+%      \hspace{0.01\linewidth}
+%      \begin{minipage}{0.45\linewidth}
+%         \begin{align}\nonumber
+%&\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2} \\ \nonumber
+%&\mbox{Boundary conditions: } \\  \nonumber
+%& u(0,t) = 0\\ \nonumber
+%& \frac{\partial u}{\partial x}(L,t) = \frac{\tau}{\rho} \sin \left(\frac{\pi t}{L}\right)\\ \nonumber
+%&\mbox{Initial conditions:}\\  \nonumber
+%& u(x,0) = 0\\ \nonumber
+%& \frac{\partial u}{\partial t}(x,0) = 0
+%\end{align} 
+%      \end{minipage}
+%  \end{minipage}
+%\end{frame}
+
+
+
+
 %------------------------------------------------------------------------------------------------------------------
+
 \begin{frame}{Oedometer}
+  \begin{minipage}{\linewidth}
+      \centering
+      \begin{minipage}{0.45\linewidth}
 \definecolor{soil}{cmyk}{0,0.2,0.6,0.2}
 \definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
 \tikzset{
@@ -288,25 +264,24 @@ mystyle2/.style={
 \draw (-1.3,-1) node {0};
 \end{tikzpicture}
 \end{figure}
+      \end{minipage}
+      \hspace{0.01\linewidth}
+      \begin{minipage}{0.45\linewidth}
+         \begin{align}\nonumber
+&\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho} \frac{\partial^2 u}{\partial^2 x} -g \\ \nonumber
+&\mbox{Boundary conditions: } \\  \nonumber
+& u(0,t) = 0,\\ \nonumber
+& \frac{\partial u}{\partial x}(L,t) = \frac{p_0}{E} \\ \nonumber
+&\mbox{Initial conditions:}\\  \nonumber
+& u(x,0) = 0\\ \nonumber
+& \frac{\partial u}{\partial t}(x,0) = v_0\sin \left( \frac{\pi x}{2L} \right)
+\end{align} 
+      \end{minipage}
+  \end{minipage}
 \end{frame}
+
 
 %------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Oedometer: model}
-\begin{equation}\nonumber
-\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho} \frac{\partial^2 u}{\partial y^2} -  g.
-\end{equation}
-Boundary conditions: 
-\begin{align} \nonumber
- &u(0,t)  = 0,\\ \nonumber
- &\frac{\partial u}{\partial y}(H,t)  = -p_0/E.
-\end{align}
-Initial conditions:
-\begin{align} \nonumber
-& u(y,0)=0,\\ \nonumber
-& \frac{\partial u}{\partial t}(y,0)=0. 
-\end{align}
-\end{frame}
-
 
 %-------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Grid-crossing}
@@ -336,7 +311,7 @@ Initial conditions:
 
 \end{tikzpicture}
 \end{center}
-
+\vspace{0.7cm}
 \begin{center}
 \begin{tikzpicture}[scale = 0.4]
 \draw (0,0) coordinate(a_1) -- (10,0) coordinate(a_2);
@@ -370,6 +345,7 @@ Initial conditions:
 \begin{frame}{Grid-crossing: properties of shape functions}
 \begin{center}
 \begin{tikzpicture}[scale=1.5]
+\definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
     % Draw axes
     \draw [-,thick] (0,1.3) node (yaxis) [left] {$N_i$}
         |- (4,0) node (xaxis) [right] {};
@@ -381,8 +357,8 @@ Initial conditions:
     \draw (2,-0.2) node[below] {$x_{i}$};
     \draw (4,-0.2) node[below] {$x_{i+1}$};
     
- \shade[bottom color=gray!10, top color=black!80] (0,0) --(2,0) --(2,1);
- \shade[bottom color=gray!10, top color=black!80] (4,0) --(2,0) --(2,1);
+ \shade[bottom color=darkblue!10, top color=darkblue!80] (0,0) --(2,0) --(2,1);
+ \shade[bottom color=darkblue!10, top color=darkblue!80] (4,0) --(2,0) --(2,1);
 
 \node[draw,circle,inner sep=3pt,fill] at (b_3) {};
 \node[draw,circle,inner sep=3pt,fill] at (b_2) {};
@@ -396,8 +372,9 @@ Initial conditions:
 
 \begin{center}
 \begin{tikzpicture}[scale=1.5]
- \shade[bottom color=gray!10, top color=black!80] (0,0)rectangle +(2,1);
- \shade[top color=gray!10, bottom color=black!80] (2,0) rectangle +(2,-1);
+\definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
+ \shade[bottom color=darkblue!10, top color=darkblue!60] (0,0)rectangle +(2,1);
+ \shade[top color=darkblue!10, bottom color=darkblue!60] (2,0) rectangle +(2,-1);
     % Draw axes
     \draw [-,thick] (0,-1.2) -- (0,1.2) node (yaxis) [left] {$\nabla N_i$}
         |- (4,0) node (xaxis) [right] {};
@@ -427,16 +404,114 @@ Initial conditions:
 %-------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Grid crossing: internal force}
  \begin{align}\nonumber
-  & F_{int}^i \approx \sum_{p=1}^{n_i} \sigma_p \Omega_p - \sum_{p=1}^{n_{i+1}} \sigma_p \Omega_p\\ \nonumber
-  & F_{int}^i \approx \sigma \Omega (n_i - n_{i+1})
+  & F^{int}_{i+1} \approx \sum_{p=1}^{n_i} \nabla N_i(\xi_p)\sigma_p \Omega_p + \sum_{p=1}^{n_{i+1}}\nabla N_i(\xi_p) \sigma_p \Omega_p\\ \nonumber
+  & F^{int}_{i+1} \approx \sigma \Omega (n_i - n_{i+1})\\ \nonumber
+  & \: \\ \nonumber
+  & \begin{cases}F^{int}_{i+1} = 0, &\mbox{if } n_{i} = n_{i+1} \\
+F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}  
  \end{align}
 \end{frame}
 
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Grid crossing: internal force}
+\centering
+\includegraphics[width=0.7\paperwidth,height=0.7\paperheight]{images/Grid_crossing}
+\end{frame}
+
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Grid crossing: vibrating bar}
+\begin{overlayarea}{\textwidth}{6cm}
+\begin{center}
+\only<1>{
+\begin{figure}
+\includegraphics[scale=0.5]{images/vs_vel30}
+\caption{\small{No grid crossing (30 elements).}}
+\end{figure}
+}
+\only<2>{
+\begin{figure}
+\includegraphics[scale=0.5]{images/vs_vel60}
+\caption{\small{Grid crossing (60 elements).}}
+\end{figure}
+}
+\end{center}
+\end{overlayarea}
+\end{frame}
 
 
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Grid crossing: oedometer}
 
+\end{frame}
+%--------------------------------------------------------------------------------------------------------------------
 
+\begin{frame}{Error versus number of elements}
+\begin{table}
+\centering
+ \begin{tabular}{c | c c c}
+   & FEM & MPM(1) & MPM(4)\\
+   \hline
+  4  & $5.3698 \cdot 10^{-4}$ & $1.2918 \cdot 10^{-3}$ & $1.0374 \cdot 10^{-3}$ \\
+  8  & $1.3456 \cdot 10^{-4}$ & $3.2595 \cdot 10^{-4}$ & $2.6167 \cdot 10^{-4}$ \\
+  16 & $3.3657 \cdot 10^{-5}$ & $8.1795 \cdot 10^{-5}$ & $6.5694 \cdot 10^{-5}$ \\
+  32 & $8.4138 \cdot 10^{-6}$ & $2.0632 \cdot 10^{-5}$ & $1.6625 \cdot 10^{-5}$ \\
+  64 & $2.1019 \cdot 10^{-6}$ & $5.4969 \cdot 10^{-6}$ & $4.5505 \cdot 10^{-6}$ \\
+ \end{tabular}
+ \caption{Vibrating bar: RMS Error versus number of elements.}
+\end{table}
+\pause
+\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Order of accuracy]
+All three methods are second order accurate.
+\end{tcolorbox}
+ 
+\end{frame}
+%---------------------------------------------------------------------------------------------------------------------
+\begin{frame}
+\begin{tikzpicture}
+% \begin{semilogyaxis}[ 
+% xlabel={number of elements}, 
+% ylabel={RMS Error} 
+% ] 
 
+\begin{axis}[
+        %height=0.5\textwidth,
+        %width=\textwidth,
+        xlabel=number of elements,
+        xmode=log,
+        log basis x={2},
+        xtick={2,3,4,5,6},
+        ylabel=RMS error,
+        ymode=log,
+        log basis y={2}
+]
+\addplot coordinates { 
+  (4,  5.3698e-04) 
+  (8,  1.3456e-04)
+  (16, 3.3657e-05)
+  (32, 8.4138e-06)
+  (64, 2.1019e-06)
+  };
+
+\addplot coordinates { 
+  (4,  1.2918e-03) 
+  (8,  3.2595 e-04)
+  (16, 8.1795e-05)
+  (32, 2.0632e-05)
+  (64, 5.4969e-06)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+  (4,  1.0374e-03) 
+  (8,  2.6167e-04)
+  (16, 6.5694e-05)
+  (32, 1.6625e-05)
+  (64, 4.5505e-06)
+  };  
+\legend{FEM, MPM(1), MPM(4)} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{frame}
 
 \end{document}
 \grid

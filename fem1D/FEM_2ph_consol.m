@@ -14,7 +14,7 @@ porosity = 0.4;
 density_w = 1E3;
 density_s = (1/0.6)*1.6E3;
 density_sat = (1-porosity)*density_s + porosity*density_w;
-Youngs_modulus = 3E9; %check
+Youngs_modulus = 1E7; %check
 bulk_modulus = 3E9; %check
 permeability = 1E-3; %check
 grav_accel = 10; %10; 
@@ -38,7 +38,7 @@ vel_damped = damped_factor*sqrt(bulk_modulus/density_w);
 
 % Time step %check!
 CFL_number = 0.9;
-total_time = 3E-3; %0.0018; 
+total_time = 0.02; %0.0018; 
 t_cr = min(element_size/vel_undrained,element_size/vel_damped);
 t_step = 1E-6; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); 
@@ -104,7 +104,7 @@ F_grav = assemble_vector(n_e,T,F_grav_loc);
 
 %..Traction forces
 F_w_trac = zeros(n_n,1);
-F_w_trac(end) = pore_pressure;
+%F_w_trac(end) = pore_pressure;
 F_trac = zeros(n_n,1);
 F_trac(end) = total_stress;
 
@@ -198,22 +198,20 @@ clear nt
 % analytical solution for stress
 %[t1, AS, AP] = as_wave_propagation(permeability);
 
-figure(2);
-plot(t,efs(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
+% figure(2);
+% plot(t,efs(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
+% 
+% 
+% 
+% 
+% figure(3);
+% plot(t,pp(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
 
+xgauss = xvec + element_size/2;
+xgauss(end) = [];
 
-
-
-figure(3);
-plot(t,pp(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
-
-
-% figure(4);
-% x = element_size/2:element_size:n_e*element_size;
-% for nt = 1:20:number_time_steps-1
-%    plot(x',pp(:,nt)) 
-%    pause(1)
-% end
+figure(4);
+plot(pp(:,end)/total_stress,xgauss,'LineWidth',2) 
 
 
 

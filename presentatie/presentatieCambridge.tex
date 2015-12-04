@@ -415,7 +415,7 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
 %--------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Grid crossing: internal force}
 \centering
-\includegraphics[width=0.7\paperwidth,height=0.7\paperheight]{images/vib5}
+\includegraphics[width=0.7\paperwidth,height=0.7\paperheight]{images/Grid_crossing}
 \end{frame}
 
 %--------------------------------------------------------------------------------------------------------------------
@@ -445,6 +445,76 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
 \end{frame}
 %--------------------------------------------------------------------------------------------------------------------
 
+\begin{frame}{Error versus number of elements}
+\begin{table}
+\centering
+ \begin{tabular}{c | c c c}
+   & FEM & MPM(1) & MPM(4)\\
+   \hline
+  4  & $5.3698 \cdot 10^{-4}$ & $1.2918 \cdot 10^{-3}$ & $1.0374 \cdot 10^{-3}$ \\
+  8  & $1.3456 \cdot 10^{-4}$ & $3.2595 \cdot 10^{-4}$ & $2.6167 \cdot 10^{-4}$ \\
+  16 & $3.3657 \cdot 10^{-5}$ & $8.1795 \cdot 10^{-5}$ & $6.5694 \cdot 10^{-5}$ \\
+  32 & $8.4138 \cdot 10^{-6}$ & $2.0632 \cdot 10^{-5}$ & $1.6625 \cdot 10^{-5}$ \\
+  64 & $2.1019 \cdot 10^{-6}$ & $5.4969 \cdot 10^{-6}$ & $4.5505 \cdot 10^{-6}$ \\
+ \end{tabular}
+ \caption{Vibrating bar: RMS Error versus number of elements.}
+\end{table}
+\pause
+\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Order of accuracy]
+All three methods are second order accurate.
+\end{tcolorbox}
+ 
+\end{frame}
+%---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Accuracy: vibrating bar}
+\begin{tikzpicture}
+% \begin{semilogyaxis}[ 
+% xlabel={number of elements}, 
+% ylabel={RMS Error} 
+% ] 
+
+\begin{axis}[
+        %height=0.5\textwidth,
+        %width=\textwidth,
+        xlabel=number of elements,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64},
+        xticklabels={2,3,4,5,6},
+        ylabel=RMS error,
+        ymode=log,
+        log basis y={2},
+%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
+%         yticklabels={-9,-11,-13,-15,-17,-19}
+]
+\addplot coordinates { 
+  (4,  5.3698e-04) 
+  (8,  1.3456e-04)
+  (16, 3.3657e-05)
+  (32, 8.4138e-06)
+  (64, 2.1019e-06)
+  };
+
+\addplot coordinates { 
+  (4,  1.2918e-03) 
+  (8,  3.2595 e-04)
+  (16, 8.1795e-05)
+  (32, 2.0632e-05)
+  (64, 5.4969e-06)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+  (4,  1.0374e-03) 
+  (8,  2.6167e-04)
+  (16, 6.5694e-05)
+  (32, 1.6625e-05)
+  (64, 4.5505e-06)
+  };  
+\legend{FEM, MPM(1), MPM(4)} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{frame}
 
 \end{document}
 \grid
