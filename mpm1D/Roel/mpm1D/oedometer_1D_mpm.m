@@ -22,7 +22,7 @@ alpha = 0;
 both_ends_fixed = 0;
 
 % Update volume? Yes: 1; No: 0.
-volume_update = 0;
+volume_update = 1;
 
 % UNDER CONSTRUCTION: Use a lumped matrix or consistent matrix? Lumped: 1; Consistent: 0.
 lumped = 1;
@@ -31,19 +31,19 @@ lumped = 1;
 change_glob_pos = 1;
 
 % Change local positions? Yes: 1; No: 0.
-change_loc_pos = 0;
+change_loc_pos = 1;
 
 % Identical or modified Lagrangian algorithm? Identical: 1; Modified: 0.
-lagranian = 1;
+lagranian = 0;
 
 % Use momentumvector to determine nodal accelerations? Yes: 1; No: 0.
-momentum = 0;
+momentum = 1;
 
 % Update nodal positions every time? Yes: 1; No: 0.
-ULFEM = 1;
+ULFEM = 0;
 
 % Reset mesh at every timestep? Yes: 1; No: 0.
-reset = 0;
+reset = 1;
 
 % Show a pulse for every grid crossing? Yes: 1; No: 0.
 pulse = 1;
@@ -56,8 +56,8 @@ shape = 1;
 
 %% Mesh and particle properties
 % Mesh properties
-number_elements = 30; 
-number_particles_per_element = 1;  
+number_elements = 128; 
+number_particles_per_element = 10;  
 element_size = height/number_elements; 
 mesh_one = 0:element_size:height;
 
@@ -220,6 +220,8 @@ if displ_time == 1
     end
 end
 
+
+velocity_out = velocity_mpm(particle_number,:);
 if velo_time == 1
     figure(2)
     plot(t,velocity_mpm(particle_number,:),'b','LineWidth',2)
@@ -334,6 +336,8 @@ Error = norm(position_exact(:,floor(t_check))-position_mpm_particles(:,floor(t_c
     /sqrt(number_elements*number_particles_per_element)
 
 
-
-
+%% N(h) for Richardson extrapolation 
+Nh1 = position_mpm_particles(1,floor(t_check))
+Nh2 = position_mpm_particles(floor((number_elements+1)/2)+1,floor(t_check))
+Nh3 = position_mpm_particles(end,floor(t_check))
 

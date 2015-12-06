@@ -56,7 +56,7 @@ deformation = 0;
 
 %% Mesh and particle properties
 % Mesh properties
-number_elements = 64; 
+number_elements = 30; 
 number_particles_per_element = 4;  
 element_size = height/number_elements; 
 mesh_one = 0:element_size:height;

@@ -31,6 +31,7 @@
 \usepackage{pgfplots}
 \usepackage{listofsymbols}
 \usepackage{multirow}
+\usepackage{appendixnumberbeamer}
 %\usepackage[pdftex]{hyperref}
 %\usepackage{enumitem}
 \tikzstyle{every picture}+=[remember picture]
@@ -55,6 +56,7 @@
 %outline------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Outline}
 \begin{itemize}
+\item ``Original'' MPM
 \item Numerical accuracy
 \item Benchmarks
 	\begin{itemize}
@@ -62,9 +64,21 @@
 	%\item Vibrating hyper-elastic bar
 	\item Oedometer
 	\end{itemize}
+\item Accuracy of FEM
+\item Grid crossing
 \item
-\item
-\item
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------------------------------------
+\begin{frame}{``Original'' MPM}
+\begin{itemize}
+\item Modified Lagrangian algorithm
+\item Euler-Cromer time integration
+\item Piecewise linear basis functions
+\item No additional interventions
+\pause
+\item Own MATLAB implementation
 \end{itemize}
 \end{frame}
 
@@ -147,70 +161,6 @@ mystyle2/.style={
       \end{minipage}
   \end{minipage}
 \end{frame}
-
-%%------------------------------------------------------------------------------------------------------------------
-%\begin{frame}{Vibrating hyper-elastic bar}
-%  \begin{minipage}{\linewidth}
-%      \centering
-%      \begin{minipage}{0.45\linewidth}
-%\definecolor{darkred}{cmyk}{0,0.9,0.9,0.2}
-%\definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
-%\tikzset{
-%mystyle1/.style={
-%  rectangle,
-%  inner sep=0.05pt,
-%  text width=1mm,
-%  fill=black
-%  }
-%}
-%
-%\tikzset{
-%mystyle2/.style={
-%  circle,
-%  inner sep=0.1pt,
-%  text width=2mm,
-%  fill=red!80
-%  }
-%}
-%\tikzstyle{myarrows}=[line width=0.4mm,draw=darkred,postaction={draw, line width=0.4mm, shorten >=3mm, -}]
-%\begin{figure}[h]
-%\centering
-%\begin{tikzpicture}[scale = 0.48]
-%%structure
-% \draw[fill=black!25] (0.5,2) rectangle (6.5,2.55);
-% \draw[fill=darkblue] (-0.3,3.5) rectangle (0.5,1);
-%%traction force	
-%\draw[->, ultra thick,darkred] (6.5,3.2) -- (8.2,3.2);
-% \draw (7.15,3.9) node {$F_{trac}$};
-%%coordinate
-%\draw[->, thick] (-0.3,0.4)--(8.2,0.4);
-%\draw (7.9, -0.7) node {$x$};
-% %coordinates
-% \draw[thick] (0.5, 0.05)--(0.5,0.35);
-% \draw (0.5,-0.4) node {0};
-% \draw[thick] (6.5, 0.05)--(6.5,0.35);
-% \draw (6.5,-0.4) node {$L$};
-%\end{tikzpicture}
-%\end{figure}
-%      \end{minipage}
-%      \hspace{0.01\linewidth}
-%      \begin{minipage}{0.45\linewidth}
-%         \begin{align}\nonumber
-%&\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho}\frac{\partial^2 u}{\partial x^2} \\ \nonumber
-%&\mbox{Boundary conditions: } \\  \nonumber
-%& u(0,t) = 0\\ \nonumber
-%& \frac{\partial u}{\partial x}(L,t) = \frac{\tau}{\rho} \sin \left(\frac{\pi t}{L}\right)\\ \nonumber
-%&\mbox{Initial conditions:}\\  \nonumber
-%& u(x,0) = 0\\ \nonumber
-%& \frac{\partial u}{\partial t}(x,0) = 0
-%\end{align} 
-%      \end{minipage}
-%  \end{minipage}
-%\end{frame}
-
-
-
-
 %------------------------------------------------------------------------------------------------------------------
 
 \begin{frame}{Oedometer}
@@ -279,11 +229,134 @@ mystyle2/.style={
       \end{minipage}
   \end{minipage}
 \end{frame}
+%---------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Accuracy: vibrating bar}
+\begin{figure}
+\centering
+\begin{tikzpicture}
+% \begin{semilogyaxis}[ 
+% xlabel={number of elements}, 
+% ylabel={RMS Error} 
+% ] 
 
+\begin{axis}[
+        %height=0.5\textwidth,
+        %width=\textwidth,
+        xlabel=$\log_2$(number of elements) ,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64},
+        xticklabels={2,3,4,5,6},
+        ylabel=$\log_2$(RMS error), 
+        ymode=log,
+        log basis y={2},
+	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
+%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
+         yticklabels={-9,-11,-13,-15,-17,-19}
+]
+%\addplot coordinates { 
+%  (4,  5.3698e-04) 
+%  (8,  1.3456e-04)
+%  (16, 3.3657e-05)
+%  (32, 8.4138e-06)
+%  (64, 2.1019e-06)
+%  };
+
+\addplot[color=red, mark=*] coordinates { 
+  (4,  1.2918e-03) 
+  (8,  3.2595 e-04)
+  (16, 8.1795e-05)
+  (32, 2.0632e-05)
+  (64, 5.4969e-06)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+  (4,  1.0374e-03) 
+  (8,  2.6167e-04)
+  (16, 6.5694e-05)
+  (32, 1.6625e-05)
+  (64, 4.5505e-06)
+  };  
+\legend{MPM(1), MPM(4)} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{figure}
+\end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Accuracy: oedometer}
+\begin{table}
+\centering
+ \begin{tabular}{c | c c c}
+   & MPM(1) & MPM(4) & MPM(10)\\
+   \hline
+  4   & -7.4132 $\cdot 10^{-2}$ & -8.0707 $\cdot 10^{-3}$ &-1.1566 $\cdot 10^{-2}$\\
+  8   & -4.5493 $\cdot 10^{-2}$ & -1.0011 $\cdot 10^{-2}$ & -5.8929 $\cdot 10^{-3}$\\
+  16 & 4.2368  $\cdot 10^{-2}$ & -1.9708 $\cdot 10^{-3}$ & 8.9231 $\cdot 10^{-4}$\\
+  32 & & & 4.6725$\cdot 10^{-4}$\\
+ \end{tabular}
+ \caption{$u_{num}(h)-u_{num}(2h)$ as a function of $h$.}
+\end{table}
 
-%-------------------------------------------------------------------------------------------------------------------
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Richardson's extrapolation]
+The accuracy $\alpha$ is obtained from $$\frac{u_{num}(2h)-u_{num}(4h)}{u_{num}(h)-u_{num}(2h)} = 2^{\alpha}.$$
+\end{tcolorbox}
+\end{frame}
+
+%------------------------------------------------------------------------------------------------------------------
+\begin{frame}{FEM: vibrating bar}
+\begin{figure}
+\centering
+\begin{tikzpicture}
+
+\begin{axis}[
+        xlabel=$\log_2$(number of elements) ,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64},
+        xticklabels={2,3,4,5,6},
+        ylabel=$\log_2$(RMS error), 
+        ymode=log,
+        log basis y={2},
+	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
+        yticklabels={-9,-11,-13,-15,-17,-19}
+]
+\addplot coordinates { 
+  (4,  5.3698e-04) 
+  (8,  1.3456e-04)
+  (16, 3.3657e-05)
+  (32, 8.4138e-06)
+  (64, 2.1019e-06)
+  };
+
+\addplot[color=red, mark=*] coordinates { 
+  (4,  1.2918e-03) 
+  (8,  3.2595 e-04)
+  (16, 8.1795e-05)
+  (32, 2.0632e-05)
+  (64, 5.4969e-06)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+  (4,  1.0374e-03) 
+  (8,  2.6167e-04)
+  (16, 6.5694e-05)
+  (32, 1.6625e-05)
+  (64, 4.5505e-06)
+  };  
+\legend{FEM, MPM(1), MPM(4)} 
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+\end{frame}
+
+%------------------------------------------------------------------------------------------------------------------
+\begin{frame}{FEM: oedometer}
+
+
+\end{frame}
+%------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Grid-crossing}
 \begin{center}
 \begin{tikzpicture}[scale = 0.4]
@@ -439,101 +512,92 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
 \end{overlayarea}
 \end{frame}
 
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Oedometer: position}
+\begin{figure}
+\includegraphics[scale=0.5]{images/oedometer_pos_30_10}
+%\caption{\small{Grid crossing (30 elements).}}
+\end{figure}
+\end{frame}
 
 %--------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Grid crossing: oedometer}
+\begin{frame}{Oedometer: velocity}
 \begin{figure}
 \includegraphics[scale=0.5]{images/oedometer_vel_30_10}
 %\caption{\small{Grid crossing (30 elements).}}
 \end{figure}
 \end{frame}
+
 %--------------------------------------------------------------------------------------------------------------------
 
-\begin{frame}{Error versus number of elements}
-\begin{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+\begin{frame}{Settings: vibrating bar}
+\begin{table}[h]
 \centering
- \begin{tabular}{c | c c c c c}
-   & FEM & MPM(1) & MPM(4)\\
-   \hline
-  4   & $5.3698 \cdot 10^{-4}$ &  $1.2918 \cdot 10^{-3}$ & $1.0374 \cdot 10^{-3}$ \\
-  8   & $1.3456 \cdot 10^{-4}$ &  $3.2595 \cdot 10^{-4}$ & $2.6167 \cdot 10^{-4}$ \\
-  16 & $3.3657 \cdot 10^{-5}$ &  $8.1795 \cdot 10^{-5}$ & $6.5694 \cdot 10^{-5}$ \\
-  32 & $8.4138 \cdot 10^{-6}$ &  $2.0632 \cdot 10^{-5}$ & $1.6625 \cdot 10^{-5}$ \\
-  64 & $2.1019 \cdot 10^{-6}$ &  $5.4969 \cdot 10^{-6}$ & $4.5505 \cdot 10^{-6}$ \\
- \end{tabular}
-% \begin{tabular}{c | c c c c c c}
-%   & FEM & factor & MPM(1) & factor & MPM(4)\\
-%   \hline
-%  4   & $5.3698 \cdot 10^{-4}$ &        &  $1.2918 \cdot 10^{-3}$ &         & $1.0374 \cdot 10^{-3}$ \\
-%  8   & $1.3456 \cdot 10^{-4}$ & 3.99 &  $3.2595 \cdot 10^{-4}$ & 3.96 & $2.6167 \cdot 10^{-4}$ \\
-%  16 & $3.3657 \cdot 10^{-5}$ & 4.00 &  $8.1795 \cdot 10^{-5}$ & 3.98 & $6.5694 \cdot 10^{-5}$ \\
-%  32 & $8.4138 \cdot 10^{-6}$ & 4.00 &  $2.0632 \cdot 10^{-5}$ & 3.96 & $1.6625 \cdot 10^{-5}$ \\
-%  64 & $2.1019 \cdot 10^{-6}$ & 4.01 &  $5.4969 \cdot 10^{-6}$ & 3.75 & $4.5505 \cdot 10^{-6}$ \\
-% \end{tabular}
- \caption{Vibrating bar: RMS Error versus number of elements.}
+\begin{tabular}{l | c c c}
+ & Symbol & Value & Unit \\
+\hline
+Length& $L$ & 25 & m\\
+Tension& $E$ & $ 100$ & Pa\\
+Density & $\rho$ & $1$ & kg/m$^3$\\
+Maximum velocity & $v_0$ & 0.1 & m/s\\
+%Load & $p_0$ & $-5\cdot 10^3$ & Pa\\
+%Gravitational acceleration & $g$ & 9.81 & m/s$^2$\\ 
+Time step & $\Delta t$ &$ 1 \cdot10^{-3}$ & s\\
+Measurement time$^1$ & $t$ & 0.5 & s\\
+PPC$^2$ & & 4 & \\
+\end{tabular}
 \end{table}
-\pause
-\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Order of accuracy]
-All three methods are second order accurate.
-\end{tcolorbox}
- 
+
+
+
 \end{frame}
-%---------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Accuracy: vibrating bar}
-\begin{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Settings: oedometer}
+\begin{table}[h]
 \centering
-\begin{tikzpicture}
-% \begin{semilogyaxis}[ 
-% xlabel={number of elements}, 
-% ylabel={RMS Error} 
-% ] 
-
-\begin{axis}[
-        %height=0.5\textwidth,
-        %width=\textwidth,
-        xlabel=$\log_2$(number of elements) ,
-        xmode=log,
-        log basis x={2},
-        xtick = {4,8,16,32,64},
-        xticklabels={2,3,4,5,6},
-        ylabel=$\log_2$(RMS error), 
-        ymode=log,
-        log basis y={2},
-	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
-%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
-         yticklabels={-9,-11,-13,-15,-17,-19}
-]
-%\addplot coordinates { 
-%  (4,  5.3698e-04) 
-%  (8,  1.3456e-04)
-%  (16, 3.3657e-05)
-%  (32, 8.4138e-06)
-%  (64, 2.1019e-06)
-%  };
-
-\addplot[color=red] coordinates { 
-  (4,  1.2918e-03) 
-  (8,  3.2595 e-04)
-  (16, 8.1795e-05)
-  (32, 2.0632e-05)
-  (64, 5.4969e-06)
-  };
-  
-\addplot[color=black,mark=triangle*] coordinates { 
-  (4,  1.0374e-03) 
-  (8,  2.6167e-04)
-  (16, 6.5694e-05)
-  (32, 1.6625e-05)
-  (64, 4.5505e-06)
-  };  
-\legend{MPM(1), MPM(4)} 
-\end{axis}
-%\end{semilogyaxis} 
-\end{tikzpicture}
-\end{figure}
+\begin{tabular}{l | c c c}
+ & Symbol & Value & Unit \\
+\hline
+Height & $L$ & 1 & m\\
+Young's modulus& $E$ & $ 1 \cdot10^5$ & Pa\\
+Density & $\rho$ & $1 \cdot10^3$ & kg/m$^3$\\
+%Maximum velocity & $v_0$ & 0.1 & m/s\\
+Load & $p_0$ & $0$ & Pa\\
+Gravitational acceleration & $g$ & 9.81 & m/s$^2$\\ 
+Time step & $\Delta t$ &$ 1 \cdot10^{-3}$ & s\\
+Measurement time$^1$ & $t$ & 0.5 & s\\
+Position particle$^1$ & $x_p$ & $\approx 0.5$ & m\\
+Number of elements$^2$ & & 30& \\
+PPC$^2$ & & 10 & \\
+\end{tabular}
+\end{table}
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Settings: Steffen}
+\begin{table}[h]
+\centering
+\begin{tabular}{l | c c c}
+ & Symbol & Value & Unit \\
+\hline
+Length& $L$ & 1 & m\\
+Tension& $E$ & $ 100$ & Pa\\
+Density & $\rho$ & $100$ & kg/m$^3$\\
+%Maximum velocity & $v_0$ & 0.1 & m/s\\
+Load & $p_0$ & $0.7$ & Pa\\
+Gravitational acceleration & $g$ & 0  & m/s$^2$\\ 
+Time step & $\Delta t$ &$ 1 \cdot10^{-2}$ & s\\
+Domain & & 1.15 & m \\
+Number of elements & & 20& \\
+PPC & & 10 & \\
+\end{tabular}
+\end{table}
+\end{frame}
 
 \end{document}
-\grid
