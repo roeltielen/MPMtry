@@ -12,16 +12,20 @@ clc
 % Constants
 porosity = 0.4;
 density_w = 1E3;
-density_s = (1/0.6)*1.6E3;
+density_s =  2600; %(1/0.6)*1.6E3;
 density_sat = (1-porosity)*density_s + porosity*density_w;
-Youngs_modulus = 1E7; %check
-bulk_modulus = 3E9; %check
-permeability = 1E-3; %check
-grav_accel = 10; %10; 
+Youngs_modulus = 2.5E9; %1E7; %check
+bulk_modulus = 2E9; %3E8; %check
+permeability = 1E-5; %check
+grav_accel = 10; 
 total_stress = -10E3; %check
 pore_pressure = -10E3; %check
 height = 1; %height/length
 eff_stress = total_stress - pore_pressure;
+
+cv = permeability/(density_w*grav_accel*(1/Youngs_modulus+...
+    porosity/bulk_modulus));
+Tf = 0.02;
 
 % Mesh properties
 n_e = 300; % number of elements
@@ -38,7 +42,7 @@ vel_damped = damped_factor*sqrt(bulk_modulus/density_w);
 
 % Time step %check!
 CFL_number = 0.9;
-total_time = 0.02; %0.0018; 
+total_time = 0.012005; %0.0018; 
 t_cr = min(element_size/vel_undrained,element_size/vel_damped);
 t_step = 1E-6; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); 
@@ -210,11 +214,22 @@ clear nt
 xgauss = xvec + element_size/2;
 xgauss(end) = [];
 
+
+
+%Tf = [0.01]; %[0.02,0.05,0.1,0.2,0.5,1];
+[xas,AS] = as_consolidation();
 figure(4);
-plot(pp(:,end)/total_stress,xgauss,'LineWidth',2) 
-
-
-
-
+for i = 1:length(Tf)
+    (Tf/cv)
+    int16((Tf/cv)/t_step)
+plot(pp(:,int16((Tf/cv)/t_step))/(total_stress),xgauss,'r','LineWidth',2) 
+hold on
+plot(AS(:,i),xas,'-k','LineWidth',2)
+set(gca,'FontSize',11)
+xlabel('normalized pore pressure [-]', 'FontSize', 12)
+ylabel('height [m]','FontSize', 12)
+legend('FEM', 'Exact')
+hold on
+end
 
 
