@@ -1,4 +1,4 @@
-% Vibrating string with fixed ends
+% Vibrating string with one free end
 
 % This file provides input for MPM to compute numerical solution, computes
 % an exact solution, illustrates results and provides the RME error.
@@ -56,8 +56,8 @@ deformation = 0;
 
 %% Mesh and particle properties
 % Mesh properties
-number_elements = 30; 
-number_particles_per_element = 4;  
+number_elements = 8; 
+number_particles_per_element = 1;  
 element_size = height/number_elements; 
 mesh_one = 0:element_size:height;
 mesh_two = 0:element_size/2:height;

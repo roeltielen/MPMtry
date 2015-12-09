@@ -6,7 +6,7 @@
 
 % This file provides input for MPM to computes numerical solution, provides
 % an exact solution and illustrates results
-format long
+
 %clear all
 %close all
 %beep off
@@ -26,31 +26,31 @@ alpha = 0;
 both_ends_fixed = 0;
 
 % Update volume? Yes: 1; No: 0.
-volume_update = 0;
+volume_update = 1;
 
 % UNDER CONSTRUCTION: Use a lumped matrix or consistent matrix? Lumped: 1; Consistent: 0.
 lumped = 1;
 
 % Change global positions? Yes: 1; No: 0.
-change_glob_pos = 0;
+change_glob_pos = 1;
 
 % Change local positions? Yes: 1; No: 0.
-change_loc_pos = 0;
+change_loc_pos = 1;
 
 % Identical or modified Lagrangian algorithm? Identical: 1; Modified: 0.
-lagranian = 1;
+lagranian = 0;
 
 % Use momentumvector to determine nodal accelerations? Yes: 1; No: 0.
-momentum = 0;
+momentum = 1;
 
 % Update nodal positions every time? Yes: 1; No: 0.
 ULFEM = 0;
 
 % Reset mesh at every timestep? Yes: 1; No: 0.
-reset = 0;
+reset = 1;
 
 % Show a pulse for every grid crossing? Yes: 1; No: 0.
-pulse = 0;
+pulse = 1;
 
 % Apply stress computation for large deformation? Yes: 1; No: 0.
 deformation = 0;
@@ -60,8 +60,8 @@ shape = 1;
 
 %% Mesh and particle properties
 % Mesh properties
-number_elements = 128;
-number_particles_per_element = 1;
+number_elements = 4;
+number_particles_per_element = 4;
 element_size = height/number_elements;
 mesh_one = 0:element_size:height;
 
@@ -346,14 +346,13 @@ Error = norm(position_exact(:,floor(t_check))-position_mpm_particles(:,floor(t_c
 
 
 %% N(h) for Richardson extrapolation
-figure(15)
 plot(t,position_mpm_particles(floor(number_elements*...
     number_particles_per_element/2),:))
-floor(t_check)
+
 Nh_14 = position_mpm_particles(floor(number_elements*...
-    number_particles_per_element/4),floor(t_check))
+    number_particles_per_element/4),floor(t_check));
 Nh_12 = position_mpm_particles(floor(number_elements*...
-    number_particles_per_element/2),floor(t_check))
+    number_particles_per_element/2),floor(t_check));
 Nh_34 = position_mpm_particles(floor(3*number_elements*...
-    number_particles_per_element/4),floor(t_check))
+    number_particles_per_element/4),floor(t_check));
 %end
