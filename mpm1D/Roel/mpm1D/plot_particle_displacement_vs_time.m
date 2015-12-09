@@ -5,7 +5,7 @@ function [] = plot_particle_displacement_vs_time(particle_number,...
 % INPUT: nodes for which the displacement should be plotted, numerical
 % solution, exact solution, time vector
 
-plot(t,num_sol, 'LineWidth',2)
+plot(t,num_sol,'k', 'LineWidth',2)
 hold on
 plot(t,exact_sol,'--r', 'LineWidth',2)
 xlabel('time [s]', 'FontSize', 12)

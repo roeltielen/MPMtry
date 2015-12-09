@@ -218,13 +218,13 @@ mystyle2/.style={
       \hspace{0.01\linewidth}
       \begin{minipage}{0.45\linewidth}
          \begin{align}\nonumber
-&\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho} \frac{\partial^2 u}{\partial^2 x} -g \\ \nonumber
+&\frac{\partial^2 u}{\partial t^2} = \frac{E}{\rho} \frac{\partial^2 u}{\partial^2 y} -g \\ \nonumber
 &\mbox{Boundary conditions: } \\  \nonumber
-& u(0,t) = 0,\\ \nonumber
-& \frac{\partial u}{\partial x}(L,t) = \frac{p_0}{E} \\ \nonumber
+& u(0,t) = 0\\ \nonumber
+& \frac{\partial u}{\partial y}(H,t) = \frac{p_0}{E} \\ \nonumber
 &\mbox{Initial conditions:}\\  \nonumber
-& u(x,0) = 0\\ \nonumber
-& \frac{\partial u}{\partial t}(x,0) = 0
+& u(y,0) = 0\\ \nonumber
+& \frac{\partial u}{\partial t}(y,0) = 0
 \end{align} 
       \end{minipage}
   \end{minipage}
@@ -322,7 +322,7 @@ The accuracy $\alpha$ is obtained from $$\frac{u_{num}(2h)-u_{num}(4h)}{u_{num}(
 	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
         yticklabels={-9,-11,-13,-15,-17,-19}
 ]
-\addplot coordinates { 
+\addplot[color=blue,mark=square*] coordinates { 
   (4,  5.3698e-04) 
   (8,  1.3456e-04)
   (16, 3.3657e-05)

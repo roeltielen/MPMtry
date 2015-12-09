@@ -24,39 +24,39 @@ v_0 = 0.1;
 both_ends_fixed = 0;
 
 % Update volume? Yes: 1; No: 0.
-volume_update = 0;
+volume_update = 1;
 
 % UNDER CONSTRUCTION: Use a lumped matrix or consistent matrix? Lumped: 1; Consistent: 0.
 lumped = 1;
 
 % Change global positions? Yes: 1; No: 0.
-change_glob_pos = 0;
+change_glob_pos = 1;
 
 % Change local positions? Yes: 1; No: 0.
-change_loc_pos = 0;
+change_loc_pos = 1;
 
 % Identical or modified Lagrangian algorithm? Identical: 1; Modified: 0.
-lagranian = 1;
+lagranian = 0;
 
 % Use momentumvector to determine nodal accelerations? Yes: 1; No: 0.
-momentum = 0;
+momentum = 1;
 
 % Update nodal positions? Yes: 1; No: 0.
 ULFEM = 0;
 
 % Show a pulse for every grid crossing? Yes: 1; No: 0.
-pulse = 0;
+pulse = 1;
 
 % UNDER CONSTRUCTION: Linear or Quadratic shape functions? Linear: 1; Quadratic: 0.
 shape = 1;
 
-reset = 0;
+reset = 1;
 
 deformation = 0;
 
 %% Mesh and particle properties
 % Mesh properties
-number_elements = 60; 
+number_elements = 30; 
 number_particles_per_element = 4;  
 element_size = height/number_elements; 
 mesh_one = 0:element_size:height;
@@ -258,9 +258,9 @@ node_number = floor((number_elements+1)/2);
 
 if displ_time == 1
     figure(1)
-    %plot_particle_displacement_vs_time(particle_number, position_mpm_particles(particle_number,:), position_exact(particle_number,:),t, ULFEM, change_loc_pos)
-    %
-    %figure(8)
+    plot_particle_displacement_vs_time(particle_number, position_mpm_particles(particle_number,:), position_exact(particle_number,:),t, ULFEM, change_loc_pos)
+    
+    figure(8)
     plot(t,position_mpm(node_number+1,:),'k','LineWidth',2)
     hold on
     plot(t,position_exact_nodes(node_number+1,:),'--r','LineWidth',2)
