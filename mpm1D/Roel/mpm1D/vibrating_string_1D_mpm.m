@@ -13,7 +13,7 @@ format long
 % Constants
 density = 1;
 Youngs_modulus = 100;
-gravitational_acceleration = 0; 
+gravitational_acceleration = -0.81; 
 load = 0;
 height = 25; 
 alpha = 0;
@@ -24,39 +24,39 @@ v_0 = 0.1;
 both_ends_fixed = 0;
 
 % Update volume? Yes: 1; No: 0.
-volume_update = 1;
+volume_update = 0;
 
 % UNDER CONSTRUCTION: Use a lumped matrix or consistent matrix? Lumped: 1; Consistent: 0.
 lumped = 1;
 
 % Change global positions? Yes: 1; No: 0.
-change_glob_pos = 1;
+change_glob_pos = 0;
 
 % Change local positions? Yes: 1; No: 0.
-change_loc_pos = 1;
+change_loc_pos = 0;
 
 % Identical or modified Lagrangian algorithm? Identical: 1; Modified: 0.
-lagranian = 0;
+lagranian = 1;
 
 % Use momentumvector to determine nodal accelerations? Yes: 1; No: 0.
-momentum = 1;
+momentum = 0;
 
 % Update nodal positions? Yes: 1; No: 0.
 ULFEM = 0;
 
 % Show a pulse for every grid crossing? Yes: 1; No: 0.
-pulse = 1;
+pulse = 0;
 
 % UNDER CONSTRUCTION: Linear or Quadratic shape functions? Linear: 1; Quadratic: 0.
 shape = 1;
 
-reset = 1;
+reset = 0;
 
 deformation = 0;
 
 %% Mesh and particle properties
 % Mesh properties
-number_elements = 8; 
+number_elements = 32; 
 number_particles_per_element = 1;  
 element_size = height/number_elements; 
 mesh_one = 0:element_size:height;
@@ -81,7 +81,7 @@ pos_p_glob = pos_p_minloc + element_size*pos_p_loc;
 
 % Time step 
 CFL_number = 0.9;
-total_time = 15; 
+total_time = 2.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
 t_step = 1E-3; %CFL_number*t_cr
 number_time_steps = floor(total_time/t_step); 
@@ -396,6 +396,19 @@ t_check = floor(length(t)/5);
 Error = norm(position_exact(:,floor(t_check))-position_mpm_particles...
     (:,floor(t_check)))/sqrt(number_elements*number_particles_per_element)
 
+Nh_14 = position_mpm(floor(number_elements...
+    /4 +1),floor(t_check))
+Nh_12 = position_mpm(floor(number_elements...
+   /2+1),floor(t_check))
+Nh_34 = position_mpm(floor(3*number_elements...
+   /4+1),floor(t_check))
+
+Nh_14_end = position_mpm(floor(number_elements...
+   /4+1),end)
+Nh_12_end = position_mpm(floor(number_elements...
+    /2+1),end)
+Nh_34_end = position_mpm(floor(3*number_elements...
+    /4+1),end)
 
 
 

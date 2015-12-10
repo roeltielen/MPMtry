@@ -231,17 +231,61 @@ mystyle2/.style={
 \end{frame}
 %---------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Accuracy: vibrating bar}
+\begin{overlayarea}{\textwidth}{6cm}
+\begin{center}
+\only<2>{
 \begin{figure}
 \centering
-\begin{tikzpicture}
-% \begin{semilogyaxis}[ 
-% xlabel={number of elements}, 
-% ylabel={RMS Error} 
-% ] 
-
+\begin{tikzpicture}[scale=0.9]
 \begin{axis}[
-        %height=0.5\textwidth,
-        %width=\textwidth,
+        xlabel=$\log_2$(number of elements) ,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64, 128},
+        xticklabels={2,3,4,5,6,7},
+        ylabel=$\log_2$(RMS error), 
+        ymode=log,
+        log basis y={2},
+	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06, 4.768371582031250e-007},
+%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
+         yticklabels={-9,-11,-13,-15,-17,-19,-21}
+]
+%\addplot coordinates { 
+%  (4,  5.3698e-04) 
+%  (8,  1.3456e-04)
+%  (16, 3.3657e-05)
+%  (32, 8.4138e-06)
+%  (64, 2.1019e-06)
+%  };
+
+\addplot[color=red, mark=*] coordinates { 
+  (4,  1.2918e-03) 
+  (8,  3.2595 e-04)
+  (16, 8.1795e-05)
+  (32, 2.0632e-05)
+  (64, 5.4969e-06)
+  (128, 2.1502e-06) 
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+  (4,  1.0374e-03) 
+  (8,  2.6167e-04)
+  (16, 6.5694e-05)
+  (32, 1.6625e-05)
+  (64, 4.5505e-06)
+  (128, 1.9769e-06) 
+  };  
+\legend{MPM(1), MPM(4)} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{figure}
+}
+\only<1>{
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=0.9]
+\begin{axis}[
         xlabel=$\log_2$(number of elements) ,
         xmode=log,
         log basis x={2},
@@ -282,26 +326,34 @@ mystyle2/.style={
 %\end{semilogyaxis} 
 \end{tikzpicture}
 \end{figure}
+}
+\end{center}
+\end{overlayarea}
+
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Accuracy: oedometer}
-\begin{table}
-\centering
- \begin{tabular}{c | c c c}
-   & MPM(1) & MPM(4) & MPM(10)\\
-   \hline
-  4   & -7.4132 $\cdot 10^{-2}$ & -8.0707 $\cdot 10^{-3}$ &-1.1566 $\cdot 10^{-2}$\\
-  8   & -4.5493 $\cdot 10^{-2}$ & -1.0011 $\cdot 10^{-2}$ & -5.8929 $\cdot 10^{-3}$\\
-  16 & 4.2368  $\cdot 10^{-2}$ & -1.9708 $\cdot 10^{-3}$ & 8.9231 $\cdot 10^{-4}$\\
-  32 & & & 4.6725$\cdot 10^{-4}$\\
- \end{tabular}
- \caption{$u_{num}(h)-u_{num}(2h)$ as a function of $h$.}
-\end{table}
-
 \begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Richardson's extrapolation]
-The accuracy $\alpha$ is obtained from $$\frac{u_{num}(2h)-u_{num}(4h)}{u_{num}(h)-u_{num}(2h)} = 2^{\alpha}.$$
+The order of accuracy $n$ is obtained from $$\frac{u_{num}(2h)-u_{num}(4h)}{u_{num}(h)-u_{num}(2h)} = 2^{n}.$$
 \end{tcolorbox}
+\end{frame}
+
+%------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Accuracy: oedometer}
+\centering
+\begin{overlayarea}{\textwidth}{6cm}
+\only<1>{
+\begin{figure}
+\includegraphics[scale=0.55]{images/accuracy_oedometer_langer}
+\end{figure}
+}
+\only<2>{
+\begin{figure}
+\includegraphics[scale=0.55]{images/accuracy_oedometer_zoomed}
+\end{figure}
+}
+\end{overlayarea}
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
@@ -353,7 +405,6 @@ The accuracy $\alpha$ is obtained from $$\frac{u_{num}(2h)-u_{num}(4h)}{u_{num}(
 
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{FEM: oedometer}
-
 
 \end{frame}
 %------------------------------------------------------------------------------------------------------------------

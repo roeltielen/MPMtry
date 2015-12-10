@@ -17,16 +17,16 @@ load = 0;
 height = 1; %height/length
 
 % Mesh properties
-number_elements = 64; % number of elements
+number_elements = 128; % number of elements
 element_size = height/number_elements; 
 mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 %EXACT SOLUTION
 
 % Time step 
 CFL_number = 0.9;
-total_time = 2.5; 
+total_time = 0.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = 1E-3; %CFL_number*t_cr;
+t_step = 1E-4; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -180,11 +180,10 @@ end
 
 if compute_error == 1
     % Compute the norm of the discretization error in 2-norm
-    
-    mesh(number_elements/2+1)
-    Nh1 = displacement_fem(number_elements/2+1, T_step)
-    mesh(number_elements+1)
-    Nh2 = displacement_fem(number_elements+1, T_step)
+    Nh1 = mesh(number_elements/2+1)+displacement_fem(number_elements/2+1, floor(length(t)/5))
+    Nh2 = mesh(number_elements+1)+displacement_fem(number_elements+1, floor(length(t)/5))
+    Nh1_end = mesh(number_elements/2+1)+displacement_fem(number_elements/2+1, end)
+    Nh2_end = mesh(number_elements+1)+displacement_fem(number_elements+1, end)
     errnrm = compute_error_norm(displacement_fem(:,T_step),...
     displacement_exactT, M_lump);
     fprintf('For time t = %e\n', T)

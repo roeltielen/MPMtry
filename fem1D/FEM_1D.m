@@ -67,10 +67,10 @@ for n=1:n_time_steps-1
     end
     v(:,n+1) = v(:,n)+ a*t_step;
     if both_ends_fixed == 1
-        v(1) = 0;
-        v(n_n) = 0;
+        v(1,n+1) = 0;
+        v(n_n,n+1) = 0;
     else
-        v(1) = 0;
+        v(1,n+1) = 0;
     end
     u(:,n+1) = u(:,n) + v(:,n+1)*t_step;
     if both_ends_fixed == 1
