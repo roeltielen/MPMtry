@@ -343,7 +343,7 @@ mystyle2/.style={
 	\end{tcolorbox}
 	\only<3>{
 	\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Conclusion]
-	\small{Lack of spatial convergence.}
+	\small{Lack of convergence.}
 	\end{tcolorbox}
 	}
       \end{minipage}
@@ -410,7 +410,7 @@ mystyle2/.style={
 	\pause
 	\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Observations]
 	\begin{itemize}
-	 \item Lack of spatial convergence
+	 \item Lack of convergence
 	 \item Problems arise due to external forces\\
 	 \begin{align}\nonumber
 	 & \mathbf{M}\frac{d \mathbf{v}}{dt} = \mathbf{F}_{ext}-\mathbf{F}_{int},\\ \nonumber

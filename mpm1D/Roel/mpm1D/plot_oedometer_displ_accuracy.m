@@ -14,5 +14,6 @@ ylabel('position [m]', 'Fontsize',12)
 %title(sprintf('Position of node %d',node_4),'FontSize', 12)
 legend('h=1/4','h=1/8','h=1/16')
 hold on
-set(gcf, 'PaperPosition', [0 0 6 7]);
-set(gcf, 'PaperSize', [6 4.5]);
+set(gcf, 'PaperUnits','normalized')
+set(gcf, 'PaperPosition', [0 0 1 1]);
+%set(gcf, 'PaperSize', [6 4.7]);

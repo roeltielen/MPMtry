@@ -1,4 +1,4 @@
-function[node_out,position_out,t] = oedometer_1phase(number_elements)
+%function[node_out,position_out,t] = oedometer_1phase(number_elements)
 % function[displacement_out,node_out,t_out] = oedometer_1phase(both_ends_fixed,...
 %     volume_update,lumped,change_glob_pos,change_loc_pos,lagranian,...
 %     momentum,ULFEM,reset,pulse,deformation,shape,...
@@ -8,10 +8,10 @@ function[node_out,position_out,t] = oedometer_1phase(number_elements)
 % This file provides input for MPM to computes numerical solution, provides
 % an exact solution and illustrates results
 format long
-%clear all
-%close all
-%beep off
-%clc
+clear all
+close all
+beep off
+clc
 
 %% Input
 % Constants
@@ -61,8 +61,8 @@ shape = 1;
 
 %% Mesh and particle properties
 % Mesh properties
-%number_elements = 32;
-number_particles_per_element = 1;
+number_elements = 32;
+number_particles_per_element = 4;
 element_size = height/number_elements;
 mesh_one = 0:element_size:height;
 
