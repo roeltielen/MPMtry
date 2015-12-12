@@ -1,4 +1,4 @@
-\documentclass[mathserif,professionalfont]{beamer}
+\documentclass[mathserif,professionalfont,hyperref={pdfpagelabels=false}]{beamer}
 \usepackage{pxfonts} 
 %\usepackage{eulervm}
 \usepackage[english]{babel}
@@ -32,8 +32,8 @@
 \usepackage{listofsymbols}
 \usepackage{multirow}
 \usepackage{appendixnumberbeamer}
-%\usepackage[pdftex]{hyperref}
-%\usepackage{enumitem}
+\usepackage[scaled]{helvet}
+\usepackage[round]{natbib}
 \tikzstyle{every picture}+=[remember picture]
 \tikzstyle{na} = [baseline=-.5ex]
 
@@ -44,6 +44,7 @@
 \date[\today]{\today}
 
 \definecolor{blueM}{rgb}{0.4, 0.6, 0.8}
+
 
 \begin{document}
 %titel----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -93,6 +94,16 @@ $Error_{RMS} = \sqrt{\frac{1}{n_p} \left(\sum_{p=1}^{n_p}u_{num}(x_p,t) - u_{ex}
 \begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Accuracy in displacement]
 For $\Delta t \to 0$, the order of accuracy is equal to $n$, i.e. the reduction of $\Delta x$ by a factor of 2 decreases the RMS error by $2^n$.
 \end{tcolorbox}
+\end{frame}
+
+%------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Previous results}
+\begin{tabular}{l c}
+ 2 & \citet{}\\
+ 0.5 - 1 & \\
+ no spatial convergence & \\
+\end{tabular}
+ 
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
@@ -696,6 +707,30 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
 \end{frame}
 
 %--------------------------------------------------------------------------------------------------------------------
+
+\begin{frame}{References}
+\begin{thebibliography}{22}
+     \bibitem[Gong (1988)]{foo} Gong M. (1998). Bar. \emph{CONF 1988}.
+\end{thebibliography}
+%\setbeamertemplate{bibliography item}[online]
+% \bibitem{A} ItemA
+% \setbeamertemplate{bibliography item}[book]
+% \bibitem{B} ItemB
+% \setbeamertemplate{bibliography item}[article]
+% \bibitem{C} ItemC
+% \setbeamertemplate{bibliography item}[triangle]
+% \bibitem{D} ItemD
+%\setbeamertemplate{bibliography item}[text]
+% \bibitem{E} D.~Sulsky, Z.~Chen, H.~L. Schreyer.
+% \newblock {\em A Particle method for history-dependent materials}.
+% \newblock Computer Methods in Applied Mechanics and Engineering 118, pp. 179-196, 1994.
+
+\end{frame}
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
