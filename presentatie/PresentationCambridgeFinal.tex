@@ -83,28 +83,62 @@
 \item No additional interventions
 \pause
 \item Own MATLAB implementation
+\item 1D (UL)FEM/MPM 
 \item Simplified version of Deltares' code
 \end{itemize}
 \end{frame}
 
+%%------------------------------------------------------------------------------------------------------------------
+%\begin{frame}{Numerical accuracy}
+%\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Numerical Approximation]
+%$u_{ex} = u_{num} + \mathcal{O}(\Delta x^n) + \mathcal{O}(\Delta t^m)$ %with $n \leq 2$
+%\end{tcolorbox}
+%\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=RMS Error]
+%$Error_{RMS} = \sqrt{\frac{1}{n_p} \sum_{p=1}^{n_p}\left(u_{num}(x_p,t) - u_{ex}(x_p,t)\right)^2}$
+%\end{tcolorbox}
+%\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Accuracy in displacement]
+%For $\Delta t \to 0$, the order of accuracy is equal to $n$, i.e. the reduction of $\Delta x$ by a factor of 2 decreases the RMS error by $2^n$.
+%\end{tcolorbox}
+%\end{frame}
+
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Numerical accuracy}
+\begin{overlayarea}{\textwidth}{6cm}
 \begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Numerical Approximation]
 $u_{ex} = u_{num} + \mathcal{O}(\Delta x^n) + \mathcal{O}(\Delta t^m)$ %with $n \leq 2$
 \end{tcolorbox}
+\pause
+\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Example]
+\begin{overlayarea}{\textwidth}{1.1cm}
+\begin{tabular}{l l l}
+$n$ & Grid size      & Error\\
+     & $\Delta x$    & $E$\\
+
+\only<2>{
+1\hspace{0.115cm}     & $\Delta x/2$ & $E/2$\\
+}
+\only<3-4>{
+2\hspace{0.01cm}    & $\Delta x /2$ & $E/4$ 
+}
+\end{tabular}
+\end{overlayarea}
+\end{tcolorbox}
+\only<4>{
 \begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=RMS Error]
 $Error_{RMS} = \sqrt{\frac{1}{n_p} \sum_{p=1}^{n_p}\left(u_{num}(x_p,t) - u_{ex}(x_p,t)\right)^2}$
 \end{tcolorbox}
-\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Accuracy in displacement]
-For $\Delta t \to 0$, the order of accuracy is equal to $n$, i.e. the reduction of $\Delta x$ by a factor of 2 decreases the RMS error by $2^n$.
-\end{tcolorbox}
+}
+\end{overlayarea}
 \end{frame}
-
 %------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Previous results}
-\begin{tcolorbox}[colback=red!5,colframe=red!50!black]
+\begin{frame}{Numerical Accuracy}
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Temporal accuracy]
+MPM is first order accurate in time, i.e. $m=1$. 
+\end{tcolorbox}
+\pause
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Spatial accuracy]
 \begin{tabular}{l l}
-\textbf{Order of accuracy} & \textbf{Source}\\
+\textbf{Order of spatial accuracy} & \textbf{Source}\\
 & \\
  2 & \citet{gong, steffen}\\
 & \\
@@ -147,18 +181,21 @@ mystyle2/.style={
  \draw[fill=black!25] (0.5,2) rectangle (6.5,2.55);
  \draw[fill=darkblue] (-0.3,3.5) rectangle (0.5,1);
 %initial velocity
-\foreach \i in {1,...,5}
-{
-        \pgfmathsetmacro{\z}{0.5 + (6/5)*\i};
-        \pgfmathsetmacro{\y}{2.275};
-        \pgfmathsetmacro{\l}{1.5*sin((175*\z)/12)};
-        \draw[myarrows] (\z,\y) -- (\z,\y+\l);
-	\draw[->, ultra thick,darkred] (\z,\y+1.01*\l) -- (\z,\y+1.05*\l);
-}
+%\foreach \i in {1,2,3,4,5}
+%{
+%        \pgfmathsetmacro{\z}{0.5 + (6/5)*\i};
+%        \pgfmathsetmacro{\y}{2.275};
+%        \pgfmathsetmacro{\l}{1.1*sin((175*\z)/12)};
+%        \draw[myarrows] (\z,\y) -- (\z+\l,\y);
+%	\draw[->, ultra thick,darkred] (\z+1.01*\l,\y) -- (\z+1.05*\l,\y);
+%}
+%\draw (7.2,3.2) node {$v_0$};
+
 \draw (7.2,3.2) node {$v_0$};
+\draw[->, ultra thick,darkred] (6,2.275) -- (6.5+1.05*2,2.275);
 %coordinate
-\draw[->, thick] (-0.3,0.2)--(7.8,0.2);
-\draw (7.5, -0.4) node {$x$};
+\draw[->, thick] (-0.3,0.2)--(8.9,0.2);
+\draw (8.5, -0.4) node {$x$};
  %coordinates
  \draw[thick] (0.5, 0.05)--(0.5,0.35);
  \draw (0.5,-0.4) node {0};
@@ -258,11 +295,13 @@ mystyle2/.style={
 \centering
 \begin{tikzpicture}[scale=0.9]
 \begin{axis}[
-        xlabel=$\log_2$(number of elements) ,
+	%xlabel=$\log_2$(number of elements) ,
+        xlabel=number of elements ,
         xmode=log,
         log basis x={2},
         xtick = {4,8,16,32,64},
-        xticklabels={2,3,4,5,6},
+       % xticklabels={2,3,4,5,6},
+	xticklabels={4,8,16,32,64},
         ylabel=$\log_2$(RMS error), 
         ymode=log,
         log basis y={2},
@@ -304,11 +343,13 @@ mystyle2/.style={
 \centering
 \begin{tikzpicture}[scale=0.9]
 \begin{axis}[
-        xlabel=$\log_2$(number of elements) ,
+        %xlabel=$\log_2$(number of elements) ,
+	xlabel=number of elements ,
         xmode=log,
         log basis x={2},
         xtick = {4,8,16,32,64, 128},
-        xticklabels={2,3,4,5,6,7},
+	%xticklabels={2,3,4,5,6,7},
+        xticklabels={4,8,16,32,64, 128},
         ylabel=$\log_2$(RMS error), 
         ymode=log,
         log basis y={2},
@@ -361,7 +402,7 @@ mystyle2/.style={
 	\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Richardson's extrapolation]
 	\small{The order of accuracy $n$ is obtained from $$\frac{u_{num}(2h)-u_{num}(4h)}{u_{num}(h)-u_{num}(2h)} = 2^{n}.$$}
 	\end{tcolorbox}
-	\only<3>{
+	\only<2>{
 	\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Conclusion]
 	\small{Lack of spatial convergence.}
 	\end{tcolorbox}
@@ -383,13 +424,9 @@ mystyle2/.style={
 
 
        \begin{overlayarea}{\textwidth}{6cm}
-      \only<1>{
+      \only<1-2>{
       \centering
       \includegraphics[scale=0.42]{images/accuracy_oedometer_langer}
-      }
-      \only<2-3>{
-      \centering
-      \includegraphics[scale=0.42]{images/accuracy_oedometer_zoomed}
       }
 \end{overlayarea}
       \end{minipage}
@@ -445,62 +482,15 @@ mystyle2/.style={
 
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{FEM: vibrating bar}
-\begin{overlayarea}{\textwidth}{6cm}
 \begin{center}
-\only<1>{
 \begin{figure}
-\centering
 \begin{tikzpicture}[scale=0.9]
 \begin{axis}[
-        xlabel=$\log_2$(number of elements) ,
-        xmode=log,
-        log basis x={2},
-        xtick = {4,8,16,32,64},
-        xticklabels={2,3,4,5,6},
-        ylabel=$\log_2$(RMS error), 
-        ymode=log,
-        log basis y={2},
-	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
-        yticklabels={-9,-11,-13,-15,-17,-19}
-]
-\addplot[color=blue,mark=square*] coordinates { 
-  (4,  5.3698e-04) 
-  (8,  1.3456e-04)
-  (16, 3.3657e-05)
-  (32, 8.4138e-06)
-  (64, 2.1019e-06)
-  };
-
-\addplot[color=red, mark=*] coordinates { 
-  (4,  1.2918e-03) 
-  (8,  3.2595 e-04)
-  (16, 8.1795e-05)
-  (32, 2.0632e-05)
-  (64, 5.4969e-06)
-  };
-  
-\addplot[color=black,mark=triangle*] coordinates { 
-  (4,  1.0374e-03) 
-  (8,  2.6167e-04)
-  (16, 6.5694e-05)
-  (32, 1.6625e-05)
-  (64, 4.5505e-06)
-  };  
-\legend{FEM, MPM(1), MPM(4)} 
-\end{axis}
-\end{tikzpicture}
-\end{figure}
-}
-\only<2>{
-\begin{figure}
-\centering
-\begin{tikzpicture}[scale=0.9]
-\begin{axis}[
-        xlabel=$\log_2$(number of elements) ,
+        xlabel=number of elements,
         xmode=log,
         log basis x={2},
         xtick = {4,8,16,32,64, 128},
-        xticklabels={2,3,4,5,6,7},
+        xticklabels={4,8,16,32,64, 128},
         ylabel=$\log_2$(RMS error), 
         ymode=log,
         log basis y={2},
@@ -539,15 +529,15 @@ mystyle2/.style={
 %\end{semilogyaxis} 
 \end{tikzpicture}
 \end{figure}
-}
 \end{center}
-\end{overlayarea}
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Grid-crossing}
 \begin{center}
 \begin{tikzpicture}[scale = 0.4]
+\definecolor{darkblue}{cmyk}{0.9,0.1,0.1,0.2}
+
 \draw (0,0) coordinate(a_1) -- (10,0) coordinate(a_2);
 \draw (a_1) -- (20,0) coordinate (a_3);
 
@@ -563,10 +553,10 @@ mystyle2/.style={
 \node[draw,circle,inner sep=3pt,fill] at (a_2) {};
 \node[draw,circle,inner sep= 3pt,fill] at (a_3) {};
 
-\node[draw,circle,inner sep=2.5pt,fill, color =orange] at (4,0) {};
+\node[draw,circle,inner sep=2.5pt,fill, color =darkblue] at (4,0) {};
 \node[draw,circle,inner sep=2.5pt,fill, color = red] at (7.5,0) {};
-\node[draw,circle,inner sep=2.5pt,fill, color =orange] at (14.5,0) {};
-\node[draw,circle,inner sep=2.5pt,fill, color =orange] at (17,0) {};
+\node[draw,circle,inner sep=2.5pt,fill, color =darkblue] at (14.5,0) {};
+\node[draw,circle,inner sep=2.5pt,fill, color =darkblue] at (17,0) {};
 
  \draw[-to] (8,1) to[bend left] (12,1);
 
@@ -575,6 +565,7 @@ mystyle2/.style={
 \vspace{0.7cm}
 \begin{center}
 \begin{tikzpicture}[scale = 0.4]
+\definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
 \draw (0,0) coordinate(a_1) -- (10,0) coordinate(a_2);
 \draw (a_1) -- (20,0) coordinate (a_3);
 
@@ -590,10 +581,10 @@ mystyle2/.style={
 \node[draw,circle,inner sep=3pt,fill] at (a_2) {};
 \node[draw,circle,inner sep= 3pt,fill] at (a_3) {};
 
-\node[draw,circle,inner sep=2.5pt,fill, color =orange] at (5,0) {};
+\node[draw,circle,inner sep=2.5pt,fill, color =darkblue] at (5,0) {};
 \node[draw,circle,inner sep=2.5pt,fill, color = red] at (13,0) {};
-\node[draw,circle,inner sep=2.5pt,fill, color =orange] at (15,0) {};
-\node[draw,circle,inner sep=2.5pt,fill, color =orange] at (18.25,0) {};
+\node[draw,circle,inner sep=2.5pt,fill, color =darkblue] at (15,0) {};
+\node[draw,circle,inner sep=2.5pt,fill, color =darkblue] at (18.25,0) {};
 
 
 
@@ -662,17 +653,7 @@ mystyle2/.style={
 
 \end{frame}
 
-%-------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Grid crossing: internal force}
- \begin{align}\nonumber
-  & F^{int}_{i+1} \approx \sum_{p=1}^{n_i} \nabla N_i(\xi_p)\sigma_p \Omega_p + \sum_{p=1}^{n_{i+1}}\nabla N_i(\xi_p) \sigma_p \Omega_p\\ \nonumber
-  & F^{int}_{i+1} \approx \sigma \Omega (n_i - n_{i+1})\\ \nonumber
-  & \: \\ \nonumber
-  & \begin{cases}F^{int}_{i+1} = 0, &\mbox{if } n_{i} = n_{i+1} \\
-\: \\
-F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}  
- \end{align}
-\end{frame}
+
 
 %--------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Grid crossing: internal force}
@@ -717,126 +698,6 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
 \end{frame}
 
 
-%--------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Depenence on PPC: vibrating string}
-\begin{figure}
-\begin{tikzpicture}[scale=0.9]
-\begin{axis}[
-        xlabel=$\log_2$(number of elements) ,
-        xmode=log,
-        log basis x={2},
-        xtick = {4,8,16,32,64, 128,256,512},
-        xticklabels={2,3,4,5,6,7,8,9},
-        ylabel=$\log_2$(RMS error), 
-        ymode=log,
-        log basis y={2},
-	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
-%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
-         yticklabels={-9,-11,-13,-15,-17,-19}
-]
-\addplot[color=blue,mark=square*] coordinates { 
-(4,1.037385e-03)
-(8,2.616727e-04)
-(16,6.569391e-05)
-(32,1.662519e-05)
-(64,4.550497e-06)
-(128,1.976922e-06)
-(256,5.355537e-06)
-(512,1.847240e-05)
-  };
-  
-\addplot[color=red, mark=*] coordinates { 
-(4,9.917325e-04)
-(8,2.501276e-04)
-(16,6.280135e-05)
-(32,1.590612e-05)
-(64,4.383044e-06)
-(128,2.983375e-06)
-(256,7.372661e-06)
-(512, 1.611112e-05)
-  };
-  
-\addplot[color=black,mark=triangle*] coordinates { 
-(4,9.667486e-04)
-(8,2.438081e-04)
-(16,6.121801e-05)
-(32,1.551265e-05)
-(64,4.252232e-06)
-(128,3.928155e-06)
-(256,8.992277e-06)
-(512,1.168189e-05)
-  };  
-\legend{4 PPC, 6 PPC, 8 PPC} 
-\end{axis}
-%\end{semilogyaxis} 
-\end{tikzpicture}
-\end{figure}
-\end{frame}
-
-%--------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Depenence on PPC: oedometer}
-\begin{figure}
-\pgfplotsset{every axis legend/.append style={
-    at={(0.31,0.99)},
-    anchor=north east}}
-\begin{tikzpicture}[scale=0.9]
-\begin{axis}[
-        xlabel=$\log_2$(number of elements) ,
-        xmode=log,
-        log basis x={2},
-        xtick = {4,8,16,32,64, 128},
-        xticklabels={2,3,4,5,6,7},
-        ylabel=$\log_2$(RMS error), 
-        ymode=log,
-        log basis y={2},
-	ytick = {0.0078125, 0.001953125, 4.8828125e-04, 1.220703125e-04},
-%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
-         yticklabels={-7,-9,-11,-13}
-]
-\addplot[color=blue,mark=square*] coordinates { 
-(4, 0.0041)
-(8, 0.0019)
-(12, 7.7723e-04)
-(16, 3.8530e-04)
-(24, 3.5351e-04)
-(32, 3.4308e-04)
-(48, 0.0013)
-(64, 0.0029)
-(96, 0.0062)
-(128,  0.0164)
-  };
-  
-\addplot[color=red, mark=*] coordinates { 
-(4,0.0040) 
-(8,0.0018)  
-(12,7.4299e-04) 
-(16,3.7734e-04)  
-(24,3.5202e-04)
-(32, 5.8636e-04) 
-(48,0.0028)   
-(64,0.0025)
-(96,0.0042)  
-(128,0.0084)
-  };
-  
-\addplot[color=black,mark=triangle*] coordinates { 
-(4,0.0040) 
-(8,0.0018)  
-(12,7.2461e-04)
-(16,3.7349e-04)  
-(24,4.3493e-04)   
-(32,0.0011)  
-(48,0.0022)     
-(64,0.0027)  
-(96,0.0042)  
-(128,0.0063)
-};
-\legend{4 PPC, 6 PPC, 8 PPC} 
-\end{axis}
-%\end{semilogyaxis} 
-\end{tikzpicture}
-\end{figure}
-\end{frame}
 
 %--------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Main sources of spatial errors}
@@ -854,6 +715,17 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
 \end{itemize}
 \end{tcolorbox}
 
+\end{frame}
+
+%------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Conclusions}
+\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Vibrating bar]
+Without grid crossing 2nd order accuracy.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Oedometer]
+Lack of convergence due to grid crossing and external forces.
+\end{tcolorbox}
 \end{frame}
 
 %-------------------------------------------------------------------------------------------------------------------
@@ -917,6 +789,139 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
 %\end{tcolorbox}
 %
 %\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Grid crossing: internal force}
+ \begin{align}\nonumber
+  & F^{int}_{i+1} \approx \sum_{p=1}^{n_i} \nabla N_i(\xi_p)\sigma_p \Omega_p + \sum_{p=1}^{n_{i+1}}\nabla N_i(\xi_p) \sigma_p \Omega_p\\ \nonumber
+  & F^{int}_{i+1} \approx \sigma \Omega (n_i - n_{i+1})\\ \nonumber
+  & \: \\ \nonumber
+  & \begin{cases}F^{int}_{i+1} = 0, &\mbox{if } n_{i} = n_{i+1} \\
+\: \\
+F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}  
+ \end{align}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Depenence on PPC: vibrating string}
+\begin{figure}
+\begin{tikzpicture}[scale=0.9]
+\begin{axis}[
+        xlabel=number of elements,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64, 128,256,512},
+        xticklabels={4,8,16,32,64, 128,256,512},
+        ylabel=$\log_2$(RMS error), 
+        ymode=log,
+        log basis y={2},
+	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
+%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
+         yticklabels={-9,-11,-13,-15,-17,-19}
+]
+\addplot[color=blue,mark=square*] coordinates { 
+(4,1.037385e-03)
+(8,2.616727e-04)
+(16,6.569391e-05)
+(32,1.662519e-05)
+(64,4.550497e-06)
+(128,1.976922e-06)
+(256,5.355537e-06)
+(512,1.847240e-05)
+  };
+  
+\addplot[color=red, mark=*] coordinates { 
+(4,9.917325e-04)
+(8,2.501276e-04)
+(16,6.280135e-05)
+(32,1.590612e-05)
+(64,4.383044e-06)
+(128,2.983375e-06)
+(256,7.372661e-06)
+(512, 1.611112e-05)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+(4,9.667486e-04)
+(8,2.438081e-04)
+(16,6.121801e-05)
+(32,1.551265e-05)
+(64,4.252232e-06)
+(128,3.928155e-06)
+(256,8.992277e-06)
+(512,1.168189e-05)
+  };  
+\legend{4 PPC, 6 PPC, 8 PPC} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Depenence on PPC: oedometer}
+\begin{figure}
+\pgfplotsset{every axis legend/.append style={
+    at={(0.31,0.99)},
+    anchor=north east}}
+\begin{tikzpicture}[scale=0.9]
+\begin{axis}[
+        xlabel=number of elements,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64, 128},
+        xticklabels={4,8,16,32,64, 128},
+        ylabel=$\log_2$(RMS error), 
+        ymode=log,
+        log basis y={2},
+	ytick = {0.0078125, 0.001953125, 4.8828125e-04, 1.220703125e-04},
+%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
+         yticklabels={-7,-9,-11,-13}
+]
+\addplot[color=blue,mark=square*] coordinates { 
+(4, 0.0041)
+(8, 0.0019)
+(12, 7.7723e-04)
+(16, 3.8530e-04)
+(24, 3.5351e-04)
+(32, 3.4308e-04)
+(48, 0.0013)
+(64, 0.0029)
+(96, 0.0062)
+(128,  0.0164)
+  };
+  
+\addplot[color=red, mark=*] coordinates { 
+(4,0.0040) 
+(8,0.0018)  
+(12,7.4299e-04) 
+(16,3.7734e-04)  
+(24,3.5202e-04)
+(32, 5.8636e-04) 
+(48,0.0028)   
+(64,0.0025)
+(96,0.0042)  
+(128,0.0084)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+(4,0.0040) 
+(8,0.0018)  
+(12,7.2461e-04)
+(16,3.7349e-04)  
+(24,4.3493e-04)   
+(32,0.0011)  
+(48,0.0022)     
+(64,0.0027)  
+(96,0.0042)  
+(128,0.0063)
+};
+\legend{4 PPC, 6 PPC, 8 PPC} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{figure}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Settings: vibrating bar}
