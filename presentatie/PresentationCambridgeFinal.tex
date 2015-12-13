@@ -65,9 +65,12 @@
 	%\item Vibrating hyper-elastic bar
 	\item Oedometer
 	\end{itemize}
-\item Accuracy of FEM
+\item Sources of spatial errors
+\begin{itemize}
+\item Analogy with FEM
 \item Grid crossing
-\item
+\end{itemize}
+\item Outlook
 \end{itemize}
 \end{frame}
 
@@ -80,16 +83,17 @@
 \item No additional interventions
 \pause
 \item Own MATLAB implementation
+\item Simplified version of Deltares' code
 \end{itemize}
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Numerical accuracy}
 \begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Numerical Approximation]
-$u_{ex} = u_{num} + \mathcal{O}(\Delta x^n) + \mathcal{O}(\Delta t)$ %with $n \leq 2$
+$u_{ex} = u_{num} + \mathcal{O}(\Delta x^n) + \mathcal{O}(\Delta t^m)$ %with $n \leq 2$
 \end{tcolorbox}
 \begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=RMS Error]
-$Error_{RMS} = \sqrt{\frac{1}{n_p} \left(\sum_{p=1}^{n_p}u_{num}(x_p,t) - u_{ex}(x_p,t)\right)^2}$
+$Error_{RMS} = \sqrt{\frac{1}{n_p} \sum_{p=1}^{n_p}\left(u_{num}(x_p,t) - u_{ex}(x_p,t)\right)^2}$
 \end{tcolorbox}
 \begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Accuracy in displacement]
 For $\Delta t \to 0$, the order of accuracy is equal to $n$, i.e. the reduction of $\Delta x$ by a factor of 2 decreases the RMS error by $2^n$.
@@ -98,12 +102,17 @@ For $\Delta t \to 0$, the order of accuracy is equal to $n$, i.e. the reduction 
 
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Previous results}
-\begin{tabular}{l c}
- 2 & \citet{}\\
- 0.5 - 1 & \\
- no spatial convergence & \\
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black]
+\begin{tabular}{l l}
+\textbf{Order of accuracy} & \textbf{Source}\\
+& \\
+ 2 & \citet{gong, steffen}\\
+& \\
+ 0.5 - 1 & \citet{tran}\\
+& \\
+ lack of spatial convergence & \citet{gong, steffen} \\
 \end{tabular}
- 
+\end{tcolorbox} 
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
@@ -416,7 +425,7 @@ mystyle2/.style={
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{FEM: oedometer}
 	\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Theoretical order of accuracy]
-	$k+1$, where $k$ is the order of the interpolating polynomials.
+	$k+1$, where $k$ is the order of the interpolating polynomials\footnotemark.
 	\end{tcolorbox}
 	\pause
 	\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Observations]
@@ -431,6 +440,7 @@ mystyle2/.style={
 	\end{itemize}
 
 	\end{tcolorbox}
+\footnotetext{\citet{kan}}
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
@@ -706,25 +716,177 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
 \end{figure}
 \end{frame}
 
+
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Depenence on PPC: vibrating string}
+\begin{figure}
+\begin{tikzpicture}[scale=0.9]
+\begin{axis}[
+        xlabel=$\log_2$(number of elements) ,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64, 128,256,512},
+        xticklabels={2,3,4,5,6,7,8,9},
+        ylabel=$\log_2$(RMS error), 
+        ymode=log,
+        log basis y={2},
+	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
+%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
+         yticklabels={-9,-11,-13,-15,-17,-19}
+]
+\addplot[color=blue,mark=square*] coordinates { 
+(4,1.037385e-03)
+(8,2.616727e-04)
+(16,6.569391e-05)
+(32,1.662519e-05)
+(64,4.550497e-06)
+(128,1.976922e-06)
+(256,5.355537e-06)
+(512,1.847240e-05)
+  };
+  
+\addplot[color=red, mark=*] coordinates { 
+(4,9.917325e-04)
+(8,2.501276e-04)
+(16,6.280135e-05)
+(32,1.590612e-05)
+(64,4.383044e-06)
+(128,2.983375e-06)
+(256,7.372661e-06)
+(512, 1.611112e-05)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+(4,9.667486e-04)
+(8,2.438081e-04)
+(16,6.121801e-05)
+(32,1.551265e-05)
+(64,4.252232e-06)
+(128,3.928155e-06)
+(256,8.992277e-06)
+(512,1.168189e-05)
+  };  
+\legend{4 PPC, 6 PPC, 8 PPC} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{figure}
+\end{frame}
+
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Depenence on PPC: oedometer}
+\begin{figure}
+\pgfplotsset{every axis legend/.append style={
+    at={(0.31,0.99)},
+    anchor=north east}}
+\begin{tikzpicture}[scale=0.9]
+\begin{axis}[
+        xlabel=$\log_2$(number of elements) ,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64, 128},
+        xticklabels={2,3,4,5,6,7},
+        ylabel=$\log_2$(RMS error), 
+        ymode=log,
+        log basis y={2},
+	ytick = {0.0078125, 0.001953125, 4.8828125e-04, 1.220703125e-04},
+%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
+         yticklabels={-7,-9,-11,-13}
+]
+\addplot[color=blue,mark=square*] coordinates { 
+(4, 0.0041)
+(8, 0.0019)
+(12, 7.7723e-04)
+(16, 3.8530e-04)
+(24, 3.5351e-04)
+(32, 3.4308e-04)
+(48, 0.0013)
+(64, 0.0029)
+(96, 0.0062)
+(128,  0.0164)
+  };
+  
+\addplot[color=red, mark=*] coordinates { 
+(4,0.0040) 
+(8,0.0018)  
+(12,7.4299e-04) 
+(16,3.7734e-04)  
+(24,3.5202e-04)
+(32, 5.8636e-04) 
+(48,0.0028)   
+(64,0.0025)
+(96,0.0042)  
+(128,0.0084)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+(4,0.0040) 
+(8,0.0018)  
+(12,7.2461e-04)
+(16,3.7349e-04)  
+(24,4.3493e-04)   
+(32,0.0011)  
+(48,0.0022)     
+(64,0.0027)  
+(96,0.0042)  
+(128,0.0063)
+};
+\legend{4 PPC, 6 PPC, 8 PPC} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{figure}
+\end{frame}
+
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Main sources of spatial errors}
+\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Presented today]
+\begin{itemize}
+\item Errors arising due to external forces
+\item Grid crossing errors
+\end{itemize}
+\end{tcolorbox}
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Other sources]
+\begin{itemize}
+\item Mass mapping error
+\item Momentum mapping error
+\item Force mapping error
+\end{itemize}
+\end{tcolorbox}
+
+\end{frame}
+
+%-------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Outlook}
+\begin{itemize}
+\item External forces: further analysis 
+\pause
+\item Higher order interpolation functions
+\pause
+\item 2D MPM code in MATLAB
+\pause
+\item Deltares' implementation: analysis and recommendations
+\end{itemize}
+\end{frame}
+
+
 %--------------------------------------------------------------------------------------------------------------------
 
 \begin{frame}{References}
 \begin{thebibliography}{22}
-     \bibitem[Gong (1988)]{foo} Gong M. (1998). Bar. \emph{CONF 1988}.
+ \bibitem[Gong (2015)]{gong} Gong M.
+ \newblock {\em Improving the Material Point Method.}
+ \newblock The University of New Mexico, July, 2015.
+ \bibitem[Van Kan (2008)]{kan} Van Kan J., Segal A., Vermolen F. 
+\newblock {\em Numerical methods in scientific computing.}
+ \newblock Delft University of Technology, 2008.
+ \bibitem[Steffen (2008)]{steffen} Steffen M., Kirby R. M., Berzins M. 
+\newblock {\em Analysis and reduction of quadrature errors in the material point method (MPM).}
+ \newblock International Journal for Numerical Methods in Engineering 76, pp. 922-946, 2008.
+ \bibitem[Tran (2010)]{tran} Tran L.T., Kim J., Berzins M. 
+\newblock {\em Solving time-dependent PDEs using the material point method, a case study from gas dynamics.}
+ \newblock International Journal for Numerical Methods in Fluids 62, pp. 709-732, 2010.
 \end{thebibliography}
-%\setbeamertemplate{bibliography item}[online]
-% \bibitem{A} ItemA
-% \setbeamertemplate{bibliography item}[book]
-% \bibitem{B} ItemB
-% \setbeamertemplate{bibliography item}[article]
-% \bibitem{C} ItemC
-% \setbeamertemplate{bibliography item}[triangle]
-% \bibitem{D} ItemD
-%\setbeamertemplate{bibliography item}[text]
-% \bibitem{E} D.~Sulsky, Z.~Chen, H.~L. Schreyer.
-% \newblock {\em A Particle method for history-dependent materials}.
-% \newblock Computer Methods in Applied Mechanics and Engineering 118, pp. 179-196, 1994.
-
 \end{frame}
 
 
@@ -737,6 +899,26 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \appendix
+
+
+%\begin{frame}{Main sources of spatial errors}
+%\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Presented today]
+%\begin{itemize}
+%\item Errors arising due to external forces
+%\item Grid crossing errors
+%\end{itemize}
+%\end{tcolorbox}
+%\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Other sources]
+%\begin{itemize}
+%\item Mass mapping error
+%\item Momentum mapping error
+%\item Force mapping error
+%\end{itemize}
+%\end{tcolorbox}
+%
+%\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Settings: vibrating bar}
 \begin{table}[h]
 \centering

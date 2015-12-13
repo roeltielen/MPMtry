@@ -1,19 +1,21 @@
+function[Error] = vibrating_string_1D_mpm(number_elements, number_particles_per_element)
+
 % Vibrating string with one free end
 
 % This file provides input for MPM to compute numerical solution, computes
 % an exact solution, illustrates results and provides the RME error.
 
-clear all
-close all
-beep off
-clc 
+% clear all
+% close all
+% beep off
+% clc 
 format long
 
 %% Input
 % Constants
 density = 1;
 Youngs_modulus = 100;
-gravitational_acceleration = -0.81; 
+gravitational_acceleration = 0; 
 load = 0;
 height = 25; 
 alpha = 0;
@@ -24,22 +26,22 @@ v_0 = 0.1;
 both_ends_fixed = 0;
 
 % Update volume? Yes: 1; No: 0.
-volume_update = 0;
+volume_update = 1;
 
 % UNDER CONSTRUCTION: Use a lumped matrix or consistent matrix? Lumped: 1; Consistent: 0.
 lumped = 1;
 
 % Change global positions? Yes: 1; No: 0.
-change_glob_pos = 0;
+change_glob_pos = 1;
 
 % Change local positions? Yes: 1; No: 0.
-change_loc_pos = 0;
+change_loc_pos = 1;
 
 % Identical or modified Lagrangian algorithm? Identical: 1; Modified: 0.
-lagranian = 1;
+lagranian = 0;
 
 % Use momentumvector to determine nodal accelerations? Yes: 1; No: 0.
-momentum = 0;
+momentum = 1;
 
 % Update nodal positions? Yes: 1; No: 0.
 ULFEM = 0;
@@ -50,14 +52,14 @@ pulse = 0;
 % UNDER CONSTRUCTION: Linear or Quadratic shape functions? Linear: 1; Quadratic: 0.
 shape = 1;
 
-reset = 0;
+reset = 1;
 
 deformation = 0;
 
 %% Mesh and particle properties
 % Mesh properties
-number_elements = 32; 
-number_particles_per_element = 1;  
+%number_elements = 32; 
+%number_particles_per_element = 1;  
 element_size = height/number_elements; 
 mesh_one = 0:element_size:height;
 mesh_two = 0:element_size/2:height;
@@ -228,19 +230,19 @@ clear n
 
 %% Flags
 % Plot displacement versus time for the selected particle? Yes: 1; No: 0 
-displ_time = 1; 
+displ_time = 0; 
 
 % Plot velocity vector versus time for the selected particle? Yes: 1; No: 0
-velo_time = 1;
+velo_time = 0;
 
 % Plot velocity vector versus time for the selected node? Yes: 1; No: 0
-velo_time_nodes = 1;
+velo_time_nodes = 0;
 
 % Plot energy of the system? Yes: 1; No: 0
 energy_plot = 0;
 
 % Plot the internal force of a single node? Yes: 1; No: 0
-force_internal_plot = 1;
+force_internal_plot = 0;
 
 % Make a waterfall plot of the velocity of all particles? Yes: 1; No: 0
 waterfall_plot = 0;
