@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.8.7)  13 DEC 2015 23:56
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.8.7)  14 DEC 2015 08:20
 entering extended mode
 **C:/Users/Lisa/Desktop/MPMtry/presentatie/PresentationCambridgeFinal.tex
 (C:/Users/Lisa/Desktop/MPMtry/presentatie/PresentationCambridgeFinal.tex
@@ -2124,13 +2124,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [26
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 729--729
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 733--733
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 729.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 733.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2140,13 +2140,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [27
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 742--742
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 733--733
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 742.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 733.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2156,13 +2156,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [28
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 742--742
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 733--733
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 742.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 733.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2172,13 +2172,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [29
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 742--742
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 748--748
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 742.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 748.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2188,13 +2188,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [30
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 742--742
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 748--748
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 742.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 748.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2204,18 +2204,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [31
 
 ]
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10.95> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 762.
-LaTeX Font Info:    Font shape `OT1/phv/m/sl' will be
-(Font)              scaled to size 10.40245pt on input line 762.
-
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 762--762
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 748--748
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 762.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 748.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2225,13 +2220,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [32
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 804--804
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 748--748
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 804.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 748.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2241,13 +2236,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [33
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 859--859
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 748--748
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 859.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 748.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2257,13 +2252,18 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [34
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 924--924
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10.95> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 768.
+LaTeX Font Info:    Font shape `OT1/phv/m/sl' will be
+(Font)              scaled to size 10.40245pt on input line 768.
+
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 768--768
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 924.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 768.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2273,13 +2273,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [35
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 947--947
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 810--810
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 947.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 810.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2289,13 +2289,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [36
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 969--969
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 865--865
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 969.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 865.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2305,13 +2305,13 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [37
 
 ]
-Overfull \hbox (16.38635pt too wide) in paragraph at lines 990--990
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 930--930
 []|  []  
  []
 
 File: images/tudelft_logo.pdf Graphic file (type pdf)
 <use images/tudelft_logo.pdf>
-Package pdftex.def Info: images/tudelft_logo.pdf used on input line 990.
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 930.
 (pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
 
 Overfull \hbox (1.57895pt too wide) has occurred while \output is active
@@ -2321,26 +2321,74 @@ Overfull \hbox (1.57895pt too wide) has occurred while \output is active
 [38
 
 ]
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 953--953
+[]|  []  
+ []
+
+File: images/tudelft_logo.pdf Graphic file (type pdf)
+<use images/tudelft_logo.pdf>
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 953.
+(pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
+
+Overfull \hbox (1.57895pt too wide) has occurred while \output is active
+[] [][] 
+ []
+
+[39
+
+]
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 975--975
+[]|  []  
+ []
+
+File: images/tudelft_logo.pdf Graphic file (type pdf)
+<use images/tudelft_logo.pdf>
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 975.
+(pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
+
+Overfull \hbox (1.57895pt too wide) has occurred while \output is active
+[] [][] 
+ []
+
+[40
+
+]
+Overfull \hbox (16.38635pt too wide) in paragraph at lines 996--996
+[]|  []  
+ []
+
+File: images/tudelft_logo.pdf Graphic file (type pdf)
+<use images/tudelft_logo.pdf>
+Package pdftex.def Info: images/tudelft_logo.pdf used on input line 996.
+(pdftex.def)             Requested size: 30.69476pt x 11.38109pt.
+
+Overfull \hbox (1.57895pt too wide) has occurred while \output is active
+[] [][] 
+ []
+
+[41
+
+]
 \tf@nav=\write9
 \tf@toc=\write10
 \tf@snm=\write11
 \@syc=\write12
 \@suc=\write13
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 992.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 992.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 998.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 998.
  (C:\Users\Lisa\Desktop\MPMtry\presentatie\PresentationCambridgeFinal.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 992.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 992.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 998.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 998.
 Package rerunfilecheck Info: File `PresentationCambridgeFinal.out' has not chan
 ged.
 (rerunfilecheck)             Checksum: A7F4D589709A975A14292322A595ED53;42.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 992.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 998.
  ) 
 Here is how much of TeX's memory you used:
- 32605 strings out of 493921
- 741256 string characters out of 3147286
+ 32612 strings out of 493921
+ 741332 string characters out of 3147286
  946789 words of memory out of 3000000
- 34962 multiletter control sequences out of 15000+200000
+ 34963 multiletter control sequences out of 15000+200000
  57609 words of font info for 153 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  50i,21n,74p,1003b,2257s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -2358,9 +2406,9 @@ ic/uhvr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb
 ><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/palatino/uplb8a.pfb><C:/Program F
 iles/MiKTeX 2.9/fonts/type1/urw/palatino/uplr8a.pfb><C:/Program Files/MiKTeX 2.
 9/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on PresentationCambridgeFinal.pdf (38 pages, 596049 bytes).
+Output written on PresentationCambridgeFinal.pdf (41 pages, 617680 bytes).
 PDF statistics:
- 1300 PDF objects out of 1440 (max. 8388607)
- 79 named destinations out of 1000 (max. 500000)
- 333 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1391 PDF objects out of 1440 (max. 8388607)
+ 85 named destinations out of 1000 (max. 500000)
+ 351 words of extra memory for PDF output out of 10000 (max. 10000000)
 

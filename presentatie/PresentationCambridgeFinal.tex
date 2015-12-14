@@ -707,24 +707,28 @@ mystyle2/.style={
 \item Grid crossing errors
 \end{itemize}
 \end{tcolorbox}
-\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Other sources]
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Other sources\footnotemark]
 \begin{itemize}
 \item Mass mapping error
 \item Momentum mapping error
 \item Force mapping error
 \end{itemize}
 \end{tcolorbox}
-
+\footnotetext{\citet{tran}}
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Conclusions}
 \begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Vibrating bar]
-Without grid crossing 2nd order accuracy.
+Second order accuracy: unless particles  cross element boundaries.
 \end{tcolorbox}
-
+\pause
 \begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Oedometer]
-Lack of convergence due to grid crossing and external forces.
+Lack of convergence: due to external forces and grid crossing.
+\end{tcolorbox}
+\pause
+\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Both problems]
+Other error sources can be involved.
 \end{tcolorbox}
 \end{frame}
 
@@ -732,6 +736,8 @@ Lack of convergence due to grid crossing and external forces.
 \begin{frame}{Outlook}
 \begin{itemize}
 \item External forces: further analysis 
+\pause
+\item Other sources of spatial error
 \pause
 \item Higher order interpolation functions
 \pause
