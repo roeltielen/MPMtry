@@ -36,9 +36,9 @@
 \usepackage[round]{natbib}
 \tikzstyle{every picture}+=[remember picture]
 \tikzstyle{na} = [baseline=-.5ex]
+\usepgfplotslibrary{units}
 
-
-\title[Accuracy of original MPM]{Accuracy of original MPM}
+\title[Accuracy of ``original'' MPM]{Accuracy of ``original'' MPM}
 %\institute[]{}
 \author[]{Lisa Wobbes, Roel Tielen}
 \date[\today]{\today}
@@ -105,25 +105,29 @@
 \begin{frame}{Numerical accuracy}
 \begin{overlayarea}{\textwidth}{6cm}
 \begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Numerical Approximation]
-$u_{ex} = u_{num} + \mathcal{O}(\Delta x^n) + \mathcal{O}(\Delta t^m)$ %with $n \leq 2$
+$u_{ex} = u_{num} + \mathcal{O}(\Delta x^n) \only<1>{ +\mathcal{O}(\Delta t^m)}$ %with $n \leq 2$
 \end{tcolorbox}
 \pause
-\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Example]
+\pause
+\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Spatial accuracy]
 \begin{overlayarea}{\textwidth}{1.1cm}
 \begin{tabular}{l l l}
-$n$ & Grid size      & Error\\
+\hspace{0.15cm}$n$ & Grid size      & Error\\
      & $\Delta x$    & $E$\\
 
-\only<2>{
+\only<3>{
 1\hspace{0.115cm}     & $\Delta x/2$ & $E/2$\\
 }
-\only<3-4>{
+\only<4>{
 2\hspace{0.01cm}    & $\Delta x /2$ & $E/4$ 
+}
+\only<5-6>{
+\hspace{-0.06cm}$k$    & $\Delta x /2$ & $E/2^k$ 
 }
 \end{tabular}
 \end{overlayarea}
 \end{tcolorbox}
-\only<4>{
+\only<6>{
 \begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=RMS Error]
 $Error_{RMS} = \sqrt{\frac{1}{n_p} \sum_{p=1}^{n_p}\left(u_{num}(x_p,t) - u_{ex}(x_p,t)\right)^2}$
 \end{tcolorbox}
@@ -192,7 +196,7 @@ mystyle2/.style={
 %\draw (7.2,3.2) node {$v_0$};
 
 \draw (7.2,3.2) node {$v_0$};
-\draw[->, ultra thick,darkred] (6,2.275) -- (6.5+1.05*2,2.275);
+\draw[arrows={-latex'}, ultra thick,darkred] (6,2.275) -- (6.5+1.05*2,2.275);
 %coordinate
 \draw[->, thick] (-0.3,0.2)--(8.9,0.2);
 \draw (8.5, -0.4) node {$x$};
@@ -243,7 +247,7 @@ mystyle2/.style={
   fill=red!80
   }
 }
-\tikzstyle{myarrows}=[line width=0.4mm,draw=darkred,postaction={draw, line width=0.4mm, shorten >=3mm, -}]
+\tikzstyle{myarrows}=[line width=0.4mm,arrows={-latex'},darkred, postaction={draw, line width=0.4mm, shorten >=3mm, -}]
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}
@@ -257,9 +261,9 @@ mystyle2/.style={
  \draw[myarrows] (0.7,3) -- (0.7,2.35);
  \draw[myarrows] (1.5,3) -- (1.5,2.35);
  \draw[myarrows] (2.3,3) -- (2.3,2.35);
-\draw[->, ultra thick,darkred] (0.7,2.35) -- (0.7,2.34);
-\draw[->, ultra thick,darkred] (1.5,2.35) -- (1.5,2.34);
-\draw[->, ultra thick,darkred] (2.3,2.35) -- (2.3,2.34);
+%\draw[arrows={-latex'}, ultra thick,darkred] (0.7,2.35) -- (0.7,2.34);
+%\draw[arrows={-latex'}, ultra thick,darkred] (1.5,2.35) -- (1.5,2.34);
+%\draw[arrows={-latex'}, ultra thick,darkred] (2.3,2.35) -- (2.3,2.34);
  \draw (1.55,3.3) node {$p_0$};
 %coordinate axis
 \draw[->, thick] (-1,-1.2)--(-1,3.3);
@@ -303,6 +307,7 @@ mystyle2/.style={
        % xticklabels={2,3,4,5,6},
 	xticklabels={4,8,16,32,64},
         ylabel=$\log_2$(RMS error), 
+	y unit=m,
         ymode=log,
         log basis y={2},
 	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
@@ -351,6 +356,7 @@ mystyle2/.style={
 	%xticklabels={2,3,4,5,6,7},
         xticklabels={4,8,16,32,64, 128},
         ylabel=$\log_2$(RMS error), 
+	y unit=m,
         ymode=log,
         log basis y={2},
 	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06, 4.768371582031250e-007},
@@ -462,7 +468,7 @@ mystyle2/.style={
 %------------------------------------------------------------------------------------------------------------------
 \begin{frame}{FEM: oedometer}
 	\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=Theoretical order of accuracy]
-	$k+1$, where $k$ is the order of the interpolating polynomials\footnotemark.
+	2nd order accurate for PW basis functions when integrated using Gauss rule with 1 Gauss point per element\footnotemark.
 	\end{tcolorbox}
 	\pause
 	\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Observations]
@@ -470,8 +476,8 @@ mystyle2/.style={
 	 \item Lack of spatial convergence
 	 \item Problems arise due to external forces\\
 	 \begin{align}\nonumber
-	 & \mathbf{M}\frac{d \mathbf{v}}{dt} = \mathbf{F}_{ext}-\mathbf{F}_{int},\\ \nonumber
-	 & \mbox{where } \mathbf{F}_{ext} = \mathbf{N}(H)^Tp_0 - \int_0^H \mathbf{N}^T\rho g dy
+	 & \mathbf{M}\frac{d \mathbf{v}}{dt} = \mathbf{F}_{ext}-\mathbf{F}_{int}\\ \nonumber
+	 %& \mbox{where } \mathbf{F}_{ext} = \mathbf{N}(H)^Tp_0 - \int_0^H \mathbf{N}^T\rho g dy
 	 \end{align}
 	 %\item Further research is required
 	\end{itemize}
@@ -492,6 +498,7 @@ mystyle2/.style={
         xtick = {4,8,16,32,64, 128},
         xticklabels={4,8,16,32,64, 128},
         ylabel=$\log_2$(RMS error), 
+	y unit=m,
         ymode=log,
         log basis y={2},
 	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06, 4.768371582031250e-007},
@@ -533,7 +540,7 @@ mystyle2/.style={
 \end{frame}
 
 %------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Grid-crossing}
+\begin{frame}{Grid crossing}
 \begin{center}
 \begin{tikzpicture}[scale = 0.4]
 \definecolor{darkblue}{cmyk}{0.9,0.1,0.1,0.2}
@@ -548,6 +555,8 @@ mystyle2/.style={
 \draw (b_1) node[below] {$x_{i-1}$};
 \draw (b_3) node[below] {$x_{i+1}$} ;
 \draw (b_2) node[below] {$x_{i}$};
+\draw (5,3) node[below] {$e_{i-1}$};
+\draw (15,3) node[below] {$e_{i}$};
 
 \node[draw,circle,inner sep=3pt,fill] at (a_1) {};
 \node[draw,circle,inner sep=3pt,fill] at (a_2) {};
@@ -562,7 +571,7 @@ mystyle2/.style={
 
 \end{tikzpicture}
 \end{center}
-\vspace{0.7cm}
+\vspace{0.35cm}
 \begin{center}
 \begin{tikzpicture}[scale = 0.4]
 \definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
@@ -576,6 +585,8 @@ mystyle2/.style={
 \draw (b_1) node[below] {$x_{i-1}$};
 \draw (b_3) node[below] {$x_{i+1}$} ;
 \draw (b_2) node[below] {$x_{i}$};
+\draw (5,3) node[below] {$e_{i-1}$};
+\draw (15,3) node[below] {$e_{i}$};
 
 \node[draw,circle,inner sep=3pt,fill] at (a_1) {};
 \node[draw,circle,inner sep=3pt,fill] at (a_2) {};
@@ -594,7 +605,7 @@ mystyle2/.style={
 
 
 %-------------------------------------------------------------------------------------------------------------------
-\begin{frame}{Grid-crossing: properties of shape functions}
+\begin{frame}{Grid crossing: properties of shape functions}
 \begin{center}
 \begin{tikzpicture}[scale=1.5]
 \definecolor{darkblue}{cmyk}{0.9,0.5,0.1,0.2}
@@ -697,7 +708,127 @@ mystyle2/.style={
 \end{figure}
 \end{frame}
 
+\begin{frame}{Depenence on PPC: vibrating string}
+\begin{figure}
+\begin{tikzpicture}[scale=0.9]
+\begin{axis}[
+        xlabel=number of elements,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64, 128,256,512},
+        xticklabels={4,8,16,32,64, 128,256,512},
+        ylabel=$\log_2$(RMS error), 
+	y unit=m,
+        ymode=log,
+        log basis y={2},
+	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
+%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
+         yticklabels={-9,-11,-13,-15,-17,-19}
+]
+\addplot[color=blue,mark=square*] coordinates { 
+(4,1.037385e-03)
+(8,2.616727e-04)
+(16,6.569391e-05)
+(32,1.662519e-05)
+(64,4.550497e-06)
+(128,1.976922e-06)
+(256,5.355537e-06)
+(512,1.847240e-05)
+  };
+  
+\addplot[color=red, mark=*] coordinates { 
+(4,9.917325e-04)
+(8,2.501276e-04)
+(16,6.280135e-05)
+(32,1.590612e-05)
+(64,4.383044e-06)
+(128,2.983375e-06)
+(256,7.372661e-06)
+(512, 1.611112e-05)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+(4,9.667486e-04)
+(8,2.438081e-04)
+(16,6.121801e-05)
+(32,1.551265e-05)
+(64,4.252232e-06)
+(128,3.928155e-06)
+(256,8.992277e-06)
+(512,1.168189e-05)
+  };  
+\legend{4 PPC, 6 PPC, 8 PPC} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{figure}
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Depenence on PPC: oedometer}
+\begin{figure}
+\pgfplotsset{every axis legend/.append style={
+    at={(0.31,0.99)},
+    anchor=north east}}
+\begin{tikzpicture}[scale=0.9]
+\begin{axis}[
+        xlabel=number of elements,
+        xmode=log,
+        log basis x={2},
+        xtick = {4,8,16,32,64, 128},
+        xticklabels={4,8,16,32,64, 128},
+        ylabel=$\log_2$(RMS error), 
+	y unit=m,
+        ymode=log,
+        log basis y={2},
+	ytick = {0.0078125, 0.001953125, 4.8828125e-04, 1.220703125e-04},
+%         ytick = {2^{-9},2e-11,2e-13,2e-15,2e-15,2e-17,2e-19},
+         yticklabels={-7,-9,-11,-13}
+]
+\addplot[color=blue,mark=square*] coordinates { 
+(4, 0.0041)
+(8, 0.0019)
+(12, 7.7723e-04)
+(16, 3.8530e-04)
+(24, 3.5351e-04)
+(32, 3.4308e-04)
+(48, 0.0013)
+(64, 0.0029)
+(96, 0.0062)
+(128,  0.0164)
+  };
+  
+\addplot[color=red, mark=*] coordinates { 
+(4,0.0040) 
+(8,0.0018)  
+(12,7.4299e-04) 
+(16,3.7734e-04)  
+(24,3.5202e-04)
+(32, 5.8636e-04) 
+(48,0.0028)   
+(64,0.0025)
+(96,0.0042)  
+(128,0.0084)
+  };
+  
+\addplot[color=black,mark=triangle*] coordinates { 
+(4,0.0040) 
+(8,0.0018)  
+(12,7.2461e-04)
+(16,3.7349e-04)  
+(24,4.3493e-04)   
+(32,0.0011)  
+(48,0.0022)     
+(64,0.0027)  
+(96,0.0042)  
+(128,0.0063)
+};
+\legend{4 PPC, 6 PPC, 8 PPC} 
+\end{axis}
+%\end{semilogyaxis} 
+\end{tikzpicture}
+\end{figure}
+\end{frame}
 
 %--------------------------------------------------------------------------------------------------------------------
 \begin{frame}{Main sources of spatial errors}
@@ -736,13 +867,9 @@ Other error sources can be involved.
 \begin{frame}{Outlook}
 \begin{itemize}
 \item External forces: further analysis 
-\pause
-\item Other sources of spatial error
-\pause
-\item Higher order interpolation functions
-\pause
+\item Projection errors: MLS
+\item Grid crossing: higher order interpolation functions
 \item 2D MPM code in MATLAB
-\pause
 \item Deltares' implementation: analysis and recommendations
 \end{itemize}
 \end{frame}
@@ -819,6 +946,7 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
         xtick = {4,8,16,32,64, 128,256,512},
         xticklabels={4,8,16,32,64, 128,256,512},
         ylabel=$\log_2$(RMS error), 
+	y unit=m,
         ymode=log,
         log basis y={2},
 	ytick = {0.001953125, 4.8828125e-04, 1.220703125e-04,3.0517578125e-05, 7.62939453125e-06,1.9073486328125e-06},
@@ -878,6 +1006,7 @@ F^{int}_{i+1} \neq 0, & \mbox{otherwise} \end{cases}
         xtick = {4,8,16,32,64, 128},
         xticklabels={4,8,16,32,64, 128},
         ylabel=$\log_2$(RMS error), 
+	y unit=m,
         ymode=log,
         log basis y={2},
 	ytick = {0.0078125, 0.001953125, 4.8828125e-04, 1.220703125e-04},
