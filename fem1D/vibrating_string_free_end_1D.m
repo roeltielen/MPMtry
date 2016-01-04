@@ -24,9 +24,9 @@ mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
 
 % Time step 
 CFL_number = 0.9;
-total_time = 1.5; 
+total_time = 0.5; 
 t_cr = element_size/sqrt(Youngs_modulus/density);
-t_step = 1E-4; %CFL_number*t_cr;
+t_step = 1E-3; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); % set here the total time
 t = 0:t_step:(number_time_steps-1)*t_step;
 
@@ -38,10 +38,16 @@ velocity_initial = 0.1*sin((pi/(2*height))*mesh);
 both_ends_fixed = 0;
 
 %% Compute the solution using FEM
-[displacement_fem,velocity_fem, M_lump] = FEM_gt(density,...
-    Youngs_modulus, gravitational_acceleration, load, height,...
+Times = [100:100:number_time_steps];
+for i=1:length(Times)
+[displacement_initial,velocity_initial, M_lump] = FEM_1D(density,...
+    Youngs_modulus, gravitational_acceleration*Times(i)/number_time_steps,...
+    load, height,...
     number_elements, element_size, t_step, number_time_steps,...
     displacement_initial, velocity_initial, both_ends_fixed);
+end
+displacement_fem = displacement_initial;
+velocity_fem=velocity_initial;
 
 %% Compute an exact solution
 w1 = pi*sqrt(Youngs_modulus/density)/(2*height);
@@ -60,7 +66,7 @@ end
 clear n node
 
 % Solution at certain time (required for accuracy)
-T_step = 510;
+T_step = number_time_steps;
 T = T_step*t_step;
 T_step = T_step+1;
 
@@ -72,15 +78,15 @@ clear node
 %displacement_exactT
 %% Flags
 % Plot displacement versus time for the selected node? Yes: 1; No: 0 
-displ_time = 1; 
+displ_time = 0; 
 % Plot velocity versus time for thr selected node? Yes: 1; No: 0 
-velocity_time = 1;
+velocity_time = 0;
 
 % Plot displacement versus x-coordinate for the selected node? Yes: 1;
 %No: 0 
-displ_x = 1; 
+displ_x = 0; 
 % Plot velocity versus x-coordinate for thr selected node? Yes: 1; No: 0 
-velocity_x = 1;
+velocity_x = 0;
 
 % Make animation of displacement? Yes: 1; No: 0
 anim_displ = 0;
@@ -169,7 +175,7 @@ end
 if compute_error == 1
     % Compute the norm of the discretization error in 2-norm
 
-    errnrm = compute_error_norm(displacement_fem(:,T_step),...
+    errnrm = compute_error_norm(displacement_fem(:,end),...
         displacement_exactT, M_lump);
     fprintf('For time t = %e\n', T)
     fprintf('The error norm = %e\n', errnrm)

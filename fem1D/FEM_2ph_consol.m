@@ -25,13 +25,12 @@ eff_stress = total_stress - pore_pressure;
 
 cv = permeability/(density_w*grav_accel*(1/Youngs_modulus+...
     porosity/bulk_modulus));
-Tf = 0.02;
+Tf = [0.02,0.05,0.1];
 
 % Mesh properties
 n_e = 300; % number of elements
 element_size = height/n_e; 
-mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
-%EXACT SOLUTION
+mesh  = 0:element_size:height; 
 
 % Waves' velocities
 undrained_constr = Youngs_modulus + bulk_modulus/porosity;
@@ -42,7 +41,7 @@ vel_damped = damped_factor*sqrt(bulk_modulus/density_w);
 
 % Time step %check!
 CFL_number = 0.9;
-total_time = 0.012005; %0.0018; 
+total_time = 0.060005; %0.0018; 
 t_cr = min(element_size/vel_undrained,element_size/vel_damped);
 t_step = 1E-6; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); 
@@ -216,20 +215,25 @@ xgauss(end) = [];
 
 
 
-%Tf = [0.01]; %[0.02,0.05,0.1,0.2,0.5,1];
 [xas,AS] = as_consolidation();
 figure(4);
 for i = 1:length(Tf)
-    (Tf/cv)
-    int16((Tf/cv)/t_step)
-plot(pp(:,int16((Tf/cv)/t_step))/(total_stress),xgauss,'r','LineWidth',2) 
-hold on
-plot(AS(:,i),xas,'-k','LineWidth',2)
+    (Tf(i)/cv)
+    int64((Tf(i)/cv)/t_step)
+    plot(pp(:,int64((Tf(i)/cv)/t_step))/(total_stress),xgauss,'k','LineWidth',1.5)
+    hold on
+    plot(AS(:,i),xas,'--r','LineWidth',1.5)
+    legend('FEM', 'Exact')
+end
 set(gca,'FontSize',11)
 xlabel('normalized pore pressure [-]', 'FontSize', 12)
 ylabel('height [m]','FontSize', 12)
-legend('FEM', 'Exact')
-hold on
-end
 
-
+% fileID = fopen('results_2ph_consolidation.txt','w');
+% for i = 1:length(Tf)
+%    % fprint(fileID, '%10.8f 12s\n', 'T=',Tf(i)); 
+%     fprintf(fileID,'%6s %12s\n','FEM','Exact');
+%     fprintf(fileID,'%12.8f %12.8f\n',...
+% pp(:,int16((Tf(i)/cv)/t_step))/(total_stress), AS(:,i));
+%     fclose(fileID);
+% end

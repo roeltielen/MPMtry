@@ -1,4 +1,4 @@
-function [u,v, M_lump] = FEM_1D(density, E, g, load, H, n_e,...
+function [u_out,v_out, M_lump] = FEM_1D(density, E, g, load, H, n_e,...
     element_size, t_step, n_time_steps, u_0, v_0, both_ends_fixed)
 % 1D FEM
 
@@ -81,5 +81,6 @@ for n=1:n_time_steps-1
     end
     clear F_internal F
 end
-
+u_out = u(:,end);
+v_out = v(:,end);
 
