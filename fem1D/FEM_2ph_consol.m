@@ -25,7 +25,7 @@ eff_stress = total_stress - pore_pressure;
 
 cv = permeability/(density_w*grav_accel*(1/Youngs_modulus+...
     porosity/bulk_modulus));
-Tf = [0.02,0.05,0.1];
+Tf = [0.02, 0.05, 0.1, 0.2, 0.5, 1.0];
 
 % Mesh properties
 n_e = 300; % number of elements
@@ -41,7 +41,7 @@ vel_damped = damped_factor*sqrt(bulk_modulus/density_w);
 
 % Time step %check!
 CFL_number = 0.9;
-total_time = 0.060005; %0.0018; 
+total_time = 0.600005; %0.0018; 
 t_cr = min(element_size/vel_undrained,element_size/vel_damped);
 t_step = 1E-6; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); 
@@ -218,7 +218,7 @@ xgauss(end) = [];
 [xas,AS] = as_consolidation();
 figure(4);
 for i = 1:length(Tf)
-    (Tf(i)/cv)
+    %(Tf(i)/cv)
     int64((Tf(i)/cv)/t_step)
     plot(pp(:,int64((Tf(i)/cv)/t_step))/(total_stress),xgauss,'k','LineWidth',1.5)
     hold on
