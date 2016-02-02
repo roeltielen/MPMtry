@@ -3,9 +3,12 @@ num_el = [4 8 16 32 64 128];
 % Deltares
 error_1 = [0.002567737343201 8.194641928163814e-004 2.259255963095032e-004...
     7.140661483842501e-005 2.050956700532768e-005 3.456171713329815e-006];
-loglog(num_el, error_1)
+error_1_rel =[ 1.781971581183587e-004 5.669662364692424e-005...
+    1.561923729141964e-005 4.935707290821291e-006 1.417576755829253e-006...
+    2.388801545837138e-007];
+loglog(num_el, error_1_rel, 'r', 'LineWidth',1.5)
 hold on
-accuracy_1 = log2(error_1(1:end-1)./error_1(2:end))
+accuracy_1 = log2(error_1_rel(1:end-1)./error_1_rel(2:end))
 % Matlab
 error_matlab_1 =  [1.2918E-03 3.2595E-04 8.1795E-05 2.0632E-05...
     5.4969E-06 2.1502E-06];
@@ -14,18 +17,23 @@ accuracy_matlab_1 = log2(error_matlab_1(1:end-1)./error_matlab_1(2:end))
 %accuracy MPM(4)
 error_4 = [0.001456578325061 4.149949874748430e-004 1.062060321475216e-004...
     2.895357726837570e-005 9.583630043251487e-006 4.955854241281396e-006];
-accuracy_4 = log2(error_4(1:end-1)./error_4(2:end))
-loglog(num_el, error_4,'r')
+error_4_rel = [1.006831679856852e-004 2.868383709492975e-005...
+    7.340661819526130e-006 2.001179599703725e-006 6.623891981248793e-007...
+    3.425323621028683e-007];
+accuracy_4 = log2(error_4_rel(1:end-1)./error_4_rel(2:end))
+loglog(num_el, error_4_rel,'k','LineWidth',1.5)
 hold on
 error_matlab_4 = [1.0374e-03 2.6167e-04 6.5694e-05 1.6625e-05 4.5505e-06...
     1.9769e-06];
 accuracy_matlab_4 = log2(error_matlab_4(1:end-1)./error_matlab_4(2:end))
 
 %accuracy MPM(8)
-error_8 = [0.001697435797358 0.034818575189317 1.291696359957010e-004...
+error_8 = [0.001697435797358 4.951451472487486e-004 1.291696359957010e-004...
         3.701819141961082e-005 1.147304338790864e-005 4.311498131850748e-006];
-accuracy_8 = log2(error_8(1:end-1)./error_8(2:end))
-loglog(num_el, error_8,'k')
+error_8_rel = [1.174731957497188e-004 3.423414170671199e-005...
+    8.928527371082017e-006 2.558624657293551e-006 7.929828732150412e-007...
+    2.979969109083901e-007];
+accuracy_8 = log2(error_8_rel(1:end-1)./error_8_rel(2:end))
+loglog(num_el, error_8_rel,'c','LineWidth',1.5)
 
-
-error_fem = [3.801018087168541e-004 
+legend('FEM','MPM(1)', 'MPM(4)', 'MPM(8)')

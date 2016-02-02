@@ -120,6 +120,7 @@ f_grav_s_p = m_s_p*grav_accel;
 f_grav_w_p = m_w_p*grav_accel;
 f_grav_p = m_p*grav_accel;
 f_trac_p = zeros(n_p,1);
+f_trac_p = total_stress;
 f_trac_w_p = zeros(n_p,1);
 %f_trac_w_p(end) = pore_pressure;
 
@@ -163,8 +164,8 @@ for nt=1:1 %number_time_steps-1
     F_int_e = zeros(2,n_e);
     F_int_w_e = zeros(2,n_e);
     Q_e = zeros(2,2,n_e);
-    F_trac_w = zeros(2,n_e);
-    F_trac = zeros(2,n_e);
+    F_trac_w_e = zeros(2,n_e);
+    F_trac_e = zeros(2,n_e);
 
     % Determine element (lumped) matrix and vectors for active elements
     for el = 1:n_e
@@ -211,11 +212,31 @@ for nt=1:1 %number_time_steps-1
     clear el
     
     % Traction forces
-    % Traction force for water phase stays unchanged for the consolidation
-    % problem
     el = particle_element(elements_particles(:,end)); 
     F_trac_e(:,el) = (N_vec(end,:))'*f_trac_p(end);
+    F_trac_w_e(:,el) = (N_vec(end,:))'*f_trac_w_p(end);
     clear el
+    
+    % Assemble
+    M_w = assemble_matrix(n_n,n_e, elements_index, M_w_e);
+    M1_w = assemble_matrix(n_n,n_e, elements_index, M1_w_e);
+    M_s = assemble_matrix(n_n,n_e, elements_index, M_s_e);
+    Q = assemble_matrix(n_n,n_e, elements_index, Q_e);
+    F_grav = assemble_vector(n_n,n_e, elements_index, F_grav_e);
+    F_grav_w = assemble_vector(n_n,n_e, elements_index, F_grav_w_e);
+    F_int = assemble_vector(n_n,n_e, elements_index, F_int_e);
+    F_int_w = assemble_vector(n_n,n_e, elements_index, F_int_w_e);
+    P_w = assemble_vector(n_n,n_e, elements_index, P_w_e);
+    P_s = assemble_vector(n_n,n_e, elements_index, P_s_e);
+    F_trac = assemble_vector(n_n,n_e, elements_index, F_trac_e);
+    F_trac_w = assemble_vector(n_n,n_e, elements_index, F_trac_w_e);
+        
+    % Compute drag force
+    F_w_drag = Q*(v_w(:,nt) - v_s(:,nt));
+    
+    % Compute total forces
+    F_w = F_trac_w + F_grav_w - F_int_w - F_drag_w;
+    F = F_trac + F_grav - F_int;
     
     
     

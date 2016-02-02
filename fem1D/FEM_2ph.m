@@ -1,8 +1,3 @@
-% Oedometer 1D
-
-% This file provides input for FEM to computes numerical solution, provides
-% an exact solution, illustrates results and provides the global error
-
 clear all
 close all
 beep off
@@ -16,7 +11,7 @@ density_s = 2.6E3;
 density_sat = (1-porosity)*density_s + porosity*density_w;
 Youngs_modulus = 2.5E9; %check
 bulk_modulus = 2E9; %check
-permeability = 1E-3; %check
+permeability = 1E-5; %check
 grav_accel = 10; %10; 
 total_stress = -10E3; %check
 pore_pressure = -10E3; %check
@@ -203,30 +198,30 @@ plot(t,efs(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
 elements(floor(3*n_e/4),:)
 hold on
 plot(t1,AS,'--k','LineWidth',2)
-% xlabel('time [s]', 'FontSize', 12)
-% set(gca,'FontSize',11)
-% ylabel('normalized effective stress [-]','FontSize', 12)
+xlabel('time [s]', 'FontSize', 12)
+set(gca,'FontSize',11)
+ylabel('normalized effective stress [-]','FontSize', 12)
 %title(sprintf('Displacement at time %g [s]',T)) 
-% legend('FEM', 'Exact', 'Location','southeast')
+legend('FEM', 'Exact', 'Location','southeast')
 % hold on
-% set(0,'DefaultFigureColor',[1 1 1])
-% set(gcf, 'PaperPosition', [0 0 6 6]);
-% set(gcf, 'PaperSize', [6 6]);
+set(0,'DefaultFigureColor',[1 1 1])
+set(gcf, 'PaperPosition', [0 0 6 6]);
+set(gcf, 'PaperSize', [6 6]);
 
 
 figure(3);
-plot(t,pp(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
+plot(t,pp(floor(3*n_e/4),:)/total_stress,'r','LineWidth',2)
 hold on
 plot(t1,AP,'--k','LineWidth',2)
-% xlabel('time [s]', 'FontSize', 12)
-% set(gca,'FontSize',11)
-% ylabel('normalized pore presssure [-]','FontSize', 12)
+xlabel('time [s]', 'FontSize', 12)
+set(gca,'FontSize',11)
+ylabel('normalized pore presssure [-]','FontSize', 12)
 % title(sprintf('Displacement at time %g [s]',T)) 
-% legend('FEM', 'Exact', 'Location','southeast')
+legend('FEM', 'Exact', 'Location','southeast')
 % hold on
-% set(0,'DefaultFigureColor',[1 1 1])
-% set(gcf, 'PaperPosition', [0 0 6 6]);
-% set(gcf, 'PaperSize', [6 6]);
+set(0,'DefaultFigureColor',[1 1 1])
+set(gcf, 'PaperPosition', [0 0 6 6]);
+set(gcf, 'PaperSize', [6 6]);
 
 % figure(4);
 % x = element_size/2:element_size:n_e*element_size;
