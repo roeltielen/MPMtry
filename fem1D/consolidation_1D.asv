@@ -1,0 +1,97 @@
+function [ ] = consolidation_1D() 
+tic
+% Input file containing
+% 1) material parameters: porosity, density of the water phase, density of 
+% the solid phase, Youngs_modulus, bulk_modulus, Darcy permeability, total
+% stress, initial pore pressure, height/length of the sample;
+% 2) mesh properties: number of elements
+% 3) time discretization properties: total time, CFL number
+% 4) initial conditions: initial velocity of water, initial velocity of
+% solid skeleton, initial total stress, initial pore pressure, initial
+% effective stress
+% 5) boundary conditions
+
+clear all
+close all
+beep off
+clc  
+
+%% Input
+% Material parameters
+porosity = 0.4;
+density_w = 1E3;
+density_s =  2600; %(1/0.6)*1.6E3;
+density_sat = (1-porosity)*density_s + porosity*density_w;
+Youngs_modulus = 2.5E9; %1E7; %check
+bulk_modulus = 2E9; %3E8; %check
+permeability = 1E-5; %check
+grav_accel = 10; 
+total_stress = -10E3; %check
+pore_pressure = -10E3; %check
+height = 1; %height/length
+eff_stress = total_stress - pore_pressure;
+
+% Mesh properies
+n_e = 300;
+
+% Time discretization properties
+CFL_number = 0.9;
+cv = permeability/(density_w*grav_accel*(1/Youngs_modulus+...
+    porosity/bulk_modulus));
+Tf = [0.02]; %[0.02, 0.05, 0.1, 0.2, 0.5, 1.0];
+total_time = Tf(end)/ cv + 0.000005; 
+
+% Initial conditions 
+velocity_s_initial = zeros(n_e + 1,1);
+velocity_w_initial = zeros(n_e + 1,1);
+total_stress_initial = total_stress*ones(n_e,1);
+%total_stress_initial(end) = total_stress;
+pore_pressure_initial = pore_pressure*ones(n_e,1); %zeros(n_e,1); %pore_pressure*ones(n_e,1);
+%pore_pressure_initial(end) = pore_pressure;
+eff_stress_initial = zeros(n_e,1);
+%eff_stress_initial(end) = eff_stress;
+
+% Boundary conditions
+v_w_bottom = 0;
+v_s_bottom = 0;
+water_traction = 0;
+
+%% Perform FEM computation
+% Call FEM_2phase
+[pore_pressure, effective_stress] = FEM_2phase(porosity,...
+    density_w, density_s, Youngs_modulus, bulk_modulus, permeability,...
+    total_stress, pore_pressure, eff_stress, height, grav_accel, n_e,...
+    CFL_number, total_time, velocity_s_initial, velocity_w_initial, ...
+    total_stress_initial, pore_pressure_initial, eff_stress_initial,...
+    v_w_bottom, v_s_bottom, water_traction);
+toc
+
+%% Illustrate results
+element_size = height/n_e;
+xvec  = 0:element_size:height;
+undrained_constr = Youngs_modulus + bulk_modulus/porosity;
+vel_undrained = sqrt(undrained_constr/density_sat);
+damped_factor = sqrt((porosity*Youngs_modulus/bulk_modulus)/...
+    (1-porosity+porosity*Youngs_modulus/bulk_modulus));
+vel_damped = damped_factor*sqrt(bulk_modulus/density_w);
+t_cr = min(element_size/vel_undrained,element_size/vel_damped);
+t_step = 1E-6; %CFL_number*t_cr;
+
+xgauss = xvec + element_size/2;
+xgauss(end) = [];
+
+% Analytical solytion
+[xas,AS] = as_consolidation();
+
+figure(1);
+for i = 1:length(Tf)
+    %(Tf(i)/cv)
+    int64((Tf(i)/cv)/t_step)
+    plot(pp(:,int64((Tf(i)/cv)/t_step))/(total_stress),xgauss,'k','LineWidth',1.5)
+    hold on
+    plot(AS(:,i),xas,'--r','LineWidth',1.5)
+    legend('FEM', 'Exact')
+end
+set(gca,'FontSize',11)
+xlabel('normalized pore pressure [-]', 'FontSize', 12)
+ylabel('height [m]','FontSize', 12)

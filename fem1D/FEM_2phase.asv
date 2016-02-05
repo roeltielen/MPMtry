@@ -1,29 +1,33 @@
-% OLD: one-dimensional wave propagation
-clear all
-close all
-beep off
-clc 
+% This code performs 2-phase FEM computation in 1D. It requires an input
+% file containing 
+% 1) material parameters: porosity, density of the water phase, density of 
+% the solid phase, Youngs_modulus, bulk_modulus, Darcy permeability, total
+% stress, initial pore pressure, height/length of the sample, gravitational
+% acceleration;
+% 2) mesh properties: number of elements;
+% 3) time descritization properties: total time, CFL number;
+% 4) initial conditions: initial velocity of water, initial velocity of
+% solid skeleton, initial total stress, initial pore pressure;
+% 5) boundary conditions.
+% Author: Lisa Wobbes
 
-%% Input
-% Constants
-porosity = 0.4;
-density_w = 1E3;
-density_s = 2.6E3;
+
+function [pore_pressure, effective_stress] = FEM_2phase...
+    (porosity, density_w,density_s, Youngs_modulus, bulk_modulus,...
+    permeability, total_stress, pore_pressure, eff_stress, height,...
+    grav_accel, n_e, CFL_number, total_time, velocity_s_initial,...
+    velocity_w_initial, total_stress_initial, pore_pressure_initial,...
+    eff_stress_initial, v_w_bottom, v_s_bottom, water_traction)
+
+
+%% Pre-processing
+
+% Compute saturated density and effective stress
 density_sat = (1-porosity)*density_s + porosity*density_w;
-Youngs_modulus = 2.5E9; %check
-bulk_modulus = 2E9; %check
-permeability = 1E-5; %check
-grav_accel = 10; %10; 
-total_stress = -10E3; %check
-pore_pressure = -10E3; %check
-height = 2; %height/length
-eff_stress = total_stress - pore_pressure;
 
-% Mesh properties
-n_e = 800; % number of elements
+% Construct mesh
 element_size = height/n_e; 
-mesh  = 0:element_size:height; %mesh: NEEDED FOR INITIAL VELOCITY AND
-%EXACT SOLUTION
+mesh  = 0:element_size:height;
 
 % Waves' velocities
 undrained_constr = Youngs_modulus + bulk_modulus/porosity;
@@ -32,27 +36,11 @@ damped_factor = sqrt((porosity*Youngs_modulus/bulk_modulus)/...
     (1-porosity+porosity*Youngs_modulus/bulk_modulus));
 vel_damped = damped_factor*sqrt(bulk_modulus/density_w);
 
-% Time step %check!
-CFL_number = 0.9;
-total_time = 3E-3; %0.0018; 
+% Time step 
 t_cr = min(element_size/vel_undrained,element_size/vel_damped);
 t_step = 1E-6; %CFL_number*t_cr;
 number_time_steps = floor(total_time/t_step); 
 t = 0:t_step:(number_time_steps-1)*t_step;
-
-% Initial conditions 
-velocity_s_initial = zeros(n_e + 1,1);
-velocity_w_initial = zeros(n_e + 1,1);
-total_stress_initial = zeros(n_e,1);
-total_stress_initial(end) = total_stress;
-pore_pressure_initial = zeros(n_e,1);
-%pore_pressure_initial(end) = pore_pressure;
-eff_stress_initial = zeros(n_e,1);
-%eff_stress_initial(end) = eff_stress;
-
-%% Compute the solution using FEM
-% Set element size
-n_n = n_e+1; % number of nodes
 
 % Generate element connections 
 xvec  = 0:element_size:height; %global mesh
@@ -65,6 +53,7 @@ for i = 1:n_e
 end
 
 % Compute the boolean matrices based on element connections
+n_n = n_e+1; 
 T = zeros(2, n_n, n_e);
 for j=1:n_e
     T(1,elements_index(j,1),j) = 1;
@@ -90,6 +79,7 @@ M_s_loc = weight*N_loc'*(1-porosity)*density_s*N_loc*element_size;%m
 M1_w_loc = weight*N_loc'*porosity*density_w*N_loc*element_size;%m
 F_grav_loc = [0; 0]; %-weight*N_loc'*density_sat*grav_accel*element_size;
 
+% bottleneck: vereist veel tijd 
 %..Assemble matrices/vectors
 M_w = assemble_matrix(n_e,T,M_w_loc);
 Q = assemble_matrix(n_e,T,Q_loc);
@@ -100,7 +90,7 @@ F_grav = assemble_vector(n_e,T,F_grav_loc);
 
 %..Traction forces
 F_w_trac = zeros(n_n,1);
-F_w_trac(end) = pore_pressure;
+F_w_trac(end) = water_traction; %pore_pressure;
 F_trac = zeros(n_n,1);
 F_trac(end) = total_stress;
 
@@ -110,13 +100,15 @@ Q = lump(Q);
 M_s = lump(M_s);
 M1_w = lump(M1_w);
 
+
 %..Apply initial conditions
 v_w(:,1) = velocity_w_initial;
 v_s(:,1) = velocity_s_initial;
 pp(:,1) = pore_pressure_initial;
 efs(:,1) = eff_stress_initial;
 
-%..Time integration
+
+%% Time integration
 for nt=1:number_time_steps-1
     nt
 %     v_w(1,nt)
@@ -161,8 +153,8 @@ for nt=1:number_time_steps-1
     v_s(:,nt+1) = v_s(:,nt) + M_s\(-M1_w*a_w + F)*t_step;
     
     %..Boundary conditions
-    v_w(1,nt+1) = 0;
-    v_s(1,nt+1) = 0;
+    v_w(1,nt+1) = v_w_bottom;
+    v_s(1,nt+1) = v_s_bottom;
 
     %..Pore pressure increment
     dpp = zeros(n_e,1);
@@ -191,48 +183,11 @@ for nt=1:number_time_steps-1
 end
 clear nt
 
-% analytical solution for stress
-[t1, AS, AP] = as_wave_propagation(permeability);
+pore_pressure = pp;
+effective_stress = efs;
 
-figure(2);
-plot(t,efs(floor(3*n_e/4),:)/total_stress,'LineWidth',2)
-elements(floor(3*n_e/4),:)
-hold on
-plot(t1,AS,'--k','LineWidth',2)
-xlabel('time [s]', 'FontSize', 12)
-set(gca,'FontSize',11)
-ylabel('normalized effective stress [-]','FontSize', 12)
-%title(sprintf('Displacement at time %g [s]',T)) 
-legend('FEM', 'Exact', 'Location','southeast')
-% hold on
-set(0,'DefaultFigureColor',[1 1 1])
-set(gcf, 'PaperPosition', [0 0 6 6]);
-set(gcf, 'PaperSize', [6 6]);
-
-
-figure(3);
-plot(t,pp(floor(3*n_e/4),:)/total_stress,'r','LineWidth',2)
-hold on
-plot(t1,AP,'--k','LineWidth',2)
-xlabel('time [s]', 'FontSize', 12)
-set(gca,'FontSize',11)
-ylabel('normalized pore presssure [-]','FontSize', 12)
-% title(sprintf('Displacement at time %g [s]',T)) 
-legend('FEM', 'Exact', 'Location','southeast')
-% hold on
-set(0,'DefaultFigureColor',[1 1 1])
-set(gcf, 'PaperPosition', [0 0 6 6]);
-set(gcf, 'PaperSize', [6 6]);
-
-% figure(4);
-% x = element_size/2:element_size:n_e*element_size;
-% for nt = 1:20:number_time_steps-1
-%    plot(x',pp(:,nt)) 
-%    pause(1)
-% end
+disp('Yaaaay!')
 
 
 
-
-
-
+end

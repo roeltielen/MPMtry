@@ -1,4 +1,4 @@
-% Oedometer 1D
+% OLD
 
 % This file provides input for FEM to computes numerical solution, provides
 % an exact solution, illustrates results and provides the global error
