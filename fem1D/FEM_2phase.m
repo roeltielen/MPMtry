@@ -44,10 +44,10 @@ t = 0:t_step:(number_time_steps-1)*t_step;
 
 % Generate element connections 
 xvec  = 0:element_size:height; %global mesh
-elements = zeros(n_e,2);
+%elements = zeros(n_e,2);
 elements_index = zeros(n_e,2);
 for i = 1:n_e
-   elements(i,:) = [xvec(i) xvec(i+1)]; 
+  % elements(i,:) = [xvec(i) xvec(i+1)]; 
    elements_index(i,:) = [i i+1]; %contains the indices of the
     %nodes comprising the elements
 end
